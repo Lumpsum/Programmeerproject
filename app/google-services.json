@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "309656562195",
+    "firebase_url": "https://programmeerproject-23897.firebaseio.com",
+    "project_id": "programmeerproject-23897",
+    "storage_bucket": "programmeerproject-23897.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:309656562195:android:87a0aee83fc73dd2",
+        "android_client_info": {
+          "package_name": "mprog.nl.programmeerproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "309656562195-mv734v9i9vc9ff5t6tug5dbo4sb7vf7l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPS3fUehK-VP2huTYeCY1V79abqh2NgWQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Programmeerproject</string>
+    <string name="email">example@example.com</string>
+    <string name="pass">Password</string>
+    <string name="logIn">Log In</string>
+    <string name="signUp">Sign Up</string>
+    <string name="firstName">First Name</string>
+    <string name="lastName">Last Name</string>
+    <string name="signUpHint">Please fill in in the adress to search from. (Can be changed later)</string>
+    <string name="street">Street</string>
+    <string name="number">House number</string>
+    <string name="city">City</string>
+    <string name="logInDetailHint">Please fill in an email and password to log in with.</string>
+    <string name="next">Next</string>
+    <string name="nameHint">Please fill in your name. (This name will be seen by others)</string>
+    <string name="sportHint">Please choose a sport and your level to search for similar users.</string>
+    <string name="createProf">Create profile</string>
+    <string name="logOut">Log Out</string>
+    <string name="welcome">Welcome </string>
+    <string name="sport">Sport:</string>
+    <string name="level">Level:</string>
+    <string name="radiusHint">Please fill in the radius in kilometers which determines in what radius around your adress the app tries to find users.</string>
+    <string name="search">Search</string>
+    <string name="home">Home</string>
+    <string name="find">Find</string>
+    <string name="chats">Chats</string>
+    <string name="schemes">Schemes</string>
+</resources>
