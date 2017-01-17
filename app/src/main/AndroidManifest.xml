@@ -18,7 +18,10 @@
         <activity android:name=".LogInActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".CreateProfileActivity" />
-        <activity android:name=".FindUserActivity"></activity>
+        <activity android:name=".FindUserActivity" />
+        <activity android:name=".SpecificUserActivity" />
+        <activity android:name=".ChatActvity" />
+        <activity android:name=".SpecificChatActivity"></activity>
     </application>
 
 </manifest>

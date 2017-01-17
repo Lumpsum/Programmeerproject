@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/homeButton"
+        android:title="@string/home"
+        android:icon="@drawable/common_google_signin_btn_icon_dark"
+        />
+    <item
+        android:id="@+id/findButton"
+        android:title="@string/find"
+        android:icon="@drawable/common_google_signin_btn_icon_dark"
+        />
+    <item
+        android:id="@+id/chatButton"
+        android:title="@string/chats"
+        android:icon="@drawable/common_google_signin_btn_icon_dark"
+        />
+
+    <item
+        android:id="@+id/schemeButton"
+        android:title="@string/schemes"
+        android:icon="@drawable/common_google_signin_btn_icon_dark"
+        />
+</menu>

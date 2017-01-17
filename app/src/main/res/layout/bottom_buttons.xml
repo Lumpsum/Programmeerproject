@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/menuLinearLayout"
     android:orientation="horizontal"
     android:layout_alignParentBottom="true"
     android:layout_width="match_parent"
@@ -14,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/home"
+        android:textColor="@color/white"
         style="@style/Widget.AppCompat.Button.Borderless"
         />
 
@@ -23,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/find"
+        android:textColor="@color/white"
         style="@style/Widget.AppCompat.Button.Borderless"
         />
 
@@ -32,6 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/chats"
+        android:textColor="@color/white"
         style="@style/Widget.AppCompat.Button.Borderless"
         />
 
@@ -41,6 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/schemes"
+        android:textColor="@color/white"
         style="@style/Widget.AppCompat.Button.Borderless"
         />
 

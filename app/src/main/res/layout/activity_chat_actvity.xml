@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_chat_actvity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="mprog.nl.programmeerproject.ChatActvity">
+
+    <TextView
+        android:id="@+id/chatTitleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/chats"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        />
+
+    <ListView
+        android:id="@+id/chatListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/menuLinearLayout"
+        android:layout_below="@+id/chatTitleText"
+        ></ListView>
+
+    <include layout="@layout/bottom_buttons"></include>
+
+</RelativeLayout>
