@@ -35,17 +35,15 @@ public class CreateProfileActivity extends AppCompatActivity {
     protected EditText streetEdit;
     protected EditText numberEdit;
     protected EditText cityEdit;
+    protected EditText ageEdit;
 
-    protected Spinner sportSpinner;
-    protected Spinner levelSpinner;
+    protected Spinner genderSpinner;
 
-    protected List<String> sportSpinnerArray;
-    protected List<String> levelSpinnerArray;
+    protected List<String> genderSpinnerArray;
 
-    protected ArrayAdapter<String> sportAdapter;
-    protected ArrayAdapter<String> levelAdapter;
+    protected ArrayAdapter<String> genderAdapter;
 
-    protected Button createProfButton;
+    protected Button createProfNextButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,30 +60,23 @@ public class CreateProfileActivity extends AppCompatActivity {
         streetEdit = (EditText)findViewById(R.id.createProfStreetEdit);
         numberEdit = (EditText)findViewById(R.id.createProfNumberEdit);
         cityEdit = (EditText)findViewById(R.id.createProfCityEdit);
+        ageEdit = (EditText)findViewById(R.id.createProfAgeEdit);
 
-        sportSpinner = (Spinner) findViewById(R.id.createProfSportSpinner);
-        levelSpinner = (Spinner)findViewById(R.id.createProfLevelSpinner);
+        genderSpinner = (Spinner) findViewById(R.id.createProfGenderSpinner);
 
-        sportSpinnerArray = new ArrayList<String>();
-        sportSpinnerArray.add("Fitness");
-        sportSpinnerArray.add("Running");
-        levelSpinnerArray = new ArrayList<String>();
-        levelSpinnerArray.add("Beginner");
-        levelSpinnerArray.add("Intermediate");
-        levelSpinnerArray.add("Expert");
+        genderSpinnerArray = new ArrayList<String>();
+        genderSpinnerArray.add("Male");
+        genderSpinnerArray.add("Female");
 
-        sportAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sportSpinnerArray);
-        levelAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, levelSpinnerArray);
+        genderAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, genderSpinnerArray);
 
-        sportAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        levelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        sportSpinner.setAdapter(sportAdapter);
-        levelSpinner.setAdapter(levelAdapter);
+        genderSpinner.setAdapter(genderAdapter);
 
-        createProfButton = (Button)findViewById(R.id.createProfButton);
+        createProfNextButton = (Button)findViewById(R.id.createProfNextButton);
 
-        createProfButton.setOnClickListener(new View.OnClickListener() {
+        createProfNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String firstName = firstNameEdit.getText().toString().trim();
@@ -94,29 +85,38 @@ public class CreateProfileActivity extends AppCompatActivity {
                 String num = numberEdit.getText().toString().trim();
                 int houseNum = Integer.parseInt(num);
                 String city = cityEdit.getText().toString().trim();
+                String age = ageEdit.getText().toString().trim();
 
-                if (firstName.isEmpty() || lastName.isEmpty() || street.isEmpty() || num.isEmpty() || city.isEmpty()) {
+                if (firstName.isEmpty() || lastName.isEmpty() || street.isEmpty() || num.isEmpty() || city.isEmpty() || age.isEmpty()) {
                     MainActivity.createAlert("Please fill in every field", CreateProfileActivity.this);
                 }
                 else {
                     DatabaseReference ref = databaseRef.child("Users").child(userId);
-                    ref.child("FirstName").setValue(firstName);
-                    ref.child("LastName").setValue(lastName);
-                    ref.child("Street").setValue(street);
-                    ref.child("Number").setValue(houseNum);
-                    ref.child("City").setValue(city);
-                    ref.child("Sport").setValue(sportSpinner.getSelectedItem().toString());
-                    ref.child("Level").setValue(levelSpinner.getSelectedItem().toString());
 
                     AsyncTask<String, String, StringBuilder> aSyncTask = new ASyncTask();
                     StringBuilder result;
                     try {
                         result = aSyncTask.execute(street, num, city).get();
                         JSONObject jsonObject = new JSONObject(result.toString());
-                        JSONArray loc = jsonObject.getJSONArray("results");
-                        JSONObject loc2 = loc.getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
-                        String location = loc2.getString("lat") + "," + loc2.getString("lng");
-                        ref.child("Location").setValue(location);
+                        String status = jsonObject.getString("status");
+                        Log.d("Test", status);
+                        if (status.equals("OK")) {
+                            JSONArray loc = jsonObject.getJSONArray("results");
+                            JSONObject loc2 = loc.getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
+                            String location = loc2.getString("lat") + "," + loc2.getString("lng");
+                            ref.child("Location").setValue(location);
+                            ref.child("FirstName").setValue(firstName);
+                            ref.child("LastName").setValue(lastName);
+                            ref.child("Street").setValue(street);
+                            ref.child("Number").setValue(houseNum);
+                            ref.child("City").setValue(city);
+                            ref.child("Gender").setValue(genderSpinner.getSelectedItem().toString());
+                            ref.child("Age").setValue(age);
+                            startActivity(MainActivity.createNewIntent(CreateProfileActivity.this, CreateProfileSecondActivity.class));
+                        }
+                        else {
+                            MainActivity.createAlert("Your adress can't be found, please change your adress.", CreateProfileActivity.this).show();
+                        }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
@@ -125,8 +125,6 @@ public class CreateProfileActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-
-                startActivity(MainActivity.createNewIntent(CreateProfileActivity.this, MainActivity.class));
             }
         });
     }

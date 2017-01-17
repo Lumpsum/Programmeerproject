@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_create_profile_second"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="mprog.nl.programmeerproject.CreateProfileSecondActivity">
+
+    <TextView
+        android:id="@+id/createProfSportText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sportHint"
+        android:layout_below="@id/createProfCityEdit"
+        android:imeOptions="actionDone"
+        android:padding="10dp"
+        />
+
+    <Spinner
+        android:id="@+id/createProfSportSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/createProfSportText"
+        />
+
+    <Spinner
+        android:id="@+id/createProfLevelSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/createProfSportSpinner"
+        />
+
+    <Button
+        android:id="@+id/createProfButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/createProf"
+        />
+
+    <TextView
+        android:id="@+id/createProfDescText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/descHint"
+        android:layout_below="@id/createProfLevelSpinner"
+        />
+
+    <EditText
+        android:id="@+id/createProfDescEdit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/createProfDescText"
+        android:layout_above="@id/createProfButton"
+        />
+
+</RelativeLayout>

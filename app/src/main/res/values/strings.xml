@@ -8,7 +8,7 @@
     <string name="lastName">Last Name</string>
     <string name="signUpHint">Please fill in in the adress to search from. (Can be changed later)</string>
     <string name="street">Street</string>
-    <string name="number">House number</string>
+    <string name="number">House Number</string>
     <string name="city">City</string>
     <string name="logInDetailHint">Please fill in an email and password to log in with.</string>
     <string name="next">Next</string>
@@ -28,4 +28,10 @@
     <string name="searchAgain">Search Again</string>
     <string name="add">Add</string>
     <string name="message">Message</string>
+    <string name="send">Send</string>
+    <string name="genderAgeHint">Please choose your gender and fill in your age.</string>
+    <string name="age">Age</string>
+    <string name="descHint">Please fill in additional information. (For example the name of your gym)</string>
+    <string name="gender">Gender: </string>
+    <string name="desc">Description: </string>
 </resources>

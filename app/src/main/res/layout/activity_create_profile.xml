@@ -37,11 +37,35 @@
         />
 
     <TextView
+        android:id="@+id/createProfGenAgeText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/genderAgeHint"
+        android:layout_below="@id/createProfLastEdit"
+        />
+
+    <Spinner
+        android:id="@+id/createProfGenderSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/createProfGenAgeText"
+        />
+
+    <EditText
+        android:id="@+id/createProfAgeEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/age"
+        android:layout_below="@id/createProfGenderSpinner"
+        android:inputType="number"
+        />
+
+    <TextView
         android:id="@+id/createProfAdressText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/signUpHint"
-        android:layout_below="@id/createProfLastEdit"
+        android:layout_below="@id/createProfAgeEdit"
         android:padding="10dp"
         />
 
@@ -73,46 +97,13 @@
         android:padding="10dp"
         />
 
-    <TextView
-        android:id="@+id/createProfSportText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/sportHint"
-        android:layout_below="@id/createProfCityEdit"
-        android:imeOptions="actionDone"
-        android:padding="10dp"
-        />
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1"
-        android:layout_below="@id/createProfSportText"
-        >
-
-        <Spinner
-            android:id="@+id/createProfSportSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            />
-
-        <Spinner
-            android:id="@+id/createProfLevelSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            />
-
-    </LinearLayout>
-
     <Button
-        android:id="@+id/createProfButton"
+        android:id="@+id/createProfNextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout"
-        android:text="@string/createProf"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/next"
         />
 
 </RelativeLayout>

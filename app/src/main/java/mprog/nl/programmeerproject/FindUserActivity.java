@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.view.ActionMode;
@@ -23,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +52,8 @@ public class FindUserActivity extends AppCompatActivity {
     String foundUserLat;
     String foundUserLong;
 
+    ArrayList<String> foundUserIds;
+
     Boolean validUser;
 
     Thread t;
@@ -70,6 +74,8 @@ public class FindUserActivity extends AppCompatActivity {
 
         searchButton = (Button) findViewById(R.id.findUserSearchButton);
 
+        foundUserIds = new ArrayList<>();
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,7 +92,10 @@ public class FindUserActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Intent intent = MainActivity.createNewIntent(FindUserActivity.this, SpecificUserActivity.class);
-                intent.putExtra("foundUserId", foundUserId);
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("foundUserIds", foundUserIds);
+                intent.putExtras(bundle);
+                intent.putExtra("selector", 0);
                 startActivity(intent);
             }
         });
@@ -125,13 +134,16 @@ public class FindUserActivity extends AppCompatActivity {
                         Map<String, Object> map = new HashMap<String, Object>();
                         map = (HashMap<String, Object>) postSnapshot.getValue();
                         if (checkConditions(map)) {
-                            foundUserId = postSnapshot.getKey();
-                            t.run();
-                            break;
+                            foundUserIds.add(postSnapshot.getKey());
                         }
                     }
                 }
-                MainActivity.createAlert("No users found, please adjust the radius", FindUserActivity.this).show();
+                if (foundUserIds.isEmpty()) {
+                    MainActivity.createAlert("No users found, please adjust the radius", FindUserActivity.this).show();
+                }
+                else {
+                    t.run();
+                }
             }
 
             @Override
@@ -153,7 +165,7 @@ public class FindUserActivity extends AppCompatActivity {
         double foundDistance = distance(Double.parseDouble(userLat), Double.parseDouble(foundUserLat),
                 Double.parseDouble(userLong), Double.parseDouble(foundUserLong),
                 0.0, 0.0);
-
+        Log.d("Distance", "" + foundDistance);
         if (!map.get("Sport").equals(userSport) || !map.get("Level").equals(userLevel) || Double.parseDouble(radius) < foundDistance / 1000) {
             validUser = false;
         }
@@ -165,7 +177,6 @@ public class FindUserActivity extends AppCompatActivity {
                 }
             }
         }
-        Log.d("Test", "" + validUser);
 
         return validUser;
     }

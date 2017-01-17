@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/specChatTitleText"
-            android:layout_above="@id/specChatInputEdit"
+            android:layout_above="@+id/specChatInputEdit"
             android:padding="10dp"
             >
         </ListView>
@@ -36,17 +36,18 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@id/specChatMesButton"
+            android:layout_toLeftOf="@+id/specChatMesButton"
             android:hint="@string/message"
             android:padding="10dp"
             />
 
-        <android.support.design.widget.FloatingActionButton
+        <Button
             android:id="@+id/specChatMesButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:text="@string/send"
             />
 
     </RelativeLayout>

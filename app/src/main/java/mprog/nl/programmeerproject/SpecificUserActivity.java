@@ -1,7 +1,9 @@
 package mprog.nl.programmeerproject;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -17,6 +19,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 public class SpecificUserActivity extends AppCompatActivity implements View.OnClickListener {
 
     FirebaseAuth firebaseAuth;
@@ -27,8 +31,11 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
 
     TextView firstText;
     TextView lastText;
+    TextView genderText;
+    TextView ageText;
     TextView sportText;
     TextView levelText;
+    TextView descText;
 
     Button searchButton;
     Button addButton;
@@ -37,12 +44,23 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
 
     String foundUserId;
 
+    ArrayList<String> foundUserIds;
+
+    int selector;
+    int size;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_user);
 
-        foundUserId = getIntent().getStringExtra("foundUserId");
+        Bundle bundle = this.getIntent().getExtras();
+        foundUserIds = bundle.getStringArrayList("foundUserIds");
+        selector = this.getIntent().getIntExtra("selector", 0);
+        foundUserId = foundUserIds.get(selector);
+        selector = selector + 1;
+        size = foundUserIds.size();
+
 
         // Assign firebase variables
         firebaseAuth = FirebaseAuth.getInstance();
@@ -53,8 +71,11 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
 
         firstText = (TextView)findViewById(R.id.specUserFirstText);
         lastText = (TextView)findViewById(R.id.specUserLastText);
+        genderText = (TextView)findViewById(R.id.specUserGenderText);
+        ageText = (TextView)findViewById(R.id.specUserAgeText);
         sportText = (TextView)findViewById(R.id.specUserSportText);
         levelText = (TextView)findViewById(R.id.specUserLevelText);
+        descText = (TextView)findViewById(R.id.specUserDescText);
 
         searchButton = (Button)findViewById(R.id.specUserSearchButton);
         addButton = (Button)findViewById(R.id.specUserAddButton);
@@ -77,11 +98,20 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
                         case "LastName":
                             lastText.setText(lastText.getText() + ": " + postSnapshot.getValue());
                             break;
+                        case "Gender":
+                            genderText.setText(genderText.getText().toString() + postSnapshot.getValue());
+                            break;
+                        case "Age":
+                            ageText.setText(ageText.getText() + ": " + postSnapshot.getValue());
+                            break;
                         case "Sport":
                             sportText.setText(sportText.getText() + ": " + postSnapshot.getValue());
                             break;
                         case "Level":
                             levelText.setText(levelText.getText() + " " + postSnapshot.getValue());
+                            break;
+                        case "Description":
+                            descText.setText(descText.getText().toString() + postSnapshot.getValue());
                             break;
                     }
                 }
@@ -98,9 +128,19 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.specUserSearchButton:
-                ref.child(userId).child("RefusedUsers").child(foundUserId).setValue(foundUserId);
-                ref.child(foundUserId).child("RefusedUsers").child(userId).setValue(userId);
-                startActivity(MainActivity.createNewIntent(SpecificUserActivity.this, FindUserActivity.class));
+                //ref.child(userId).child("RefusedUsers").child(foundUserId).setValue(foundUserId);
+                //ref.child(foundUserId).child("RefusedUsers").child(userId).setValue(userId);
+                if (selector < size) {
+                    Intent newIntent = MainActivity.createNewIntent(SpecificUserActivity.this, SpecificUserActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putStringArrayList("foundUserIds", foundUserIds);
+                    newIntent.putExtras(bundle);
+                    newIntent.putExtra("selector", selector);
+                    startActivity(newIntent);
+                }
+                else {
+                    startActivity(MainActivity.createNewIntent(SpecificUserActivity.this, FindUserActivity.class));
+                }
                 break;
             case R.id.specUserAddButton:
                 ref.child(userId).child("RefusedUsers").child(foundUserId).setValue(foundUserId);

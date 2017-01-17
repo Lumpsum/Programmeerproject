@@ -32,11 +32,27 @@
         />
 
     <TextView
+        android:id="@+id/specUserAgeText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/age"
+        android:layout_below="@+id/specUserGenderText"
+        />
+
+    <TextView
+        android:id="@+id/specUserGenderText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/gender"
+        android:layout_below="@id/specUserLastText"
+        />
+
+    <TextView
         android:id="@+id/specUserSportText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/sport"
-        android:layout_below="@id/specUserLastText"
+        android:layout_below="@id/specUserAgeText"
         />
 
     <TextView
@@ -45,6 +61,15 @@
         android:layout_height="wrap_content"
         android:text="@string/level"
         android:layout_below="@+id/specUserSportText"
+        />
+
+    <TextView
+        android:id="@+id/specUserDescText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/desc"
+        android:layout_below="@id/specUserLevelText"
+        android:scrollHorizontally="false"
         />
 
     <Button

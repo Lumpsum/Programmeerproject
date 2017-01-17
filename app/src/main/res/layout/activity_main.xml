@@ -41,10 +41,26 @@
         />
 
     <TextView
+        android:id="@+id/mainGenderText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mainLastText"
+        android:text="@string/gender"
+        />
+
+    <TextView
+        android:id="@+id/mainAgeText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mainGenderText"
+        android:text="@string/age"
+        />
+
+        <TextView
         android:id="@+id/mainStreetText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/mainLastText"
+        android:layout_below="@+id/mainAgeText"
         android:text="@string/street"
         />
 
@@ -80,11 +96,20 @@
         android:text="@string/level"
         />
 
-    <Button
-        android:id="@+id/mainLogOutButton"
+    <TextView
+        android:id="@+id/mainDescText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/mainLevelText"
+        android:layout_below="@id/mainLevelText"
+        android:text="@string/desc"
+        />
+
+    <Button
+        android:id="@+id/mainLogOutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/mainWelcomeText"
         android:text="@string/logOut"
         />
 
@@ -92,7 +117,7 @@
         android:id="@+id/mainRequestList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/mainLogOutButton"
+        android:layout_below="@id/mainDescText"
         ></ListView>
 
     </RelativeLayout>
