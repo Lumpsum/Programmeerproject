@@ -55,11 +55,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView levelText;
     TextView descText;
 
-    ListView requestList;
+    ListView userRequestList;
 
-    ListAdapter requestAdapter;
+    ArrayList<UserReqestItem> userRequestArray;
 
-    ArrayList<String> requestArray;
+    UserRequestAdapter userRequestAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,11 +99,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             levelText = (TextView)findViewById(R.id.mainLevelText);
             descText = (TextView)findViewById(R.id.mainDescText);
 
-            requestList = (ListView)findViewById(R.id.mainRequestList);
+            userRequestList = (ListView)findViewById(R.id.mainRequestList);
 
-            requestArray = new ArrayList<String>();
+            userRequestArray = new ArrayList<UserReqestItem>();
 
-            requestAdapter = new ArrayAdapter<>(this, R.layout.list_item, requestArray);
+            userRequestAdapter = new UserRequestAdapter(MainActivity.this, userRequestArray);
+
+            userRequestList.setAdapter(userRequestAdapter);
 
             ref.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -155,9 +157,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        requestArray.add(postSnapshot.getKey());
+                        addUserRequestItems(postSnapshot.getKey());
                     }
-                    requestList.setAdapter(requestAdapter);
                 }
 
                 @Override
@@ -166,28 +167,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
 
-            requestList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            userRequestList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                    ref.child(userId).child("UserRequests").child((String) ((TextView)view).getText()).removeValue();
-                    requestArray.remove(((TextView)view).getText());
-                    requestList.setAdapter(requestAdapter);
+                    TextView dataText = (TextView)view.findViewById(R.id.dataText);
+                    String newUserId = dataText.getText().toString();
+                    ref.child(userId).child("UserRequests").child(newUserId).removeValue();
+                    userRequestArray.remove(position);
+                    userRequestAdapter.notifyDataSetChanged();
                     return true;
                 }
             });
 
-            requestList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            userRequestList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    String newUserId = (String) ((TextView)view).getText();
+                    TextView dataText = (TextView)view.findViewById(R.id.dataText);
+                    String newUserId = dataText.getText().toString();
                     ref.child(userId).child("UserRequests").child(newUserId).removeValue();
                     ref.child(userId).child("Chats").child(newUserId).setValue(newUserId);
                     ref.child(newUserId).child("Chats").child(userId).setValue(userId);
-                    requestArray.remove(newUserId);
-                    requestList.setAdapter(requestAdapter);
+                    userRequestArray.remove(position);
+                    userRequestAdapter.notifyDataSetChanged();
                 }
             });
         }
+    }
+
+    void addUserRequestItems(final String data) {
+        ref.child(data).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String userName = dataSnapshot.child("FirstName").getValue().toString() +
+                        " " + dataSnapshot.child("LastName").getValue().toString();
+                String gender = dataSnapshot.child("Gender").getValue().toString();
+                String age = dataSnapshot.child("Age").getValue().toString();
+                String description = dataSnapshot.child("Description").getValue().toString();
+                UserReqestItem item = new UserReqestItem(userName, data, age, gender, description);
+                userRequestArray.add(item);
+                userRequestAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public static AlertDialog createAlert(String error, Context context) {

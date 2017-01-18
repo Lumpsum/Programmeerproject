@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
-public class FindUserActivity extends AppCompatActivity {
+public class FindUserActivity extends AppCompatActivity implements View.OnClickListener {
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -41,13 +41,15 @@ public class FindUserActivity extends AppCompatActivity {
 
     EditText radiusEdit;
 
-    Button searchButton;
+    Button findUserButton;
+    Button chatButton;
+    Button homeButton;
+    Button findButton;
 
     String userSport;
     String userLevel;
     String userLat;
     String userLong;
-    String foundUserId;
     String radius;
     String foundUserLat;
     String foundUserLong;
@@ -72,11 +74,18 @@ public class FindUserActivity extends AppCompatActivity {
 
         radiusEdit = (EditText) findViewById(R.id.findUserRadiusEdit);
 
-        searchButton = (Button) findViewById(R.id.findUserSearchButton);
+        findUserButton = (Button) findViewById(R.id.findUserSearchButton);
+        chatButton = (Button)findViewById(R.id.chatButton);
+        homeButton = (Button)findViewById(R.id.homeButton);
+        findButton = (Button)findViewById(R.id.findButton);
+
+        chatButton.setOnClickListener(this);
+        homeButton.setOnClickListener(this);
+        findButton.setOnClickListener(this);
 
         foundUserIds = new ArrayList<>();
 
-        searchButton.setOnClickListener(new View.OnClickListener() {
+        findUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 radius = radiusEdit.getText().toString().trim();
@@ -165,15 +174,14 @@ public class FindUserActivity extends AppCompatActivity {
         double foundDistance = distance(Double.parseDouble(userLat), Double.parseDouble(foundUserLat),
                 Double.parseDouble(userLong), Double.parseDouble(foundUserLong),
                 0.0, 0.0);
-        Log.d("Distance", "" + foundDistance);
         if (!map.get("Sport").equals(userSport) || !map.get("Level").equals(userLevel) || Double.parseDouble(radius) < foundDistance / 1000) {
             validUser = false;
         }
         if (validUser) {
             for (Map.Entry<String, Object> entry : newMap.entrySet()) {
-                Log.d("Test", "OverHere" + entry.getKey());
                 if (entry.getKey().equals(userId)) {
                     validUser = false;
+                    break;
                 }
             }
         }
@@ -199,6 +207,21 @@ public class FindUserActivity extends AppCompatActivity {
         distance = Math.pow(distance, 2) + Math.pow(height, 2);
 
         return Math.sqrt(distance);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.homeButton:
+                startActivity(MainActivity.createNewIntent(FindUserActivity.this, MainActivity.class));
+                break;
+            case R.id.findButton:
+                startActivity(MainActivity.createNewIntent(FindUserActivity.this, FindUserActivity.class));
+                break;
+            case R.id.chatButton:
+                startActivity(MainActivity.createNewIntent(FindUserActivity.this, ChatActvity.class));
+                break;
+        }
     }
 
 }

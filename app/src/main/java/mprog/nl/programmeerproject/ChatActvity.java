@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,9 +34,10 @@ public class ChatActvity extends AppCompatActivity implements View.OnClickListen
 
     ListView chatList;
 
-    ArrayList<String> chatArray;
+    ArrayList<String> userIds;
+    ArrayList<ListItem> chatArray;
 
-    ArrayAdapter<String> chatAdapter;
+    ChatListAdapter chatAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class ChatActvity extends AppCompatActivity implements View.OnClickListen
         firebaseUser = firebaseAuth.getCurrentUser();
         userId = firebaseUser.getUid();
         databaseRef = FirebaseDatabase.getInstance().getReference();
-        ref = databaseRef.child("Users").child(userId);
+        ref = databaseRef.child("Users");
 
         homeButton = (Button)findViewById(R.id.homeButton);
         findButton = (Button)findViewById(R.id.findButton);
@@ -60,17 +60,19 @@ public class ChatActvity extends AppCompatActivity implements View.OnClickListen
 
         chatList = (ListView)findViewById(R.id.chatListView);
 
-        chatArray = new ArrayList<>();
+        userIds = new ArrayList<String>();
+        chatArray = new ArrayList<ListItem>();
 
-        chatAdapter = new ArrayAdapter(this, R.layout.list_item, chatArray);
+        chatAdapter = new ChatListAdapter(ChatActvity.this, chatArray);
 
-        ref.child("Chats").addListenerForSingleValueEvent(new ValueEventListener() {
+        chatList.setAdapter(chatAdapter);
+
+        ref.child(userId).child("Chats").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    chatArray.add(postSnapshot.getKey());
+                    addListItems(postSnapshot.getKey());
                 }
-                chatList.setAdapter(chatAdapter);
             }
 
             @Override
@@ -79,12 +81,62 @@ public class ChatActvity extends AppCompatActivity implements View.OnClickListen
             }
         });
 
+        chatList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    TextView dataText = (TextView) view.findViewById(R.id.dataText);
+                    final String data = dataText.getText().toString();
+                    chatArray.remove(position);
+                    chatAdapter.notifyDataSetChanged();
+                    ref.child(userId).child("Chats").child(data).removeValue();
+                    ref.child(data).child("Chats").child(userId).removeValue();
+                    databaseRef.child("Chats").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            DatabaseReference tempRef;
+                            if (dataSnapshot.hasChild(userId + "," + data)) {
+                                tempRef = databaseRef.child("Chats").child(userId + "," + data);
+                            } else {
+                                tempRef = databaseRef.child("Chats").child(data + "," + userId);
+                            }
+                            tempRef.removeValue();
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                    return true;
+                }
+            });
+
         chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView dataText = (TextView) view.findViewById(R.id.dataText);
+                TextView nameText = (TextView) view.findViewById(R.id.userNameText);
                 Intent intent = MainActivity.createNewIntent(ChatActvity.this, SpecificChatActivity.class);
-                intent.putExtra("otherUser", ((TextView)view).getText());
+                intent.putExtra("otherUserData", (dataText.getText().toString()));
+                intent.putExtra("otherUserName", (nameText.getText().toString()));
                 startActivity(intent);
+            }
+        });
+    }
+
+    void addListItems(final String data) {
+        ref.child(data).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String userName = dataSnapshot.child("FirstName").getValue().toString() +
+                        " " + dataSnapshot.child("LastName").getValue().toString();
+                chatArray.add(new ListItem(userName, data));
+                chatAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }

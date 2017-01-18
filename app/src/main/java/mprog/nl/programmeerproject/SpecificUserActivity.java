@@ -128,8 +128,8 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.specUserSearchButton:
-                //ref.child(userId).child("RefusedUsers").child(foundUserId).setValue(foundUserId);
-                //ref.child(foundUserId).child("RefusedUsers").child(userId).setValue(userId);
+                ref.child(userId).child("RefusedUsers").child(foundUserId).setValue(foundUserId);
+                ref.child(foundUserId).child("RefusedUsers").child(userId).setValue(userId);
                 if (selector < size) {
                     Intent newIntent = MainActivity.createNewIntent(SpecificUserActivity.this, SpecificUserActivity.class);
                     Bundle bundle = new Bundle();
@@ -150,8 +150,12 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.homeButton:
                 startActivity(MainActivity.createNewIntent(SpecificUserActivity.this, MainActivity.class));
+                break;
             case R.id.findButton:
                 startActivity(MainActivity.createNewIntent(SpecificUserActivity.this, FindUserActivity.class));
+                break;
+            case R.id.chatButton:
+                startActivity(MainActivity.createNewIntent(SpecificUserActivity.this, ChatActvity.class));
                 break;
         }
     }

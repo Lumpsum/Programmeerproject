@@ -32,11 +32,15 @@ public class SpecificChatActivity extends AppCompatActivity implements View.OnCl
     Button chatButton;
     Button schemeButton;
 
+    TextView titleText;
+
     EditText sendMessageEdit;
 
     ListView chatList;
 
     FirebaseListAdapter<ChatMessage> adapter;
+
+    String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +55,7 @@ public class SpecificChatActivity extends AppCompatActivity implements View.OnCl
         ref = databaseRef.child("Chats");
 
         Intent intent = getIntent();
-        final String otherUserId = intent.getStringExtra("otherUser");
+        final String otherUserId = intent.getStringExtra("otherUserData");
 
         sendMessageButton = (Button)findViewById(R.id.specChatMesButton);
         homeButton = (Button)findViewById(R.id.homeButton);
@@ -61,6 +65,9 @@ public class SpecificChatActivity extends AppCompatActivity implements View.OnCl
         homeButton.setOnClickListener(this);
         findButton.setOnClickListener(this);
         chatButton.setOnClickListener(this);
+
+        titleText = (TextView)findViewById(R.id.specChatTitleText);
+        titleText.setText(intent.getStringExtra("otherUserName"));
 
         sendMessageEdit = (EditText)findViewById(R.id.specChatInputEdit);
 
@@ -95,6 +102,19 @@ public class SpecificChatActivity extends AppCompatActivity implements View.OnCl
 
             }
         });
+
+        databaseRef.child("Users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                userName = dataSnapshot.child("FirstName").getValue().toString() +
+                        " " + dataSnapshot.child("LastName").getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -103,7 +123,7 @@ public class SpecificChatActivity extends AppCompatActivity implements View.OnCl
             case R.id.specChatMesButton:
                 String message = sendMessageEdit.getText().toString();
 
-                ref.push().setValue(new ChatMessage(message, userId));
+                ref.push().setValue(new ChatMessage(message, userName));
 
                 sendMessageEdit.setText("");
                 break;
