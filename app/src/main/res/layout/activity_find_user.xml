@@ -32,12 +32,73 @@
         android:layout_below="@id/findUserRadiusHint"
         />
 
+    <TextView
+        android:id="@+id/findUserParamText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/findUserRadiusEdit"
+        android:text="@string/param"
+        android:padding="10dp"
+        />
+
+    <TextView
+        android:id="@+id/findUserGenderText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/gender"
+        android:layout_below="@+id/findUserParamText"
+        android:padding="10dp"
+        />
+
+    <CheckBox
+        android:id="@+id/findUserGenderCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/findUserParamText"
+        android:layout_toRightOf="@+id/findUserGenderText"
+        />
+
+    <TextView
+        android:id="@+id/findUserAgeHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/findUserGenderText"
+        android:text="@string/ageHint"
+        />
+
+    <TextView
+        android:id="@+id/findUserAgeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/age"
+        android:layout_below="@+id/findUserAgeHint"
+        android:padding="10dp"
+        />
+
+    <CheckBox
+        android:id="@+id/findUserAgeCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/findUserAgeHint"
+        android:layout_toRightOf="@+id/findUserAgeText"
+        />
+
+    <EditText
+        android:id="@+id/findUserAgeEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/findUserAgeHint"
+        android:layout_toRightOf="@+id/findUserAgeCheck"
+        android:hint="10"
+        android:inputType="number"
+        />
+
     <Button
         android:id="@+id/findUserSearchButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/search"
-        android:layout_below="@id/findUserRadiusEdit"
+        android:layout_below="@id/findUserAgeEdit"
         />
 
     </RelativeLayout>

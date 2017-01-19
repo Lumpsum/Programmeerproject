@@ -11,6 +11,7 @@ import android.support.v7.view.ActionMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,17 +41,25 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
     DatabaseReference ref;
 
     EditText radiusEdit;
+    EditText ageEdit;
+
+    CheckBox genderCheck;
+    CheckBox ageCheck;
 
     Button findUserButton;
     Button chatButton;
     Button homeButton;
     Button findButton;
 
+    int userAge;
+
+    String userGender;
     String userSport;
     String userLevel;
     String userLat;
     String userLong;
     String radius;
+    String age;
     String foundUserLat;
     String foundUserLong;
 
@@ -73,6 +82,10 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
         ref = databaseRef.child("Users");
 
         radiusEdit = (EditText) findViewById(R.id.findUserRadiusEdit);
+        ageEdit = (EditText) findViewById(R.id.findUserAgeEdit);
+
+        genderCheck = (CheckBox) findViewById(R.id.findUserGenderCheck);
+        ageCheck = (CheckBox) findViewById(R.id.findUserAgeCheck);
 
         findUserButton = (Button) findViewById(R.id.findUserSearchButton);
         chatButton = (Button)findViewById(R.id.chatButton);
@@ -89,8 +102,11 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onClick(View view) {
                 radius = radiusEdit.getText().toString().trim();
+                age = ageEdit.getText().toString().trim();
                 if (radius.isEmpty()) {
                     MainActivity.createAlert("Please fill in a radius", FindUserActivity.this).show();
+                } else if (ageCheck.isChecked() && age.isEmpty()) {
+                    MainActivity.createAlert("Please fill in an age radius", FindUserActivity.this).show();
                 } else {
                     findUser();
                 }
@@ -114,6 +130,12 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     switch (postSnapshot.getKey()) {
+                        case "Age":
+                            userAge = Integer.parseInt(postSnapshot.getValue().toString());
+                            break;
+                        case "Gender":
+                            userGender = postSnapshot.getValue().toString();
+                            break;
                         case "Sport":
                             userSport = postSnapshot.getValue().toString();
                             break;
@@ -169,24 +191,49 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
             newMap = (HashMap<String, Object>) map.get("RefusedUsers");
         }
 
+        for (Map.Entry<String, Object> entry : newMap.entrySet()) {
+            if (entry.getKey().equals(userId)) {
+                validUser = false;
+                break;
+            }
+        }
         foundUserLat = map.get("Location").toString().split(",")[0].trim();
         foundUserLong = map.get("Location").toString().split(",")[1].trim();
+        if (validUser) {
+            validUser = checkParameters(map);
+            }
+            if (validUser) {
+                validUser = checkAdditionalParameters(map);
+            }
+
+        return validUser;
+        }
+
+
+    Boolean checkParameters(Map<String, Object> map) {
         double foundDistance = distance(Double.parseDouble(userLat), Double.parseDouble(foundUserLat),
                 Double.parseDouble(userLong), Double.parseDouble(foundUserLong),
                 0.0, 0.0);
         if (!map.get("Sport").equals(userSport) || !map.get("Level").equals(userLevel) || Double.parseDouble(radius) < foundDistance / 1000) {
-            validUser = false;
+            return false;
         }
-        if (validUser) {
-            for (Map.Entry<String, Object> entry : newMap.entrySet()) {
-                if (entry.getKey().equals(userId)) {
-                    validUser = false;
-                    break;
-                }
+        return true;
+    }
+
+    Boolean checkAdditionalParameters(Map<String, Object> map) {
+        if (genderCheck.isChecked()) {
+            if (!map.get("Gender").equals(userGender)) {
+                return false;
             }
         }
-
-        return validUser;
+        if (ageCheck.isChecked()) {
+            int ageNum = Integer.parseInt(age);
+            int foundUserAge = Integer.parseInt(map.get("Age").toString());
+            if (foundUserAge < (userAge - ageNum ) || foundUserAge > (userAge + ageNum)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static double distance(double lat1, double lat2, double lon1,

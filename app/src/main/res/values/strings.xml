@@ -37,4 +37,6 @@
     <string name="editPers">Edit Personal Information</string>
     <string name="editProf">Edit Profile</string>
     <string name="save">Save</string>
+    <string name="param">Additional parameters</string>
+    <string name="ageHint">Please fill in a number to determine the margin for age. (5 for example would mean 20 as minimum and 30 as maximum if you are 25)</string>
 </resources>
