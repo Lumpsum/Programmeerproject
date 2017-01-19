@@ -51,3 +51,6 @@ public class MainActivity() extends AppCompatActivity { // Call activities Activ
 ##### Flow
  - Else should be on the same line as the ending } from the if statement.
  - Use switches when possible
+
+#### Architecture
+ - Seperation of concerns
