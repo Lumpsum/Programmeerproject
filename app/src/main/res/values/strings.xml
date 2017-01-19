@@ -34,4 +34,7 @@
     <string name="descHint">Please fill in additional information. (For example the name of your gym)</string>
     <string name="gender">Gender: </string>
     <string name="desc">Description: </string>
+    <string name="editPers">Edit Personal Information</string>
+    <string name="editProf">Edit Profile</string>
+    <string name="save">Save</string>
 </resources>

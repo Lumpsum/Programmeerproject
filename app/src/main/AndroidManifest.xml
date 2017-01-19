@@ -22,7 +22,8 @@
         <activity android:name=".SpecificUserActivity" />
         <activity android:name=".ChatActvity" />
         <activity android:name=".SpecificChatActivity" />
-        <activity android:name=".CreateProfileSecondActivity"></activity>
+        <activity android:name=".CreateProfileSecondActivity" />
+        <activity android:name=".EditProfileActivity"></activity>
     </application>
 
 </manifest>

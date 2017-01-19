@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_edit_profile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="mprog.nl.programmeerproject.EditProfileActivity">
+
+    <TextView
+        android:id="@+id/editProfFirstText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/firstName"
+        android:padding="10dp"
+        />
+
+    <EditText
+        android:id="@+id/editProfFirstEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/editProfFirstText"
+        android:maxLines="1"
+        android:padding="10dp"
+        />
+
+    <TextView
+        android:id="@+id/editProfLastText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lastName"
+        android:layout_below="@+id/editProfFirstEdit"
+        android:padding="10dp"
+        />
+
+    <EditText
+        android:id="@+id/editProfLastEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:maxLines="1"
+        android:layout_below="@+id/editProfFirstEdit"
+        android:layout_toRightOf="@+id/editProfLastText"
+        />
+
+    <TextView
+        android:id="@+id/editProfGenderText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/gender"
+        android:layout_below="@+id/editProfLastEdit"
+        android:padding="10dp"
+        />
+
+    <Spinner
+        android:id="@+id/editProfGenderSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editProfLastEdit"
+        android:layout_toRightOf="@+id/editProfGenderText"
+        android:padding="10dp"
+        >
+    </Spinner>
+
+    <TextView
+        android:id="@+id/editProfAgeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/age"
+        android:layout_below="@+id/editProfGenderText"
+        android:padding="10dp"
+        />
+
+    <EditText
+        android:id="@+id/editProfAgeEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editProfGenderText"
+        android:layout_toRightOf="@+id/editProfAgeText"
+        android:inputType="number"
+        android:maxLines="1"
+        android:padding="10dp"
+        />
+
+    <TextView
+        android:id="@+id/editProfStreetText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/street"
+        android:layout_below="@+id/editProfAgeEdit"
+        android:padding="10dp"
+        />
+
+    <EditText
+        android:id="@+id/editProfStreetEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editProfAgeEdit"
+        android:maxLines="1"
+        android:layout_toRightOf="@+id/editProfStreetText"
+        android:padding="10dp"
+        />
+
+    <TextView
+        android:id="@+id/editProfNumText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/number"
+        android:layout_below="@+id/editProfStreetEdit"
+        android:padding="10dp"
+        />
+
+    <EditText
+        android:id="@+id/editProfNumEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editProfStreetEdit"
+        android:layout_toRightOf="@+id/editProfNumText"
+        android:maxLines="1"
+        android:inputType="number"
+        android:padding="10dp"
+        />
+
+    <TextView
+        android:id="@+id/editProfCityText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/city"
+        android:layout_below="@+id/editProfNumEdit"
+        android:padding="10dp"
+        />
+
+    <EditText
+        android:id="@+id/editProfCityEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editProfNumEdit"
+        android:layout_toRightOf="@+id/editProfCityText"
+        android:maxLines="1"
+        android:padding="10dp"
+        />
+
+    <TextView
+        android:id="@+id/editProfSportText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sport"
+        android:layout_below="@+id/editProfCityEdit"
+        android:padding="10dp"
+        />
+
+    <Spinner
+        android:id="@+id/editProfSportSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editProfCityEdit"
+        android:layout_toRightOf="@+id/editProfSportText"
+        android:padding="10dp"
+        >
+    </Spinner>
+
+    <TextView
+        android:id="@+id/editProfLevelText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/level"
+        android:layout_below="@+id/editProfSportText"
+        android:padding="10dp"
+        />
+
+    <Spinner
+        android:id="@+id/editProfLevelSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editProfSportText"
+        android:layout_toRightOf="@+id/editProfLevelText"
+        android:padding="10dp"
+        >
+    </Spinner>
+
+    <TextView
+        android:id="@+id/editProfDescText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/desc"
+        android:layout_below="@+id/editProfLevelText"
+        android:padding="10dp"
+        />
+
+    <EditText
+        android:id="@+id/editProfDescEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editProfLevelText"
+        android:layout_toRightOf="@+id/editProfDescText"
+        android:padding="10dp"
+        />
+
+    <Button
+        android:id="@+id/editProfSaveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:padding="10dp"
+        />
+
+</RelativeLayout>

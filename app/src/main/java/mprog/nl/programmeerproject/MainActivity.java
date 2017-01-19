@@ -24,7 +24,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.R.attr.data;
 import static android.R.attr.start;
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button findButton;
     Button chatButton;
     Button schemeButton;
+    Button editProfileButton;
 
     TextView welcomeText;
     TextView firstNameText;
@@ -60,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList<UserReqestItem> userRequestArray;
 
     UserRequestAdapter userRequestAdapter;
+
+    Map<String, String> userMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,10 +88,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             homeButton = (Button)findViewById(R.id.homeButton);
             findButton = (Button)findViewById(R.id.findButton);
             chatButton = (Button)findViewById(R.id.chatButton);
+            editProfileButton = (Button)findViewById(R.id.mainEditProfButton);
             logOutButton.setOnClickListener(this);
             homeButton.setOnClickListener(this);
             findButton.setOnClickListener(this);
             chatButton.setOnClickListener(this);
+            editProfileButton.setOnClickListener(this);
 
             welcomeText = (TextView)findViewById(R.id.mainWelcomeText);
             firstNameText = (TextView)findViewById(R.id.mainFirstText);
@@ -107,44 +115,67 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             userRequestList.setAdapter(userRequestAdapter);
 
+            userMap = new HashMap<>();
+
             ref.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         switch (postSnapshot.getKey()) {
                             case "FirstName" :
-                                welcomeText.setText(welcomeText.getText() + " " + postSnapshot.getValue());
-                                firstNameText.setText(firstNameText.getText() + ": " + postSnapshot.getValue());
+                                String firstName = postSnapshot.getValue().toString();
+                                welcomeText.setText(welcomeText.getText() + " " + firstName);
+                                firstNameText.setText(firstNameText.getText() + ": " + firstName);
+                                userMap.put("FirstName", firstName);
                                 break;
                             case "LastName" :
-                                lastNameText.setText(lastNameText.getText() + ": " + postSnapshot.getValue());
+                                String lastName = postSnapshot.getValue().toString();
+                                lastNameText.setText(lastNameText.getText() + ": " + lastName);
+                                userMap.put("LastName", lastName);
                                 break;
                             case "Gender":
-                                genderText.setText(genderText.getText().toString() + postSnapshot.getValue());
+                                String gender = postSnapshot.getValue().toString();
+                                genderText.setText(genderText.getText().toString() + gender);
+                                userMap.put("Gender", gender);
                                 break;
                             case "Age":
-                                ageText.setText(ageText.getText() + ": " + postSnapshot.getValue());
+                                String age = postSnapshot.getValue().toString();
+                                ageText.setText(ageText.getText() + ": " + age);
+                                userMap.put("Age", age);
                                 break;
                             case "Street" :
-                                streetText.setText(streetText.getText() + ": " + postSnapshot.getValue());
+                                String street = postSnapshot.getValue().toString();
+                                streetText.setText(streetText.getText() + ": " + street);
+                                userMap.put("Street", street);
                                 break;
                             case "Number" :
-                                numText.setText(numText.getText() + ": " + postSnapshot.getValue());
+                                String number = postSnapshot.getValue().toString();
+                                numText.setText(numText.getText() + ": " + number);
+                                userMap.put("Number", number);
                                 break;
                             case "City" :
-                                cityText.setText(cityText.getText() + ": " + postSnapshot.getValue());
+                                String city = postSnapshot.getValue().toString();
+                                cityText.setText(cityText.getText() + ": " + city);
+                                userMap.put("City", city);
                                 break;
                             case "Sport" :
-                                sportText.setText(sportText.getText() + " " + postSnapshot.getValue());
+                                String sport = postSnapshot.getValue().toString();
+                                sportText.setText(sportText.getText() + " " + sport);
+                                userMap.put("Sport", sport);
                                 break;
                             case "Level" :
-                                levelText.setText(levelText.getText() + " " + postSnapshot.getValue());
+                                String level = postSnapshot.getValue().toString();
+                                levelText.setText(levelText.getText() + " " + level);
+                                userMap.put("Level", level);
                                 break;
                             case "Description":
-                                descText.setText(descText.getText().toString() + postSnapshot.getValue());
+                                String description = postSnapshot.getValue().toString();
+                                descText.setText(descText.getText().toString() + description);
+                                userMap.put("Description", description);
                                 break;
                         }
                     }
+                    editProfileButton.setVisibility(View.VISIBLE);
                 }
 
                 @Override
@@ -251,6 +282,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.mainLogOutButton:
                 startActivity(signOut(MainActivity.this, firebaseAuth));
                 break;
+            case R.id.mainEditProfButton:
+                Intent intent = createNewIntent(MainActivity.this, EditProfileActivity.class);
+                intent.putExtra("userMap", (Serializable) userMap);
+                startActivity(intent);
         }
     }
 }
