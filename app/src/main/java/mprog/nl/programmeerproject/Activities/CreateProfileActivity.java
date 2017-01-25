@@ -1,9 +1,8 @@
-package mprog.nl.programmeerproject;
+package mprog.nl.programmeerproject.Activities;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,16 +20,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-public class EditProfileActivity extends AppCompatActivity {
+import mprog.nl.programmeerproject.Network.ASyncTask;
+import mprog.nl.programmeerproject.R;
+
+public class CreateProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private DatabaseReference databaseRef;
     private String userId;
-    private DatabaseReference ref;
 
     protected EditText firstNameEdit;
     protected EditText lastNameEdit;
@@ -38,86 +38,47 @@ public class EditProfileActivity extends AppCompatActivity {
     protected EditText numberEdit;
     protected EditText cityEdit;
     protected EditText ageEdit;
-    protected EditText descEdit;
 
     protected Spinner genderSpinner;
-    protected Spinner sportSpinner;
-    protected Spinner levelSpinner;
 
     protected List<String> genderSpinnerArray;
-    protected List<String> sportSpinnerArray;
-    protected List<String> levelSpinnerArray;
 
     protected ArrayAdapter<String> genderAdapter;
-    protected ArrayAdapter<String> sportAdapter;
-    protected ArrayAdapter<String> levelAdapter;
 
-    protected Button saveButton;
-
-    protected Map<String, String> userMap;
+    protected Button createProfNextButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_profile);
-
-        userMap = (Map<String, String>) getIntent().getSerializableExtra("userMap");
+        setContentView(R.layout.activity_create_profile);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         userId = firebaseUser.getUid();
         databaseRef = FirebaseDatabase.getInstance().getReference();
 
-        firstNameEdit = (EditText)findViewById(R.id.editProfFirstEdit);
-        lastNameEdit = (EditText)findViewById(R.id.editProfLastEdit);
-        streetEdit = (EditText)findViewById(R.id.editProfStreetEdit);
-        numberEdit = (EditText)findViewById(R.id.editProfNumEdit);
-        cityEdit = (EditText)findViewById(R.id.editProfCityEdit);
-        ageEdit = (EditText)findViewById(R.id.editProfAgeEdit);
-        descEdit = (EditText)findViewById(R.id.editProfDescEdit);
+        firstNameEdit = (EditText)findViewById(R.id.createProfFirstEdit);
+        lastNameEdit = (EditText)findViewById(R.id.createProfLastEdit);
+        streetEdit = (EditText)findViewById(R.id.createProfStreetEdit);
+        numberEdit = (EditText)findViewById(R.id.createProfNumberEdit);
+        cityEdit = (EditText)findViewById(R.id.createProfCityEdit);
+        ageEdit = (EditText)findViewById(R.id.createProfAgeEdit);
 
-        genderSpinner = (Spinner) findViewById(R.id.editProfGenderSpinner);
-        sportSpinner = (Spinner) findViewById(R.id.editProfSportSpinner);
-        levelSpinner = (Spinner)findViewById(R.id.editProfLevelSpinner);
-
-        saveButton = (Button)findViewById(R.id.editProfSaveButton);
-
-        firstNameEdit.setText(userMap.get("FirstName"));
-        lastNameEdit.setText(userMap.get("LastName"));
-        streetEdit.setText(userMap.get("Street"));
-        numberEdit.setText(userMap.get("Number"));
-        cityEdit.setText(userMap.get("City"));
-        ageEdit.setText(userMap.get("Age"));
-        descEdit.setText(userMap.get("Description"));
+        genderSpinner = (Spinner) findViewById(R.id.createProfGenderSpinner);
 
         genderSpinnerArray = new ArrayList<String>();
         genderSpinnerArray.add("Male");
         genderSpinnerArray.add("Female");
-        sportSpinnerArray = new ArrayList<String>();
-        sportSpinnerArray.add("Fitness");
-        sportSpinnerArray.add("Running");
-        levelSpinnerArray = new ArrayList<String>();
-        levelSpinnerArray.add("Beginner");
-        levelSpinnerArray.add("Intermediate");
-        levelSpinnerArray.add("Expert");
 
         genderAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, genderSpinnerArray);
-        sportAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sportSpinnerArray);
-        levelAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, levelSpinnerArray);
 
         genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sportAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        levelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         genderSpinner.setAdapter(genderAdapter);
-        sportSpinner.setAdapter(sportAdapter);
-        levelSpinner.setAdapter(levelAdapter);
 
-        genderSpinner.setSelection(genderAdapter.getPosition(userMap.get("Gender")));
-        sportSpinner.setSelection(sportAdapter.getPosition(userMap.get("Sport")));
-        levelSpinner.setSelection(levelAdapter.getPosition(userMap.get("Level")));
+        createProfNextButton = (Button)findViewById(R.id.createProfNextButton);
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        createProfNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String firstName = firstNameEdit.getText().toString().trim();
@@ -129,7 +90,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 String age = ageEdit.getText().toString().trim();
 
                 if (firstName.isEmpty() || lastName.isEmpty() || street.isEmpty() || num.isEmpty() || city.isEmpty() || age.isEmpty()) {
-                    MainActivity.createAlert("Please fill in every field", EditProfileActivity.this);
+                    MainActivity.createAlert("Please fill in every field", CreateProfileActivity.this);
                 }
                 else {
                     DatabaseReference ref = databaseRef.child("Users").child(userId);
@@ -152,13 +113,10 @@ public class EditProfileActivity extends AppCompatActivity {
                             ref.child("City").setValue(city);
                             ref.child("Gender").setValue(genderSpinner.getSelectedItem().toString());
                             ref.child("Age").setValue(age);
-                            ref.child("Sport").setValue(sportSpinner.getSelectedItem().toString());
-                            ref.child("Level").setValue(levelSpinner.getSelectedItem().toString());
-                            ref.child("Description").setValue(descEdit.getText().toString());
-                            startActivity(MainActivity.createNewIntent(EditProfileActivity.this, MainActivity.class));
+                            startActivity(MainActivity.createNewIntent(CreateProfileActivity.this, CreateProfileSecondActivity.class));
                         }
                         else {
-                            MainActivity.createAlert("Your adress can't be found, please change your adress.", EditProfileActivity.this).show();
+                            MainActivity.createAlert("Your adress can't be found, please change your adress.", CreateProfileActivity.this).show();
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();

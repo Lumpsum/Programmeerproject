@@ -4,7 +4,7 @@
     android:id="@+id/activity_find_user"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="mprog.nl.programmeerproject.FindUserActivity">
+    tools:context="mprog.nl.programmeerproject.Activities.FindUserActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

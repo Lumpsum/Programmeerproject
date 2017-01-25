@@ -8,27 +8,27 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LogInActivity" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".CreateProfileActivity" />
-        <activity android:name=".FindUserActivity" />
-        <activity android:name=".SpecificUserActivity" />
-        <activity android:name=".ChatActvity" />
-        <activity android:name=".SpecificChatActivity" />
-        <activity android:name=".CreateProfileSecondActivity" />
-        <activity android:name=".EditProfileActivity" />
-        <activity android:name=".SchemeActivity" />
-        <activity android:name=".CreateSchemeActivity" />
-        <activity android:name=".SearchSchemeActivity" />
-        <activity android:name=".SpecificSchemeActivity" />
-        <activity android:name=".EditSchemeActivity"></activity>
+        <activity android:name=".Activities.LogInActivity" />
+        <activity android:name=".Activities.SignUpActivity" />
+        <activity android:name=".Activities.CreateProfileActivity" />
+        <activity android:name=".Activities.FindUserActivity" />
+        <activity android:name=".Activities.SpecificUserActivity" />
+        <activity android:name=".Activities.ChatActvity" />
+        <activity android:name=".Activities.SpecificChatActivity" />
+        <activity android:name=".Activities.CreateProfileSecondActivity" />
+        <activity android:name=".Activities.EditProfileActivity" />
+        <activity android:name=".Activities.SchemeActivity" />
+        <activity android:name=".Activities.CreateSchemeActivity" />
+        <activity android:name=".Activities.SearchSchemeActivity" />
+        <activity android:name=".Activities.SpecificSchemeActivity" />
+        <activity android:name=".Activities.EditSchemeActivity"></activity>
     </application>
 
 </manifest>

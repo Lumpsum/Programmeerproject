@@ -4,7 +4,7 @@
     android:id="@+id/activity_create_scheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="mprog.nl.programmeerproject.CreateSchemeActivity">
+    tools:context="mprog.nl.programmeerproject.Activities.CreateSchemeActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

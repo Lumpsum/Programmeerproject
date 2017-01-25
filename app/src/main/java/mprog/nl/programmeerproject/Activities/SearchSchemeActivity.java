@@ -1,4 +1,4 @@
-package mprog.nl.programmeerproject;
+package mprog.nl.programmeerproject.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -21,8 +21,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import mprog.nl.programmeerproject.R;
 
 public class SearchSchemeActivity extends AppCompatActivity implements View.OnClickListener {
 

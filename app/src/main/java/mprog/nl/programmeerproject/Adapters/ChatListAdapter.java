@@ -1,4 +1,4 @@
-package mprog.nl.programmeerproject;
+package mprog.nl.programmeerproject.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,19 +7,20 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
+
+import mprog.nl.programmeerproject.Classes.ListItem;
+import mprog.nl.programmeerproject.R;
 
 /**
  * Created by Rick on 1/18/2017.
  */
 
-public class UserRequestAdapter extends ArrayAdapter<UserReqestItem>  {
+public class ChatListAdapter extends ArrayAdapter<ListItem> {
     Context context;
-    ArrayList<UserReqestItem> arrayList;
+    ArrayList<ListItem> arrayList;
 
-    public UserRequestAdapter(Context context, ArrayList<UserReqestItem> arrayList) {
+    public ChatListAdapter(Context context, ArrayList<ListItem> arrayList) {
         super(context, R.layout.list_item, arrayList);
 
         this.context = context;
@@ -30,17 +31,13 @@ public class UserRequestAdapter extends ArrayAdapter<UserReqestItem>  {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View view = inflater.inflate(R.layout.user_request_item, parent, false);
+        View view = inflater.inflate(R.layout.list_item, parent, false);
 
         TextView userName = (TextView) view.findViewById(R.id.userNameText);
         TextView data = (TextView) view.findViewById(R.id.dataText);
-        TextView ageGender = (TextView) view.findViewById(R.id.ageGenderText);
-        TextView description = (TextView) view.findViewById(R.id.descriptionText);
 
         userName.setText(arrayList.get(position).getUserName());
         data.setText(arrayList.get(position).getData());
-        ageGender.setText(arrayList.get(position).getAge() + ", " + arrayList.get(position).getGender());
-        description.setText("Description: " + arrayList.get(position).getDescription());
 
         return view;
     }

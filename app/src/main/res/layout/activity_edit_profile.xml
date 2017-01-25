@@ -4,7 +4,7 @@
     android:id="@+id/activity_edit_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="mprog.nl.programmeerproject.EditProfileActivity">
+    tools:context="mprog.nl.programmeerproject.Activities.EditProfileActivity">
 
     <TextView
         android:id="@+id/editProfFirstText"

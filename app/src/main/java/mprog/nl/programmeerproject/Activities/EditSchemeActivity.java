@@ -1,9 +1,8 @@
-package mprog.nl.programmeerproject;
+package mprog.nl.programmeerproject.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -20,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import static mprog.nl.programmeerproject.R.string.desc;
+import mprog.nl.programmeerproject.R;
 
 public class EditSchemeActivity extends AppCompatActivity implements View.OnClickListener {
 

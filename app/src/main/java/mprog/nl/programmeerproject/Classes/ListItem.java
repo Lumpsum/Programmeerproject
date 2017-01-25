@@ -1,4 +1,4 @@
-package mprog.nl.programmeerproject;
+package mprog.nl.programmeerproject.Classes;
 
 /**
  * Created by Rick on 1/18/2017.

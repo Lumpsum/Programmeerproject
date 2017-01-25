@@ -1,14 +1,8 @@
-package mprog.nl.programmeerproject;
+package mprog.nl.programmeerproject.Activities;
 
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.ActionMode;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -22,15 +16,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.ExecutionException;
+
+import mprog.nl.programmeerproject.R;
 
 public class FindUserActivity extends AppCompatActivity implements View.OnClickListener {
 

@@ -4,7 +4,7 @@
     android:id="@+id/activity_specific_chat"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="mprog.nl.programmeerproject.SpecificChatActivity">
+    tools:context="mprog.nl.programmeerproject.Activities.SpecificChatActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

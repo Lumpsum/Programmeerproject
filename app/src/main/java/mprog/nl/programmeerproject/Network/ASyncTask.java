@@ -1,4 +1,4 @@
-package mprog.nl.programmeerproject;
+package mprog.nl.programmeerproject.Network;
 
 import android.os.AsyncTask;
 

@@ -1,4 +1,4 @@
-package mprog.nl.programmeerproject;
+package mprog.nl.programmeerproject.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +17,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import mprog.nl.programmeerproject.Classes.ChatMessage;
+import mprog.nl.programmeerproject.R;
 
 public class SpecificChatActivity extends AppCompatActivity implements View.OnClickListener {
 

@@ -1,4 +1,4 @@
-package mprog.nl.programmeerproject;
+package mprog.nl.programmeerproject.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +18,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
+import mprog.nl.programmeerproject.Adapters.ChatListAdapter;
+import mprog.nl.programmeerproject.Classes.ListItem;
+import mprog.nl.programmeerproject.R;
 
 public class ChatActvity extends AppCompatActivity implements View.OnClickListener {
 

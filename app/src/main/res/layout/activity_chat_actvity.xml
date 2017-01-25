@@ -4,7 +4,7 @@
     android:id="@+id/activity_chat_actvity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="mprog.nl.programmeerproject.ChatActvity">
+    tools:context="mprog.nl.programmeerproject.Activities.ChatActvity">
 
     <TextView
         android:id="@+id/chatTitleText"
