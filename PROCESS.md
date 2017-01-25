@@ -24,3 +24,7 @@ Probleem gehad met een asynchrone call binnen nog een asynchrone call, uiteindel
 # Dag 6
 
 Werkende realtime app geïmplementeerd tussen twee users. De userIds nog niet geconvert naar de namen die daar bij horen. Verder het profiel aanmaken uitgebreid met leeftijd, geslacht en een beschrijving zodat er een uitgebreider profiel geschetst wordt. Daarnaast geïmplementeerd dat er meer users gevonden worden met de search again knop, door een lijst te creëeren tijdens de eerste search en die lijst af te lopen. Als de lijst leeg is, ga je weer terug naar het zoek scherm. Nog geen restricties gezet op de lengte van de lijst of het aantal users dat na gelopen wordt.
+
+# Dag 7
+
+Geimplementeerd dat over waar een user id staat nu de naam van de user zichtbaar wordt. Hierbij ervoor gekozen om bij de listview een hidden text field mee te geven met daarin het Id zodat deze gepassed worden naar de volgende activiteit en ik dus niet de hele structuur hoef om te gooien. Dit gemaakt met custom list adapters zodat de list item meerdere elementen kan bevatten. Al het hiervoor genoemde ook toegepast op de chat zodat deze duidelijk is en gepersonaliseert voor elke user.
