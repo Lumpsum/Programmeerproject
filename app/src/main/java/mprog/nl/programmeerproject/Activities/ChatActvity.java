@@ -25,6 +25,7 @@ import mprog.nl.programmeerproject.R;
 
 public class ChatActvity extends AppCompatActivity implements View.OnClickListener {
 
+    // Init variables
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     String userId;

@@ -123,12 +123,41 @@
         android:visibility="invisible"
         />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/mainDescText"
+            android:orientation="vertical">
+
     <ListView
         android:id="@+id/mainRequestList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/mainDescText"
+        android:layout_weight="1"
         ></ListView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/mainOwnSchemeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ownSchemes"
+                    />
+
+                <ListView
+                    android:id="@+id/mainOwnSchemeList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/mainOwnSchemeText"
+                    ></ListView>
+
+            </RelativeLayout>
+
+    </LinearLayout>
 
     </RelativeLayout>
 

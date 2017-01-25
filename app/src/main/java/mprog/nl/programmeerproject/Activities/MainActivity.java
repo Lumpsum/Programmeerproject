@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -56,10 +58,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView descText;
 
     ListView userRequestList;
+    ListView schemeList;
 
     ArrayList<UserReqestItem> userRequestArray;
+    ArrayList<String> schemeArray;
 
     UserRequestAdapter userRequestAdapter;
+    ArrayAdapter schemeAdapter;
 
     Map<String, String> userMap;
 
@@ -106,12 +111,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             descText = (TextView)findViewById(R.id.mainDescText);
 
             userRequestList = (ListView)findViewById(R.id.mainRequestList);
+            schemeList = (ListView)findViewById(R.id.mainOwnSchemeList);
 
             userRequestArray = new ArrayList<UserReqestItem>();
+            schemeArray = new ArrayList<String>();
 
             userRequestAdapter = new UserRequestAdapter(MainActivity.this, userRequestArray);
+            schemeAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, schemeArray);
 
             userRequestList.setAdapter(userRequestAdapter);
+            schemeList.setAdapter(schemeAdapter);
 
             userMap = new HashMap<>();
 
@@ -171,9 +180,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 descText.setText(descText.getText().toString() + description);
                                 userMap.put("Description", description);
                                 break;
+                            case "Schemes":
+                                for (DataSnapshot postPostSnapshot : postSnapshot.getChildren()) {
+                                    for (DataSnapshot postPostPostSnapshot : postPostSnapshot.getChildren()) {
+                                        schemeArray.add(postPostSnapshot.getKey() + ": " + postPostPostSnapshot.getKey());
+                                    }
+                                }
                         }
                     }
                     editProfileButton.setVisibility(View.VISIBLE);
+                    schemeAdapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -218,6 +234,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ref.child(newUserId).child("Chats").child(userId).setValue(userId);
                     userRequestArray.remove(position);
                     userRequestAdapter.notifyDataSetChanged();
+                }
+            });
+
+            schemeList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    String listItem = ((TextView)view).getText().toString();
+                    String category = listItem.split(":")[0];
+                    String title = listItem.split(":")[1].trim();
+                    databaseRef.child("Users").child(userId).child("Schemes").child(category).child(title).removeValue();
+                    databaseRef.child("Schemes").child(category).child(title).removeValue();
+                    schemeArray.remove(listItem);
+                    return true;
+                }
+            });
+
+            schemeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String listItem = ((TextView)view).getText().toString();
+                    String category = listItem.split(":")[0];
+                    String title = listItem.split(":")[1].trim();
+                    Intent intent = MainActivity.createNewIntent(MainActivity.this, SpecificSchemeActivity.class);
+                    intent.putExtra("Title", title);
+                    intent.putExtra("Category", category);
+                    startActivity(intent);
                 }
             });
         }

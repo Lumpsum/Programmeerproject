@@ -1,21 +1,27 @@
 package mprog.nl.programmeerproject.Activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import mprog.nl.programmeerproject.R;
 
@@ -53,7 +59,7 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
         firebaseUser = firebaseAuth.getCurrentUser();
         userId = firebaseUser.getUid();
         databaseRef = FirebaseDatabase.getInstance().getReference();
-        ref = databaseRef.child("Users");
+        ref = databaseRef.child("Schemes");
 
         homeButton = (Button)findViewById(R.id.homeButton);
         findButton = (Button)findViewById(R.id.findButton);
@@ -80,21 +86,50 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
         fitnessList.setAdapter(fitnessAdapter);
         runningList.setAdapter(runningAdapter);
 
-        ref.child(userId).child("Schemes").addListenerForSingleValueEvent(new ValueEventListener() {
+        fillListViewBasedOnRating(ref.child("Fitness"), fitnessArray, fitnessAdapter);
+        fillListViewBasedOnRating(ref.child("Running"), runningArray, runningAdapter);
+
+        fitnessList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    for (DataSnapshot postPostSnapshot : postSnapshot.getChildren()) {
-                        if (postSnapshot.getKey().equals("Fitness")) {
-                            fitnessArray.add(postPostSnapshot.getKey());
-                        }
-                        else {
-                            runningArray.add(postPostSnapshot.getKey());
-                        }
-                    }
-                }
-                fitnessAdapter.notifyDataSetChanged();
-                runningAdapter.notifyDataSetChanged();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = MainActivity.createNewIntent(SchemeActivity.this, SpecificSchemeActivity.class);
+                intent.putExtra("Title", ((TextView)view).getText());
+                intent.putExtra("Category", "Fitness");
+                startActivity(intent);
+            }
+        });
+        runningList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = MainActivity.createNewIntent(SchemeActivity.this, SpecificSchemeActivity.class);
+                intent.putExtra("Title", ((TextView)view).getText().toString());
+                intent.putExtra("Category", "Running");
+                startActivity(intent);
+            }
+        });
+    }
+
+    void fillListViewBasedOnRating(DatabaseReference reference, final ArrayList<String> array, ArrayAdapter<String> adapter) {
+        Query queryRef = reference.orderByChild("Rating").limitToLast(5);
+        queryRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                array.add(0, dataSnapshot.getKey());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
@@ -102,6 +137,7 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
 
             }
         });
+        adapter.notifyDataSetChanged();
     }
 
     @Override
