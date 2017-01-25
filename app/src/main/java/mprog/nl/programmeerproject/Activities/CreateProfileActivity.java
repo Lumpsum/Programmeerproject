@@ -25,10 +25,12 @@ import java.util.concurrent.ExecutionException;
 import mprog.nl.programmeerproject.Network.ASyncTask;
 import mprog.nl.programmeerproject.R;
 
+/**
+ * Activity that creates the fields for the profile creation.
+ * Creates the entries for the personal information of the user.
+ */
 public class CreateProfileActivity extends AppCompatActivity {
 
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
     private DatabaseReference databaseRef;
     private String userId;
 
@@ -47,16 +49,26 @@ public class CreateProfileActivity extends AppCompatActivity {
 
     protected Button createProfNextButton;
 
+    private String firstName;
+    private String lastName;
+    private String street;
+    private String num;
+    private String city;
+    private String age;
+    private String location;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_profile);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
+        // Init Firebase variables
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         userId = firebaseUser.getUid();
         databaseRef = FirebaseDatabase.getInstance().getReference();
 
+        // Assign to the xml elements and init the variables
         firstNameEdit = (EditText)findViewById(R.id.createProfFirstEdit);
         lastNameEdit = (EditText)findViewById(R.id.createProfLastEdit);
         streetEdit = (EditText)findViewById(R.id.createProfStreetEdit);
@@ -78,17 +90,19 @@ public class CreateProfileActivity extends AppCompatActivity {
 
         createProfNextButton = (Button)findViewById(R.id.createProfNextButton);
 
+        // Checks whether the fields are filled in, whether the location is
+        // correct and finally creates the database entries.
         createProfNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String firstName = firstNameEdit.getText().toString().trim();
-                String lastName = lastNameEdit.getText().toString().trim();
-                String street = streetEdit.getText().toString().trim();
-                String num = numberEdit.getText().toString().trim();
-                int houseNum = Integer.parseInt(num);
-                String city = cityEdit.getText().toString().trim();
-                String age = ageEdit.getText().toString().trim();
+                firstName = firstNameEdit.getText().toString().trim();
+                lastName = lastNameEdit.getText().toString().trim();
+                street = streetEdit.getText().toString().trim();
+                num = numberEdit.getText().toString().trim();
+                city = cityEdit.getText().toString().trim();
+                age = ageEdit.getText().toString().trim();
 
+                // Checks whether every field is filled in.
                 if (firstName.isEmpty() || lastName.isEmpty() || street.isEmpty() || num.isEmpty() || city.isEmpty() || age.isEmpty()) {
                     MainActivity.createAlert("Please fill in every field", CreateProfileActivity.this);
                 }
@@ -98,21 +112,18 @@ public class CreateProfileActivity extends AppCompatActivity {
                     AsyncTask<String, String, StringBuilder> aSyncTask = new ASyncTask();
                     StringBuilder result;
                     try {
+
+                        //Starts the asynctask with the call to the google api
                         result = aSyncTask.execute(street, num, city).get();
                         JSONObject jsonObject = new JSONObject(result.toString());
                         String status = jsonObject.getString("status");
+
+                        // Checks whether the given adress returns a valid location
                         if (status.equals("OK")) {
                             JSONArray loc = jsonObject.getJSONArray("results");
                             JSONObject loc2 = loc.getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
-                            String location = loc2.getString("lat") + "," + loc2.getString("lng");
-                            ref.child("Location").setValue(location);
-                            ref.child("FirstName").setValue(firstName);
-                            ref.child("LastName").setValue(lastName);
-                            ref.child("Street").setValue(street);
-                            ref.child("Number").setValue(houseNum);
-                            ref.child("City").setValue(city);
-                            ref.child("Gender").setValue(genderSpinner.getSelectedItem().toString());
-                            ref.child("Age").setValue(age);
+                            location = loc2.getString("lat") + "," + loc2.getString("lng");
+                            fillFireBaseWithPersonalInfo(ref);
                             startActivity(MainActivity.createNewIntent(CreateProfileActivity.this, CreateProfileSecondActivity.class));
                         }
                         else {
@@ -128,5 +139,17 @@ public class CreateProfileActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    // Fills the FireBase with the given values.
+    void fillFireBaseWithPersonalInfo(DatabaseReference reference) {
+        reference.child("Location").setValue(location);
+        reference.child("FirstName").setValue(firstName);
+        reference.child("LastName").setValue(lastName);
+        reference.child("Street").setValue(street);
+        reference.child("Number").setValue(num);
+        reference.child("City").setValue(city);
+        reference.child("Gender").setValue(genderSpinner.getSelectedItem().toString());
+        reference.child("Age").setValue(age);
     }
 }

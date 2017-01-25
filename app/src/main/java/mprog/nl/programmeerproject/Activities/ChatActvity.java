@@ -23,6 +23,10 @@ import mprog.nl.programmeerproject.Adapters.ChatListAdapter;
 import mprog.nl.programmeerproject.Classes.ListItem;
 import mprog.nl.programmeerproject.R;
 
+/**
+ * Activity that holds all the chats of the user which are clickable in order for you
+ * to navigate to the specific chat. Only shows the name of the person who you are chattign with.
+ */
 public class ChatActvity extends AppCompatActivity implements View.OnClickListener {
 
     // Init variables
@@ -56,12 +60,15 @@ public class ChatActvity extends AppCompatActivity implements View.OnClickListen
         databaseRef = FirebaseDatabase.getInstance().getReference();
         ref = databaseRef.child("Users");
 
+        // Assign to the xml elements and init the variables
         homeButton = (Button)findViewById(R.id.homeButton);
         findButton = (Button)findViewById(R.id.findButton);
         chatButton = (Button)findViewById(R.id.chatButton);
+        schemeButton = (Button)findViewById(R.id.schemeButton);
         homeButton.setOnClickListener(this);
         findButton.setOnClickListener(this);
         chatButton.setOnClickListener(this);
+        schemeButton.setOnClickListener(this);
 
         chatList = (ListView)findViewById(R.id.chatListView);
 
@@ -72,6 +79,7 @@ public class ChatActvity extends AppCompatActivity implements View.OnClickListen
 
         chatList.setAdapter(chatAdapter);
 
+        // Fill the listview with your chats
         ref.child(userId).child("Chats").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -86,6 +94,7 @@ public class ChatActvity extends AppCompatActivity implements View.OnClickListen
             }
         });
 
+        // Removes the chat from the database
         chatList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -116,6 +125,7 @@ public class ChatActvity extends AppCompatActivity implements View.OnClickListen
                 }
             });
 
+        // Starts a new activity that contains the specific chat with the selected user
         chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -129,6 +139,13 @@ public class ChatActvity extends AppCompatActivity implements View.OnClickListen
         });
     }
 
+    /**
+     * Adds items to the listview that contain the information of the user.
+     * Furtermore makes it so that you have multiple fiels per item in order to easily jump to
+     * new activities.
+     *
+     * @param data The id of the user with whom you have a chat
+     */
     void addListItems(final String data) {
         ref.child(data).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -146,6 +163,7 @@ public class ChatActvity extends AppCompatActivity implements View.OnClickListen
         });
     }
 
+    // Generic button handler that handles the bottom menu and all the other buttons
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -158,6 +176,8 @@ public class ChatActvity extends AppCompatActivity implements View.OnClickListen
             case R.id.chatButton:
                 startActivity(MainActivity.createNewIntent(ChatActvity.this, ChatActvity.class));
                 break;
+            case R.id.schemeButton:
+                startActivity(MainActivity.createNewIntent(ChatActvity.this, SchemeActivity.class));
         }
     }
 }

@@ -18,12 +18,13 @@ import java.util.List;
 
 import mprog.nl.programmeerproject.R;
 
+/**
+ * Activity that handles the second page of the profile creation, containing
+ * information about the sport and an additional optional description.
+ */
 public class CreateProfileSecondActivity extends AppCompatActivity {
 
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
-    private DatabaseReference databaseRef;
-    private String userId;
+    // Init variables
     private DatabaseReference ref;
 
     protected Spinner sportSpinner;
@@ -44,12 +45,14 @@ public class CreateProfileSecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_profile_second);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
-        userId = firebaseUser.getUid();
-        databaseRef = FirebaseDatabase.getInstance().getReference();
+        // Init FireBase variables
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        String userId = firebaseUser.getUid();
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
         ref = databaseRef.child("Users").child(userId);
 
+        // Assign to the xml elements and init the variables
         sportSpinner = (Spinner) findViewById(R.id.createProfSportSpinner);
         levelSpinner = (Spinner)findViewById(R.id.createProfLevelSpinner);
 
@@ -57,9 +60,7 @@ public class CreateProfileSecondActivity extends AppCompatActivity {
 
         createProfButton = (Button)findViewById(R.id.createProfButton);
 
-        sportSpinnerArray = new ArrayList<String>();
-        sportSpinnerArray.add("Fitness");
-        sportSpinnerArray.add("Running");
+        sportSpinnerArray = MainActivity.createSportArray();
         levelSpinnerArray = new ArrayList<String>();
         levelSpinnerArray.add("Beginner");
         levelSpinnerArray.add("Intermediate");
@@ -74,6 +75,7 @@ public class CreateProfileSecondActivity extends AppCompatActivity {
         sportSpinner.setAdapter(sportAdapter);
         levelSpinner.setAdapter(levelAdapter);
 
+        // Creates the entries in the FireBase and start the MainActivity.
         createProfButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

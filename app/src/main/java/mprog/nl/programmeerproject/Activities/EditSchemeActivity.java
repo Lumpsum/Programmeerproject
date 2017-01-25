@@ -21,8 +21,13 @@ import java.util.ArrayList;
 
 import mprog.nl.programmeerproject.R;
 
+/**
+ * Activity that let's the user edit the information of a particular scheme.
+ * The information gets removed and readded completely.
+ */
 public class EditSchemeActivity extends AppCompatActivity implements View.OnClickListener {
 
+    // Init variables
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     String userId;
@@ -64,6 +69,7 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_scheme);
 
+        // Retrieve the scheme information passed by the previous activity.
         Intent intent = getIntent();
         title = intent.getStringExtra("Title");
         category = intent.getStringExtra("Category");
@@ -79,6 +85,7 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
         databaseRef = FirebaseDatabase.getInstance().getReference();
         ref = databaseRef.child("Schemes");
 
+        // Assign to the xml elements and init the variables
         homeButton = (Button)findViewById(R.id.homeButton);
         findButton = (Button)findViewById(R.id.findButton);
         chatButton = (Button)findViewById(R.id.chatButton);
@@ -115,6 +122,7 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
         secondKeySpinner.setSelection(optionalKeyAdapter.getPosition(""));
         thirdKeySpinner.setSelection(optionalKeyAdapter.getPosition(""));
 
+        // Set the selection of the keywords to the previously chosen keywords.
         int i = 0;
         while (i < keywords.size()) {
             switch (i) {
@@ -131,6 +139,7 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
             i++;
         }
 
+        // Thread that removes the scheme from the users entry and readds all the information.
         t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -139,16 +148,20 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
                 String firstKey = firstKeySpinner.getSelectedItem().toString();
                 String secondKey = secondKeySpinner.getSelectedItem().toString();
                 String thirdKey = thirdKeySpinner.getSelectedItem().toString();
+
+                // Readds all the information in the FireBase
                 CreateSchemeActivity.setDescriptionAndKeywords(ref, desc, firstKey, secondKey, thirdKey);
                 CreateSchemeActivity.setUserAndRating(ref, userId, rating, ratingAmount);
                 databaseRef.child("Users").child(userId).child("Schemes")
                         .child(category)
                         .child(newTitle).setValue(newTitle);
+
                 startActivity(MainActivity.createNewIntent(EditSchemeActivity.this, SchemeActivity.class));
             }
         });
     }
 
+    // Generic button handler for the bottom menu and all the other buttons in this activity.
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -164,6 +177,8 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
             case R.id.schemeButton:
                 startActivity(MainActivity.createNewIntent(EditSchemeActivity.this, SchemeActivity.class));
                 break;
+
+            // Checks whther fields are not empty and adds the new information to the database.
             case R.id.editSchemeButton:
                 newTitle = titleEdit.getText().toString();
                 desc = descEdit.getText().toString();
@@ -179,6 +194,11 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
+    /**
+     * Checks whether the title is unique and adds the information to database if so.
+     *
+     * @param ref Reference to the category of the scheme.
+     */
     void checkTitleCreateEdit(DatabaseReference ref) {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -191,6 +211,7 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
                     }
                 }
 
+                // Checks the title and gives an error if already used.
                 if (validTitle) {
                     t.run();
                 } else {
