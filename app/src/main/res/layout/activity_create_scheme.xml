@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_create_scheme"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="mprog.nl.programmeerproject.CreateSchemeActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/menuLinearLayout"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        >
+
+        <TextView
+            android:id="@+id/createSchemeTitleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title"
+            />
+
+        <EditText
+            android:id="@+id/createSchemeTitleEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/createSchemeTitleText"
+            android:maxLines="1"
+            />
+
+        <TextView
+            android:id="@+id/createSchemeCatText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/category"
+            android:layout_below="@+id/createSchemeTitleEdit"
+            />
+
+        <Spinner
+            android:id="@+id/createSchemeCatSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/createSchemeCatText"
+            ></Spinner>
+
+        <TextView
+            android:id="@+id/createSchemeKeyText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/key"
+            android:layout_below="@+id/createSchemeCatSpinner"
+            />
+
+        <LinearLayout
+            android:id="@+id/spinnerLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/createSchemeKeyText"
+            >
+
+            <Spinner
+                android:id="@+id/createSchemeFirstSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                ></Spinner>
+
+            <Spinner
+                android:id="@+id/createSchemeSecondSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                ></Spinner>
+
+            <Spinner
+                android:id="@+id/createSchemeThirdSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                ></Spinner>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/createSchemeDescText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/desc"
+            android:layout_below="@+id/spinnerLinearLayout"
+            />
+
+        <EditText
+            android:id="@+id/createSchemeDescEdit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/createSchemeDescText"
+            android:layout_above="@+id/createSchemeCreateButton"
+            />
+
+        <Button
+            android:id="@+id/createSchemeCreateButton"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/createScheme"
+            />
+
+    </RelativeLayout>
+
+    <include layout="@layout/bottom_buttons"></include>
+
+</RelativeLayout>

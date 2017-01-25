@@ -23,7 +23,12 @@
         <activity android:name=".ChatActvity" />
         <activity android:name=".SpecificChatActivity" />
         <activity android:name=".CreateProfileSecondActivity" />
-        <activity android:name=".EditProfileActivity"></activity>
+        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".SchemeActivity" />
+        <activity android:name=".CreateSchemeActivity" />
+        <activity android:name=".SearchSchemeActivity" />
+        <activity android:name=".SpecificSchemeActivity" />
+        <activity android:name=".EditSchemeActivity"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_search_scheme"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="mprog.nl.programmeerproject.SearchSchemeActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/menuLinearLayout"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        >
+
+        <TextView
+            android:id="@+id/searchSchemeCatText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/category"
+            />
+
+        <Spinner
+            android:id="@+id/searchSchemeCatSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/searchSchemeCatText"
+            ></Spinner>
+
+        <TextView
+            android:id="@+id/searchSchemeKeyText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/key"
+            android:layout_below="@+id/searchSchemeCatSpinner"
+            />
+
+        <LinearLayout
+            android:id="@+id/spinnerLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/searchSchemeKeyText"
+            >
+
+            <Spinner
+                android:id="@+id/searchSchemeFirstSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                ></Spinner>
+
+            <Spinner
+                android:id="@+id/searchSchemeSecondSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                ></Spinner>
+
+            <Spinner
+                android:id="@+id/searchSchemeThirdSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                ></Spinner>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/searchSchemeSearchButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/search"
+            android:layout_below="@+id/spinnerLinearLayout"
+            />
+
+        <ListView
+            android:id="@+id/searchSchemeList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/searchSchemeSearchButton"
+            >
+
+        </ListView>
+
+    </RelativeLayout>
+
+    <include layout="@layout/bottom_buttons"></include>
+
+</RelativeLayout>

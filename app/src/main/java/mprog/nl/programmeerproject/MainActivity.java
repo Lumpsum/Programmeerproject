@@ -88,11 +88,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             homeButton = (Button)findViewById(R.id.homeButton);
             findButton = (Button)findViewById(R.id.findButton);
             chatButton = (Button)findViewById(R.id.chatButton);
+            schemeButton = (Button)findViewById(R.id.schemeButton);
             editProfileButton = (Button)findViewById(R.id.mainEditProfButton);
             logOutButton.setOnClickListener(this);
             homeButton.setOnClickListener(this);
             findButton.setOnClickListener(this);
             chatButton.setOnClickListener(this);
+            schemeButton.setOnClickListener(this);
             editProfileButton.setOnClickListener(this);
 
             welcomeText = (TextView)findViewById(R.id.mainWelcomeText);
@@ -267,6 +269,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return (createNewIntent(context, LogInActivity.class));
     }
 
+    static ArrayList<String> createSportArray() {
+        ArrayList<String> array = new ArrayList<>();
+        array.add("Fitness");
+        array.add("Running");
+        return array;
+    }
+
+    static ArrayList<String> createKeyArray() {
+        ArrayList<String> array = new ArrayList<>();
+        array.add("Strength");
+        array.add("Endurance");
+        array.add("Cardio");
+        array.add("Marathon");
+        array.add("Weightloss");
+        array.add("Sprint");
+        array.add("High Intensity");
+        array.add("High Volume");
+        array.add("Strict");
+        array.add("Beginner");
+        array.add("Intermediate");
+        array.add("Expert");
+        array.add("Explosive");
+        return array;
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -279,6 +306,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.chatButton:
                 startActivity(MainActivity.createNewIntent(MainActivity.this, ChatActvity.class));
                 break;
+            case R.id.schemeButton:
+                startActivity(MainActivity.createNewIntent(MainActivity.this, SchemeActivity.class));
+                break;
             case R.id.mainLogOutButton:
                 startActivity(signOut(MainActivity.this, firebaseAuth));
                 break;
@@ -286,6 +316,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = createNewIntent(MainActivity.this, EditProfileActivity.class);
                 intent.putExtra("userMap", (Serializable) userMap);
                 startActivity(intent);
+                break;
         }
     }
 }
