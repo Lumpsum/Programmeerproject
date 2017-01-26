@@ -214,7 +214,7 @@ public class CreateSchemeActivity extends AppCompatActivity implements View.OnCl
 
     // Fills the FireBase with the given user information.
     static void setUserAndRating(DatabaseReference ref, String userId, float rating, int rateAmount) {
-        ref.child("User").setValue(userId);
+        ref.child("Author").setValue(userId);
         ref.child("Rating").setValue(rating);
         ref.child("RateAmount").setValue(rateAmount);
     }

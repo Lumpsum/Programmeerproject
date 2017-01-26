@@ -1,7 +1,8 @@
 package mprog.nl.programmeerproject.Classes;
 
 /**
- * Created by Rick on 1/18/2017.
+ * Basic ListItem class that holds the username and his id in order for the flow of
+ * the activity to keep functioning.
  */
 
 public class ListItem {

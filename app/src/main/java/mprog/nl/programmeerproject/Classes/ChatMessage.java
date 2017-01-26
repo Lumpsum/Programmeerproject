@@ -1,7 +1,7 @@
 package mprog.nl.programmeerproject.Classes;
 
 /**
- * Created by Rick on 17-1-2017.
+ * Basic chat message class that contains the message and the user who send the message.
  */
 public class ChatMessage {
 

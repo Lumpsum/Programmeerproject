@@ -15,8 +15,12 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import mprog.nl.programmeerproject.R;
 
+/**
+ * Activity that handles the first part of the sign up process, with email and password.
+ */
 public class SignUpActivity extends AppCompatActivity {
 
+    // Init variables
     private FirebaseAuth firebaseAuth;
 
     protected TextView logInText;
@@ -34,6 +38,7 @@ public class SignUpActivity extends AppCompatActivity {
         // Firebase variables
         firebaseAuth = FirebaseAuth.getInstance();
 
+        // Assign to the xml elements and init the variables
         signUpButton = (Button)findViewById(R.id.signUpNextButton);
 
         emailEdit = (EditText)findViewById(R.id.signUpEmailEdit);
@@ -48,6 +53,8 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        // Checks whether every field is filled in and create the user in the firebase.
+        // Also starts the next activity of the sign up process.
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,6 +68,8 @@ public class SignUpActivity extends AppCompatActivity {
                     MainActivity.createAlert("Please enter both an email and password", SignUpActivity.this).show();
                 }
                 else {
+
+                    // Creation of the user in the firebase.
                     firebaseAuth.createUserWithEmailAndPassword(email, pass)
                             .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override

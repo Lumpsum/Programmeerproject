@@ -30,8 +30,14 @@ import mprog.nl.programmeerproject.R;
 import mprog.nl.programmeerproject.Classes.UserReqestItem;
 import mprog.nl.programmeerproject.Adapters.UserRequestAdapter;
 
+/**
+ * Main Activity that acts as the main hub of the app.
+ * Makes the user able to log out, edit his profile, accept and
+ * refuse other user request and see your own schemes.
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    // Init variables
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     String userId;
@@ -79,12 +85,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         databaseRef = FirebaseDatabase.getInstance().getReference();
         ref = databaseRef.child("Users");
 
+        // Check whether the user is logged in, if not start log in activity.
         if (firebaseUser == null) {
             startActivity(createNewIntent(this, LogInActivity.class));
         }
         else {
             userId = firebaseUser.getUid();
 
+            // Assign to the xml elements and init the variables
             logOutButton = (Button)findViewById(R.id.mainLogOutButton);
             homeButton = (Button)findViewById(R.id.homeButton);
             findButton = (Button)findViewById(R.id.findButton);
@@ -124,6 +132,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             userMap = new HashMap<>();
 
+            // Retrieve the user values and set the text accordingly.
+            // Furthermore puts that information inside a hashmap to use for the edit profile
+            // and reduce the loading of the whole app.
             ref.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -188,6 +199,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 }
                         }
                     }
+
+                    // Makes the edit profile button only visible if the information is loaded
+                    // in order to prevent desyncs.
                     editProfileButton.setVisibility(View.VISIBLE);
                     schemeAdapter.notifyDataSetChanged();
                 }
@@ -198,6 +212,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
 
+            // Adds the user requests to the list view.
             ref.child(userId).child("UserRequests").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -212,6 +227,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
 
+            // Refuses a user request on long click and removes the entry of from the firebase.
             userRequestList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -224,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
 
+            // Accepts the user request on single click and adds a chat.
             userRequestList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -237,6 +254,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
 
+            // Removes a scheme of your own from the firebase.
             schemeList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -250,6 +268,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
 
+            // Starts a new activity of the scheme you selected.
             schemeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -265,6 +284,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * Fills the user request listview with the information of the user that wants to chat.
+     *
+     * @param data the id of the user that wants to match.
+     */
     void addUserRequestItems(final String data) {
         ref.child(data).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -286,6 +310,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    /**
+     * Basic method that create a alert dialog with the given information.
+     *
+     * @param error The caused error text.
+     * @param context The context of the activity that calls this method.
+     * @return Returns a alert dialog, which can be shown.
+     */
     public static AlertDialog createAlert(String error, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(error)
@@ -295,6 +326,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return dialog;
     }
 
+    /**
+     * Creates a new intent based on the parameters.
+     * Also clears the activity task completely.
+     *
+     * @param context Context of the activity that calls the method.
+     * @param newClass The new activity that should be called.
+     * @return Returns the created intent.
+     */
     public static Intent createNewIntent(Context context, Class newClass) {
         Intent intent = new Intent(context, newClass);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -302,11 +341,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return intent;
     }
 
+    /**
+     * Signs out the current user.
+     *
+     * @param context Context of the activity that calls the function
+     * @param firebaseAuth Variables that contains the information of the current user.
+     * @return Returns an intent that signs out the user.
+     */
     public static Intent signOut(Context context, FirebaseAuth firebaseAuth) {
         firebaseAuth.signOut();
         return (createNewIntent(context, LogInActivity.class));
     }
 
+    /**
+     * Fills an array with basic sports.
+     *
+     * @return Returns an array containing the sport options.
+     */
     static ArrayList<String> createSportArray() {
         ArrayList<String> array = new ArrayList<>();
         array.add("Fitness");
@@ -314,6 +365,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return array;
     }
 
+    /**
+     * Method that contains all the possible keywords and fills an array with them.
+     *
+     * @return Returns an array with all the possible keywords.
+     */
     static ArrayList<String> createKeyArray() {
         ArrayList<String> array = new ArrayList<>();
         array.add("Strength");
@@ -332,6 +388,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return array;
     }
 
+    // Basic button handler for the bottom menu and the other buttons.
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

@@ -1,7 +1,7 @@
 package mprog.nl.programmeerproject.Classes;
 
 /**
- * Created by Rick on 1/18/2017.
+ * UserRequestItem class that gives the data of the specific user that wants to chat with you.
  */
 public class UserReqestItem {
 

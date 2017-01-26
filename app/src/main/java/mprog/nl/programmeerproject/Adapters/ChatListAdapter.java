@@ -13,9 +13,8 @@ import mprog.nl.programmeerproject.Classes.ListItem;
 import mprog.nl.programmeerproject.R;
 
 /**
- * Created by Rick on 1/18/2017.
+ * Adapter class that handles the chat messages send by users.
  */
-
 public class ChatListAdapter extends ArrayAdapter<ListItem> {
     Context context;
     ArrayList<ListItem> arrayList;
@@ -27,12 +26,14 @@ public class ChatListAdapter extends ArrayAdapter<ListItem> {
         this.arrayList = arrayList;
     }
 
+    // Overrides the getView method in order for the listview to allow for more than one item.
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View view = inflater.inflate(R.layout.list_item, parent, false);
 
+        // Assign to the xml elements and init the variables
         TextView userName = (TextView) view.findViewById(R.id.userNameText);
         TextView data = (TextView) view.findViewById(R.id.dataText);
 

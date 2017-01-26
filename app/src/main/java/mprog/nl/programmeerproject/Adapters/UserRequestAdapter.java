@@ -13,9 +13,8 @@ import mprog.nl.programmeerproject.R;
 import mprog.nl.programmeerproject.Classes.UserReqestItem;
 
 /**
- * Created by Rick on 1/18/2017.
+ * Adapter class that handles the user request list items.
  */
-
 public class UserRequestAdapter extends ArrayAdapter<UserReqestItem>  {
     Context context;
     ArrayList<UserReqestItem> arrayList;
@@ -27,12 +26,14 @@ public class UserRequestAdapter extends ArrayAdapter<UserReqestItem>  {
         this.arrayList = arrayList;
     }
 
+    // Overrides the getView method and allows for more textviews per listitem
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View view = inflater.inflate(R.layout.user_request_item, parent, false);
 
+        // Assign to the xml elements and init the variables
         TextView userName = (TextView) view.findViewById(R.id.userNameText);
         TextView data = (TextView) view.findViewById(R.id.dataText);
         TextView ageGender = (TextView) view.findViewById(R.id.ageGenderText);

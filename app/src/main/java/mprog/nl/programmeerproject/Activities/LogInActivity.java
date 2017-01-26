@@ -15,8 +15,12 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import mprog.nl.programmeerproject.R;
 
+/**
+ * Activity to log in and go to the sign up process if needed.
+ */
 public class LogInActivity extends AppCompatActivity {
 
+    // Init variables
     private FirebaseAuth firebaseAuth;
 
     protected EditText emailEdit;
@@ -74,6 +78,7 @@ public class LogInActivity extends AppCompatActivity {
             }
         });
 
+        // Start the sign up activity
         signUpText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

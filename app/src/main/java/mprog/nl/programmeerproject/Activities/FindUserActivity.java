@@ -22,8 +22,13 @@ import java.util.Map;
 
 import mprog.nl.programmeerproject.R;
 
+/**
+ * Activity that takes the user given parameters and matches with users within those parameters.
+ * The parameters as of yet are age, gender and the range around your adress.
+ */
 public class FindUserActivity extends AppCompatActivity implements View.OnClickListener {
 
+    // Init variables
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     String userId;
@@ -71,6 +76,7 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
         databaseRef = FirebaseDatabase.getInstance().getReference();
         ref = databaseRef.child("Users");
 
+        // Assign to the xml elements and init the variables
         radiusEdit = (EditText) findViewById(R.id.findUserRadiusEdit);
         ageEdit = (EditText) findViewById(R.id.findUserAgeEdit);
 
@@ -88,21 +94,8 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
 
         foundUserIds = new ArrayList<>();
 
-        findUserButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                radius = radiusEdit.getText().toString().trim();
-                age = ageEdit.getText().toString().trim();
-                if (radius.isEmpty()) {
-                    MainActivity.createAlert("Please fill in a radius", FindUserActivity.this).show();
-                } else if (ageCheck.isChecked() && age.isEmpty()) {
-                    MainActivity.createAlert("Please fill in an age radius", FindUserActivity.this).show();
-                } else {
-                    findUser();
-                }
-            }
-        });
-
+        // Thread that starts after the search is completed, which starts a new activity and passes
+        // all the ids of the found users.
         t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -115,6 +108,7 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
+        // Retrieves the values of the current user to use in the parameter checks.
         ref.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -146,6 +140,7 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
+    // Checks whether a user is a match and adds them to the array of found users.
     void findUser() {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -159,6 +154,7 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
                         }
                     }
                 }
+                // If no users are found, gives an error, else starts the thread.
                 if (foundUserIds.isEmpty()) {
                     MainActivity.createAlert("No users found, please adjust the radius", FindUserActivity.this).show();
                 }
@@ -174,9 +170,17 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
+    /**
+     * Method that checks all the parameters given by the user
+     *
+     * @param map Map which contains the user values
+     * @return Returns a boolean with determines whether the user is a match or not.
+     */
     boolean checkConditions(Map<String, Object> map) {
         validUser = true;
         Map<String, Object> newMap = new HashMap<String, Object>();
+
+        // All the refused users so that you don't match with the same person over and over again.
         if (map.containsKey("RefusedUsers")) {
             newMap = (HashMap<String, Object>) map.get("RefusedUsers");
         }
@@ -190,8 +194,12 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
         foundUserLat = map.get("Location").toString().split(",")[0].trim();
         foundUserLong = map.get("Location").toString().split(",")[1].trim();
         if (validUser) {
+
+            // Check the distance
             validUser = checkParameters(map);
             }
+
+            // Check the optional parameters
             if (validUser) {
                 validUser = checkAdditionalParameters(map);
             }
@@ -199,7 +207,12 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
         return validUser;
         }
 
-
+    /**
+     * Checks the basic parameters of the user and the found users.
+     *
+     * @param map Map which conains the user values
+     * @return Returns a boolean which determines whether the found users matches the parameters
+     */
     Boolean checkParameters(Map<String, Object> map) {
         double foundDistance = distance(Double.parseDouble(userLat), Double.parseDouble(foundUserLat),
                 Double.parseDouble(userLong), Double.parseDouble(foundUserLong),
@@ -210,6 +223,13 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
         return true;
     }
 
+    /**
+     * Checks whether optional parameters should be checked and checks them if so.
+     *
+     * @param map Map which contains the user values.
+     * @return Returns a boolean which determines whether the found user matches the given
+     * parameters.
+     */
     Boolean checkAdditionalParameters(Map<String, Object> map) {
         if (genderCheck.isChecked()) {
             if (!map.get("Gender").equals(userGender)) {
@@ -226,6 +246,18 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
         return true;
     }
 
+    /**
+     * Function that calculates the distances between two long, lat points.
+     * Taken from: Taken from: http://stackoverflow.com/questions/3694380/calculating-distance-between-two-points-using-latitude-longitude-what-am-i-doi
+     *
+     * @param lat1 Latitude of the first point.
+     * @param lat2 Latitude of the second point.
+     * @param lon1 Longitude of the first point.
+     * @param lon2 Longitude of the second point.
+     * @param el1 Optional parameter that takes height difference into account.
+     * @param el2 Optional parameter that takes height difference into account.
+     * @return Returns a float which is the distance between the points.
+     */
     public static double distance(double lat1, double lat2, double lon1,
                                   double lon2, double el1, double el2) {
 
@@ -246,6 +278,7 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
         return Math.sqrt(distance);
     }
 
+    // Standard button handler for the bottom menu buttons and other buttons
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -258,6 +291,18 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
             case R.id.chatButton:
                 startActivity(MainActivity.createNewIntent(FindUserActivity.this, ChatActvity.class));
                 break;
+
+            // Button that starts the flow of finding users and checking parameters.
+            case R.id.findUserSearchButton:
+                radius = radiusEdit.getText().toString().trim();
+                age = ageEdit.getText().toString().trim();
+                if (radius.isEmpty()) {
+                    MainActivity.createAlert("Please fill in a radius", FindUserActivity.this).show();
+                } else if (ageCheck.isChecked() && age.isEmpty()) {
+                    MainActivity.createAlert("Please fill in an age radius", FindUserActivity.this).show();
+                } else {
+                    findUser();
+                }
         }
     }
 

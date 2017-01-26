@@ -25,8 +25,12 @@ import java.util.Map;
 
 import mprog.nl.programmeerproject.R;
 
+/**
+ * Acitivty that allows the user to find schemes based on chosen set parameters.
+ */
 public class SearchSchemeActivity extends AppCompatActivity implements View.OnClickListener {
 
+    // Init variables
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     String userId;
@@ -70,6 +74,7 @@ public class SearchSchemeActivity extends AppCompatActivity implements View.OnCl
         databaseRef = FirebaseDatabase.getInstance().getReference();
         ref = databaseRef.child("Schemes");
 
+        // Assign to the xml elements and init the variables
         homeButton = (Button)findViewById(R.id.homeButton);
         findButton = (Button)findViewById(R.id.findButton);
         chatButton = (Button)findViewById(R.id.chatButton);
@@ -107,11 +112,13 @@ public class SearchSchemeActivity extends AppCompatActivity implements View.OnCl
         thirdKeySpinner.setAdapter(keyAdapter);
         searchResultsList.setAdapter(searchResultsAdapter);
 
+        // Sets the spinners to nothing to indicate optional.
         secondKeySpinner.setSelection(optionalKeyAdapter.getPosition(""));
         thirdKeySpinner.setSelection(optionalKeyAdapter.getPosition(""));
 
         category = categorySpinner.getSelectedItem().toString();
 
+        // Starts a new activity with the found and clicked on result.
         searchResultsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -123,6 +130,12 @@ public class SearchSchemeActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
+    /**
+     * Checks whether the keywords match, if so returns true
+     *
+     * @param map Map with the given keywords to check with.
+     * @return Returns a boolean whether the scheme's keywords correspond with the chosen keywords.
+     */
     Boolean checkKey(Map<String, Object> map) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             if (userInputArray.contains(entry.getKey())) {
@@ -132,6 +145,11 @@ public class SearchSchemeActivity extends AppCompatActivity implements View.OnCl
         return false;
     }
 
+    /**
+     * Fills an array with the chosen keywords.
+     *
+     * @return Returns an array with the keywords.
+     */
     ArrayList<String> fillArrayUserInput() {
         ArrayList<String> array = new ArrayList<String>();
         array.add(firstKeySpinner.getSelectedItem().toString());
@@ -140,6 +158,7 @@ public class SearchSchemeActivity extends AppCompatActivity implements View.OnCl
         return array;
     }
 
+    // Generic button handler for the bottom menu and all the other buttons.
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -155,10 +174,14 @@ public class SearchSchemeActivity extends AppCompatActivity implements View.OnCl
             case R.id.schemeButton:
                 startActivity(MainActivity.createNewIntent(SearchSchemeActivity.this, SchemeActivity.class));
                 break;
+
+            // Button to start searching for other schemes that mathc the given parameters.
             case R.id.searchSchemeSearchButton:
                 category = categorySpinner.getSelectedItem().toString();
                 searchResults.clear();
                 userInputArray = fillArrayUserInput();
+
+                // Loop through the chosen category.
                 ref.child(categorySpinner.getSelectedItem().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -166,6 +189,8 @@ public class SearchSchemeActivity extends AppCompatActivity implements View.OnCl
                             Map<String, Object> map = new HashMap<String, Object>();
                             map = (HashMap<String, Object>) postSnapshot.getValue();
                             map = (HashMap<String, Object>) map.get("Keywords");
+
+                            // Check the keywords
                             if (checkKey(map)) {
                                 searchResults.add(postSnapshot.getKey());
                             }

@@ -18,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import mprog.nl.programmeerproject.R;
 
@@ -61,6 +63,7 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
     int ratingAmount;
 
     ArrayList<String> keywords;
+    HashMap<String, String> users;
 
     Thread t;
 
@@ -77,6 +80,7 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
         rating = intent.getFloatExtra("Rating", 0);
         ratingAmount = intent.getIntExtra("RatingAmount", 0);
         keywords = intent.getStringArrayListExtra("Keywords");
+        users = (HashMap<String, String>) intent.getSerializableExtra("Users");
 
         // Assign firebase variables
         firebaseAuth = FirebaseAuth.getInstance();
@@ -152,6 +156,9 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
                 // Readds all the information in the FireBase
                 CreateSchemeActivity.setDescriptionAndKeywords(ref, desc, firstKey, secondKey, thirdKey);
                 CreateSchemeActivity.setUserAndRating(ref, userId, rating, ratingAmount);
+                for (Map.Entry<String, String> entry : users.entrySet()) {
+                    ref.child("Users").child(entry.getKey()).setValue(entry.getValue());
+                }
                 databaseRef.child("Users").child(userId).child("Schemes")
                         .child(category)
                         .child(newTitle).setValue(newTitle);

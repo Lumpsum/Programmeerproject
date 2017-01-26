@@ -25,8 +25,14 @@ import java.util.Collections;
 
 import mprog.nl.programmeerproject.R;
 
+/**
+ * Main scheme activity that shows the top schemes of running and fitness.
+ * Furthermore allows you to go to the creation of your own scheme and the searching
+ * of other schemes in the database.
+ */
 public class SchemeActivity extends AppCompatActivity implements View.OnClickListener {
 
+    // Init variables
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     String userId;
@@ -61,6 +67,7 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
         databaseRef = FirebaseDatabase.getInstance().getReference();
         ref = databaseRef.child("Schemes");
 
+        // Check whether the user is logged in, if not start log in activity.
         homeButton = (Button)findViewById(R.id.homeButton);
         findButton = (Button)findViewById(R.id.findButton);
         chatButton = (Button)findViewById(R.id.chatButton);
@@ -86,9 +93,11 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
         fitnessList.setAdapter(fitnessAdapter);
         runningList.setAdapter(runningAdapter);
 
+        // Fills the listviews with the top 5 schmes based on rating.
         fillListViewBasedOnRating(ref.child("Fitness"), fitnessArray, fitnessAdapter);
         fillListViewBasedOnRating(ref.child("Running"), runningArray, runningAdapter);
 
+        // Starts a new activity with the chosen fitness scheme.
         fitnessList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -98,6 +107,8 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
                 startActivity(intent);
             }
         });
+
+        // Starts a new activity with the chosen running scheme.
         runningList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -109,6 +120,14 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
+    /**
+     * Retrieves the schemes per given category and orders them descending by order.
+     * Finds the top 5 of those schemes.
+     *
+     * @param reference Reference to the category that should be searched.
+     * @param array Array that should be filled with the found schemes.
+     * @param adapter Adapter that contains the array and should be updated.
+     */
     void fillListViewBasedOnRating(DatabaseReference reference, final ArrayList<String> array, ArrayAdapter<String> adapter) {
         Query queryRef = reference.orderByChild("Rating").limitToLast(5);
         queryRef.addChildEventListener(new ChildEventListener() {
@@ -140,6 +159,7 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
         adapter.notifyDataSetChanged();
     }
 
+    // Assign to the xml elements and init the variables
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

@@ -10,10 +10,12 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 /**
- * Created by Rick on 1/11/2017.
+ * Asynctask class that retrieves a location from the Google Geocode API based on
+ * the adress that the user gave.
  */
-
 public class ASyncTask extends AsyncTask<String, String, StringBuilder> {
+
+    // Basic values to make API calls.
     String geocodeReq = "https://maps.googleapis.com/maps/api/geocode/json?address=";
     String keyAPI = "AIzaSyCi9Oz8sVrpql3UA6N6xjjk-71YnxQbAtw";
 
@@ -21,6 +23,8 @@ public class ASyncTask extends AsyncTask<String, String, StringBuilder> {
     protected StringBuilder doInBackground(String... params) {
         InputStream input;
         try {
+
+            // Creates the url to call the API and formats it accordingly.
             input = new URL(geocodeReq +
                     URLEncoder.encode(params[0], "UTF-8") + "+" +
                     URLEncoder.encode(params[1], "UTF-8") + "," +
@@ -35,6 +39,7 @@ public class ASyncTask extends AsyncTask<String, String, StringBuilder> {
                 result.append(line);
             }
 
+            // Returns the found results in a StringBuilder.
             return result;
         } catch (IOException e) {
             e.printStackTrace();
