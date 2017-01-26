@@ -65,17 +65,17 @@ public class SpecificSchemeActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_scheme);
 
+        // Assign firebase variables
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        databaseRef = FirebaseDatabase.getInstance().getReference();
+        ref = databaseRef.child("Schemes");
+        userId = firebaseUser.getUid();
+
         // Retrieve information from the previous activity
         Intent intent = getIntent();
         title = intent.getStringExtra("Title");
         category = intent.getStringExtra("Category");
-
-        // Assign firebase variables
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
-        userId = firebaseUser.getUid();
-        databaseRef = FirebaseDatabase.getInstance().getReference();
-        ref = databaseRef.child("Schemes");
 
         // Assign to the xml elements and init the variables
         homeButton = (Button)findViewById(R.id.homeButton);
@@ -160,6 +160,27 @@ public class SpecificSchemeActivity extends AppCompatActivity implements View.On
         });
     }
 
+    /**
+     * Calculates the rating if it's the first time, so adds to the rateAmount.
+     *
+     * @return Returns new rating of the scheme.
+     */
+    float calcNewRating() {
+        float newRating = (((rating * ratingAmount) + rateBar.getRating()) / (ratingAmount + 1));
+        return newRating;
+    }
+
+    /**
+     * Calculates the rating if the user already rated the scheme, so without adding to the rateAmount
+     * and taking into account the previous given rating for the calculation.
+     *
+     * @return Returns the new rating for the scheme.
+     */
+    float calcRatingAgain() {
+        float newRating = ((((rating * ratingAmount) - currentRating) + rateBar.getRating()) / (ratingAmount));
+        return newRating;
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -218,26 +239,5 @@ public class SpecificSchemeActivity extends AppCompatActivity implements View.On
                 }
                 break;
         }
-    }
-
-    /**
-     * Calculates the rating if it's the first time, so adds to the rateAmount.
-     *
-     * @return Returns new rating of the scheme.
-     */
-    float calcNewRating() {
-        float newRating = (((rating * ratingAmount) + rateBar.getRating()) / (ratingAmount + 1));
-        return newRating;
-    }
-
-    /**
-     * Calculates the rating if the user already rated the scheme, so without adding to the rateAmount
-     * and taking into account the previous given rating for the calculation.
-     *
-     * @return Returns the new rating for the scheme.
-     */
-    float calcRatingAgain() {
-        float newRating = ((((rating * ratingAmount) - currentRating) + rateBar.getRating()) / (ratingAmount));
-        return newRating;
     }
 }

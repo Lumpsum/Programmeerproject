@@ -71,8 +71,8 @@ public class CreateSchemeActivity extends AppCompatActivity implements View.OnCl
         ref = databaseRef.child("Schemes");
 
         // Assign to the xml elements and init the variables
-        homeButton = (Button)findViewById(R.id.homeButton);
         findButton = (Button)findViewById(R.id.findButton);
+        homeButton = (Button)findViewById(R.id.homeButton);
         chatButton = (Button)findViewById(R.id.chatButton);
         schemeButton = (Button)findViewById(R.id.schemeButton);
         createButton = (Button)findViewById(R.id.createSchemeCreateButton);

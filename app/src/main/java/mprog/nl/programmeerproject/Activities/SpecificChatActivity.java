@@ -21,8 +21,13 @@ import com.google.firebase.database.ValueEventListener;
 import mprog.nl.programmeerproject.Classes.ChatMessage;
 import mprog.nl.programmeerproject.R;
 
+/**
+ * Activity that holds a chat between two users, which allows for sending and receiving
+ * messages real time.
+ */
 public class SpecificChatActivity extends AppCompatActivity implements View.OnClickListener {
 
+    // Init variables
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     String userId;
@@ -57,16 +62,20 @@ public class SpecificChatActivity extends AppCompatActivity implements View.OnCl
         databaseRef = FirebaseDatabase.getInstance().getReference();
         ref = databaseRef.child("Chats");
 
+        // Retrieve information from the previous activity.
         Intent intent = getIntent();
         final String otherUserId = intent.getStringExtra("otherUserData");
 
+        // Assign to the xml elements and init the variables
         sendMessageButton = (Button)findViewById(R.id.specChatMesButton);
         homeButton = (Button)findViewById(R.id.homeButton);
         findButton = (Button)findViewById(R.id.findButton);
+        schemeButton = (Button)findViewById(R.id.schemeButton);
         chatButton = (Button)findViewById(R.id.chatButton);
         sendMessageButton.setOnClickListener(this);
         homeButton.setOnClickListener(this);
         findButton.setOnClickListener(this);
+        schemeButton.setOnClickListener(this);
         chatButton.setOnClickListener(this);
 
         titleText = (TextView)findViewById(R.id.specChatTitleText);
@@ -76,15 +85,19 @@ public class SpecificChatActivity extends AppCompatActivity implements View.OnCl
 
         chatList = (ListView)findViewById(R.id.specChatMesList);
 
+        // Retrieves the chat messages from the specific that and fills the adapter.
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                // Find the chat instance in the firebase.
                 if (dataSnapshot.hasChild(userId + "," + otherUserId)) {
                     ref = ref.child(userId + "," + otherUserId);
-                }
-                else {
+                } else {
                     ref = ref.child(otherUserId + "," + userId);
                 }
+
+                // Fill the adapters with the messages.
                 adapter = new FirebaseListAdapter<ChatMessage>(SpecificChatActivity.this, ChatMessage.class, R.layout.chat_message, ref) {
                     @Override
                     protected void populateView(View v, ChatMessage model, int position) {
@@ -106,23 +119,27 @@ public class SpecificChatActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
+        // Retrieve the username of the user that you chat with.
         databaseRef.child("Users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 userName = dataSnapshot.child("FirstName").getValue().toString() +
                         " " + dataSnapshot.child("LastName").getValue().toString();
             }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
         });
     }
 
+    // Generic button handler for the bottom menu.
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
+            // Adds a message to the firebase which gets updated in real time.
             case R.id.specChatMesButton:
                 String message = sendMessageEdit.getText().toString();
 
@@ -137,6 +154,9 @@ public class SpecificChatActivity extends AppCompatActivity implements View.OnCl
                 startActivity(MainActivity.createNewIntent(SpecificChatActivity.this, FindUserActivity.class));
                 break;
             case R.id.chatButton:
+                startActivity(MainActivity.createNewIntent(SpecificChatActivity.this, ChatActvity.class));
+                break;
+            case R.id.schemeButton:
                 startActivity(MainActivity.createNewIntent(SpecificChatActivity.this, ChatActvity.class));
                 break;
         }

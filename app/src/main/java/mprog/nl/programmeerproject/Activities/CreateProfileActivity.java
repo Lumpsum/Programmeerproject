@@ -96,8 +96,8 @@ public class CreateProfileActivity extends AppCompatActivity {
                 firstName = firstNameEdit.getText().toString().trim();
                 lastName = lastNameEdit.getText().toString().trim();
                 street = streetEdit.getText().toString().trim();
-                num = numberEdit.getText().toString().trim();
                 city = cityEdit.getText().toString().trim();
+                num = numberEdit.getText().toString().trim();
                 age = ageEdit.getText().toString().trim();
 
                 // Checks whether every field is filled in.

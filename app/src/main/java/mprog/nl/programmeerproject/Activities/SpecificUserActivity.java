@@ -19,8 +19,12 @@ import java.util.ArrayList;
 
 import mprog.nl.programmeerproject.R;
 
+/**
+ * Activity that displays information about a user who matches with your parameters.
+ */
 public class SpecificUserActivity extends AppCompatActivity implements View.OnClickListener {
 
+    // Init variables
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     String userId;
@@ -52,6 +56,8 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_user);
 
+        // Retrieve information from the previous activity and picks an
+        // userId from the given list.
         Bundle bundle = this.getIntent().getExtras();
         foundUserIds = bundle.getStringArrayList("foundUserIds");
         selector = this.getIntent().getIntExtra("selector", 0);
@@ -67,6 +73,7 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
         databaseRef = FirebaseDatabase.getInstance().getReference();
         ref = databaseRef.child("Users");
 
+        // Assign to the xml elements and init the variables
         firstText = (TextView)findViewById(R.id.specUserFirstText);
         lastText = (TextView)findViewById(R.id.specUserLastText);
         genderText = (TextView)findViewById(R.id.specUserGenderText);
@@ -85,7 +92,13 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
         homeButton.setOnClickListener(this);
         findButton.setOnClickListener(this);
 
+        // Fills the activity with information of the chosen userId
         ref.child(foundUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
@@ -114,17 +127,16 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
                     }
                 }
             }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
         });
     }
 
+    // Generic button handler for the bottom menu and the other buttons.
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
+            // Search again button that takes the next userId of the array or returns
+            // to the findUserActivity if no users are left.
             case R.id.specUserSearchButton:
                 ref.child(userId).child("RefusedUsers").child(foundUserId).setValue(foundUserId);
                 ref.child(foundUserId).child("RefusedUsers").child(userId).setValue(userId);
@@ -140,6 +152,8 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
                     startActivity(MainActivity.createNewIntent(SpecificUserActivity.this, FindUserActivity.class));
                 }
                 break;
+
+            // Adds your userId to the request list of the other user and start the main Activity.
             case R.id.specUserAddButton:
                 ref.child(userId).child("RefusedUsers").child(foundUserId).setValue(foundUserId);
                 ref.child(foundUserId).child("RefusedUsers").child(userId).setValue(userId);

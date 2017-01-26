@@ -85,9 +85,9 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
         // Assign firebase variables
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
-        userId = firebaseUser.getUid();
         databaseRef = FirebaseDatabase.getInstance().getReference();
         ref = databaseRef.child("Schemes");
+        userId = firebaseUser.getUid();
 
         // Assign to the xml elements and init the variables
         homeButton = (Button)findViewById(R.id.homeButton);
