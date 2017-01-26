@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,10 +37,10 @@ public class ChatActvity extends AppCompatActivity implements View.OnClickListen
     DatabaseReference databaseRef;
     DatabaseReference ref;
 
-    Button homeButton;
-    Button findButton;
-    Button chatButton;
-    Button schemeButton;
+    ImageButton homeButton;
+    ImageButton findButton;
+    ImageButton chatButton;
+    ImageButton schemeButton;
 
     ListView chatList;
 
@@ -61,10 +62,10 @@ public class ChatActvity extends AppCompatActivity implements View.OnClickListen
         ref = databaseRef.child("Users");
 
         // Assign to the xml elements and init the variables
-        homeButton = (Button)findViewById(R.id.homeButton);
-        findButton = (Button)findViewById(R.id.findButton);
-        chatButton = (Button)findViewById(R.id.chatButton);
-        schemeButton = (Button)findViewById(R.id.schemeButton);
+        homeButton = (ImageButton)findViewById(R.id.homeButton);
+        findButton = (ImageButton)findViewById(R.id.findButton);
+        chatButton = (ImageButton)findViewById(R.id.chatButton);
+        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
         homeButton.setOnClickListener(this);
         findButton.setOnClickListener(this);
         chatButton.setOnClickListener(this);

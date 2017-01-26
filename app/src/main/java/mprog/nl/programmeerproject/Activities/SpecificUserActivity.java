@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,8 +42,10 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
 
     Button searchButton;
     Button addButton;
-    Button homeButton;
-    Button findButton;
+    ImageButton homeButton;
+    ImageButton findButton;
+    ImageButton chatButton;
+    ImageButton schemeButton;
 
     String foundUserId;
 
@@ -84,13 +87,17 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
 
         searchButton = (Button)findViewById(R.id.specUserSearchButton);
         addButton = (Button)findViewById(R.id.specUserAddButton);
-        homeButton = (Button)findViewById(R.id.homeButton);
-        findButton = (Button)findViewById(R.id.findButton);
+        homeButton = (ImageButton)findViewById(R.id.homeButton);
+        findButton = (ImageButton)findViewById(R.id.findButton);
+        chatButton = (ImageButton)findViewById(R.id.chatButton);
+        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
 
         searchButton.setOnClickListener(this);
         addButton.setOnClickListener(this);
         homeButton.setOnClickListener(this);
         findButton.setOnClickListener(this);
+        chatButton.setOnClickListener(this);
+        schemeButton.setOnClickListener(this);
 
         // Fills the activity with information of the chosen userId
         ref.child(foundUserId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -153,7 +160,7 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
                 }
                 break;
 
-            // Adds your userId to the request list of the other user and start the main Activity.
+            // Adds your userId to the request list of the other user and start the main Activity.ImageButton
             case R.id.specUserAddButton:
                 ref.child(userId).child("RefusedUsers").child(foundUserId).setValue(foundUserId);
                 ref.child(foundUserId).child("RefusedUsers").child(userId).setValue(userId);

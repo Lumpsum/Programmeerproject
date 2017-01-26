@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -45,10 +46,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     DatabaseReference ref;
 
     Button logOutButton;
-    Button homeButton;
-    Button findButton;
-    Button chatButton;
-    Button schemeButton;
+    ImageButton homeButton;
+    ImageButton findButton;
+    ImageButton chatButton;
+    ImageButton schemeButton;
     Button editProfileButton;
 
     TextView welcomeText;
@@ -94,10 +95,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             // Assign to the xml elements and init the variables
             logOutButton = (Button)findViewById(R.id.mainLogOutButton);
-            homeButton = (Button)findViewById(R.id.homeButton);
-            findButton = (Button)findViewById(R.id.findButton);
-            chatButton = (Button)findViewById(R.id.chatButton);
-            schemeButton = (Button)findViewById(R.id.schemeButton);
+            homeButton = (ImageButton)findViewById(R.id.homeButton);
+            findButton = (ImageButton)findViewById(R.id.findButton);
+            chatButton = (ImageButton)findViewById(R.id.chatButton);
+            schemeButton = (ImageButton)findViewById(R.id.schemeButton);
             editProfileButton = (Button)findViewById(R.id.mainEditProfButton);
             logOutButton.setOnClickListener(this);
             homeButton.setOnClickListener(this);

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -35,10 +36,10 @@ public class SpecificChatActivity extends AppCompatActivity implements View.OnCl
     DatabaseReference ref;
 
     Button sendMessageButton;
-    Button homeButton;
-    Button findButton;
-    Button chatButton;
-    Button schemeButton;
+    ImageButton homeButton;
+    ImageButton findButton;
+    ImageButton chatButton;
+    ImageButton schemeButton;
 
     TextView titleText;
 
@@ -68,10 +69,10 @@ public class SpecificChatActivity extends AppCompatActivity implements View.OnCl
 
         // Assign to the xml elements and init the variables
         sendMessageButton = (Button)findViewById(R.id.specChatMesButton);
-        homeButton = (Button)findViewById(R.id.homeButton);
-        findButton = (Button)findViewById(R.id.findButton);
-        schemeButton = (Button)findViewById(R.id.schemeButton);
-        chatButton = (Button)findViewById(R.id.chatButton);
+        homeButton = (ImageButton)findViewById(R.id.homeButton);
+        findButton = (ImageButton)findViewById(R.id.findButton);
+        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
+        chatButton = (ImageButton)findViewById(R.id.chatButton);
         sendMessageButton.setOnClickListener(this);
         homeButton.setOnClickListener(this);
         findButton.setOnClickListener(this);
@@ -139,7 +140,7 @@ public class SpecificChatActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
         switch (view.getId()) {
 
-            // Adds a message to the firebase which gets updated in real time.
+            // Adds a message to the firebase which gets updated in real time.ImageButton
             case R.id.specChatMesButton:
                 String message = sendMessageEdit.getText().toString();
 

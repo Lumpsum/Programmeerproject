@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -35,10 +36,10 @@ public class SpecificSchemeActivity extends AppCompatActivity implements View.On
     DatabaseReference databaseRef;
     DatabaseReference ref;
 
-    Button homeButton;
-    Button findButton;
-    Button chatButton;
-    Button schemeButton;
+    ImageButton homeButton;
+    ImageButton findButton;
+    ImageButton chatButton;
+    ImageButton schemeButton;
     Button rateEditButton;
 
     TextView titleText;
@@ -78,10 +79,10 @@ public class SpecificSchemeActivity extends AppCompatActivity implements View.On
         category = intent.getStringExtra("Category");
 
         // Assign to the xml elements and init the variables
-        homeButton = (Button)findViewById(R.id.homeButton);
-        findButton = (Button)findViewById(R.id.findButton);
-        chatButton = (Button)findViewById(R.id.chatButton);
-        schemeButton = (Button)findViewById(R.id.schemeButton);
+        homeButton = (ImageButton)findViewById(R.id.homeButton);
+        findButton = (ImageButton)findViewById(R.id.findButton);
+        chatButton = (ImageButton)findViewById(R.id.chatButton);
+        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
         rateEditButton = (Button)findViewById(R.id.specSchemeButton);
         homeButton.setOnClickListener(this);
         findButton.setOnClickListener(this);

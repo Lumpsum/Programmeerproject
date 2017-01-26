@@ -1,12 +1,14 @@
 package mprog.nl.programmeerproject.Activities;
 
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -39,10 +41,10 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
     DatabaseReference databaseRef;
     DatabaseReference ref;
 
-    Button findButton;
-    Button homeButton;
-    Button chatButton;
-    Button schemeButton;
+    ImageButton findButton;
+    ImageButton homeButton;
+    ImageButton chatButton;
+    ImageButton schemeButton;
     Button searchButton;
     Button createButton;
 
@@ -68,10 +70,10 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
         ref = databaseRef.child("Schemes");
 
         // Check whether the user is logged in, if not start log in activity.
-        findButton = (Button)findViewById(R.id.findButton);
-        homeButton = (Button)findViewById(R.id.homeButton);
-        chatButton = (Button)findViewById(R.id.chatButton);
-        schemeButton = (Button)findViewById(R.id.schemeButton);
+        findButton = (ImageButton) findViewById(R.id.findButton);
+        homeButton = (ImageButton) findViewById(R.id.homeButton);
+        chatButton = (ImageButton) findViewById(R.id.chatButton);
+        schemeButton = (ImageButton) findViewById(R.id.schemeButton);
         searchButton = (Button)findViewById(R.id.schemeSearchButton);
         createButton = (Button)findViewById(R.id.schemeCreateButton);
         homeButton.setOnClickListener(this);

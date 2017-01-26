@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -37,10 +38,10 @@ public class SearchSchemeActivity extends AppCompatActivity implements View.OnCl
     DatabaseReference databaseRef;
     DatabaseReference ref;
 
-    Button homeButton;
-    Button findButton;
-    Button chatButton;
-    Button schemeButton;
+    ImageButton homeButton;
+    ImageButton findButton;
+    ImageButton chatButton;
+    ImageButton schemeButton;
     Button searchButton;
 
     Spinner categorySpinner;
@@ -75,10 +76,10 @@ public class SearchSchemeActivity extends AppCompatActivity implements View.OnCl
         ref = databaseRef.child("Schemes");
 
         // Assign to the xml elements and init the variables
-        findButton = (Button)findViewById(R.id.findButton);
-        homeButton = (Button)findViewById(R.id.homeButton);
-        chatButton = (Button)findViewById(R.id.chatButton);
-        schemeButton = (Button)findViewById(R.id.schemeButton);
+        findButton = (ImageButton)findViewById(R.id.findButton);
+        homeButton = (ImageButton)findViewById(R.id.homeButton);
+        chatButton = (ImageButton)findViewById(R.id.chatButton);
+        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
         searchButton = (Button)findViewById(R.id.searchSchemeSearchButton);
         homeButton.setOnClickListener(this);
         findButton.setOnClickListener(this);

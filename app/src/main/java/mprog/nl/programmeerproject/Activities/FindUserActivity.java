@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -42,9 +43,10 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
     CheckBox ageCheck;
 
     Button findUserButton;
-    Button chatButton;
-    Button homeButton;
-    Button findButton;
+    ImageButton chatButton;
+    ImageButton homeButton;
+    ImageButton findButton;
+    ImageButton schemeButton;
 
     int userAge;
 
@@ -84,13 +86,16 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
         ageCheck = (CheckBox) findViewById(R.id.findUserAgeCheck);
 
         findUserButton = (Button) findViewById(R.id.findUserSearchButton);
-        chatButton = (Button)findViewById(R.id.chatButton);
-        homeButton = (Button)findViewById(R.id.homeButton);
-        findButton = (Button)findViewById(R.id.findButton);
+        chatButton = (ImageButton)findViewById(R.id.chatButton);
+        homeButton = (ImageButton)findViewById(R.id.homeButton);
+        findButton = (ImageButton)findViewById(R.id.findButton);
+        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
 
+        findUserButton.setOnClickListener(this);
         chatButton.setOnClickListener(this);
         homeButton.setOnClickListener(this);
         findButton.setOnClickListener(this);
+        schemeButton.setOnClickListener(this);
 
         foundUserIds = new ArrayList<>();
 
@@ -290,6 +295,9 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.chatButton:
                 startActivity(MainActivity.createNewIntent(FindUserActivity.this, ChatActvity.class));
+                break;
+            case R.id.schemeButton:
+                startActivity(MainActivity.createNewIntent(FindUserActivity.this, SchemeActivity.class));
                 break;
 
             // Button that starts the flow of finding users and checking parameters.

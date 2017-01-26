@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,10 +37,10 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
     DatabaseReference databaseRef;
     DatabaseReference ref;
 
-    Button homeButton;
-    Button findButton;
-    Button chatButton;
-    Button schemeButton;
+    ImageButton homeButton;
+    ImageButton findButton;
+    ImageButton chatButton;
+    ImageButton schemeButton;
     Button editButton;
 
     EditText titleEdit;
@@ -90,10 +91,10 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
         userId = firebaseUser.getUid();
 
         // Assign to the xml elements and init the variables
-        homeButton = (Button)findViewById(R.id.homeButton);
-        chatButton = (Button)findViewById(R.id.chatButton);
-        findButton = (Button)findViewById(R.id.findButton);
-        schemeButton = (Button)findViewById(R.id.schemeButton);
+        homeButton = (ImageButton)findViewById(R.id.homeButton);
+        chatButton = (ImageButton)findViewById(R.id.chatButton);
+        findButton = (ImageButton)findViewById(R.id.findButton);
+        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
         editButton = (Button)findViewById(R.id.editSchemeButton);
         homeButton.setOnClickListener(this);
         findButton.setOnClickListener(this);
