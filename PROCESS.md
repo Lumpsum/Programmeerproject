@@ -40,3 +40,7 @@ Begonnen met de opzet van het creëeren en zoeken van schemes. Activiteiten aang
 # Dag 10
 
 Het editten van schemes toegevoegd waarbij ik voor dezelfde flow als het edit profile gekozen heb, dus via een nieuwe activity opnieuw de data in de firebase zetten. Verder bij elke scheme toegevoegd dat je kan raten indien het scheme niet van jou is. Dit gebeurt via een star rating, waarbij in firebase wordt bijgehouden wat de rating is, en bij elke nieuwe rating het opnieuw berekend wordt.
+
+# Dag 11
+
+De lijsten van de user gevuld met zijn schemes en die middels een longclick te verwijderen zijn, verder de top 5 beste schemes van running en fitness weergegeven. Lastige is dat orderByChild ascending geordend is, maar dit opgelost door elk nieuwe element aan het begin van de array toe te voegen. Verder begonnen met het opschonen van de code waarbij er comments worden toegeveogd, methodes nader benoemd en nieuwe methodes toegevoegd, zodat het een mooier geheel wordt.
