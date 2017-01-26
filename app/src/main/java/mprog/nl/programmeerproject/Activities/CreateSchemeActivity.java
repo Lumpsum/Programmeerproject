@@ -103,8 +103,8 @@ public class CreateSchemeActivity extends AppCompatActivity implements View.OnCl
 
         categorySpinner.setAdapter(categoryAdapter);
         firstKeySpinner.setAdapter(keyAdapter);
-        secondKeySpinner.setAdapter(keyAdapter);
         thirdKeySpinner.setAdapter(keyAdapter);
+        secondKeySpinner.setAdapter(keyAdapter);
 
         // Sets the selection to empty in order to allow optional keywords
         secondKeySpinner.setSelection(optionalKeyAdapter.getPosition(""));

@@ -366,6 +366,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
+     * Create an array with the different sport levels.
+     *
+     * @return Returns the created array.
+     */
+    static ArrayList<String> createLevelArray() {
+        ArrayList<String> array = new ArrayList<>();
+        array.add("Beginner");
+        array.add("Intermediate");
+        array.add("Expert");
+        return array;
+    }
+
+    /**
+     * Creates an array with the gender options.
+     *
+     * @return Returns the created array.
+     */
+    static ArrayList<String> createGenderArray() {
+        ArrayList<String> array = new ArrayList<>();
+        array.add("Male");
+        array.add("Female");
+        return array;
+    }
+
+    /**
      * Method that contains all the possible keywords and fills an array with them.
      *
      * @return Returns an array with all the possible keywords.

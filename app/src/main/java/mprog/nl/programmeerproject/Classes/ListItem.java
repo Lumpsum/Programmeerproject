@@ -24,12 +24,12 @@ public class ListItem {
         return userName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public String getData() {
         return data;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public void setData(String messageUser) {

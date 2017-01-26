@@ -78,9 +78,7 @@ public class CreateProfileActivity extends AppCompatActivity {
 
         genderSpinner = (Spinner) findViewById(R.id.createProfGenderSpinner);
 
-        genderSpinnerArray = new ArrayList<String>();
-        genderSpinnerArray.add("Male");
-        genderSpinnerArray.add("Female");
+        genderSpinnerArray = MainActivity.createGenderArray();
 
         genderAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, genderSpinnerArray);
 

@@ -39,8 +39,8 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
     DatabaseReference databaseRef;
     DatabaseReference ref;
 
-    Button homeButton;
     Button findButton;
+    Button homeButton;
     Button chatButton;
     Button schemeButton;
     Button searchButton;
@@ -68,8 +68,8 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
         ref = databaseRef.child("Schemes");
 
         // Check whether the user is logged in, if not start log in activity.
-        homeButton = (Button)findViewById(R.id.homeButton);
         findButton = (Button)findViewById(R.id.findButton);
+        homeButton = (Button)findViewById(R.id.homeButton);
         chatButton = (Button)findViewById(R.id.chatButton);
         schemeButton = (Button)findViewById(R.id.schemeButton);
         searchButton = (Button)findViewById(R.id.schemeSearchButton);

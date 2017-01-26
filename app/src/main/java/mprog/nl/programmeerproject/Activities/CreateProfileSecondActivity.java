@@ -61,10 +61,7 @@ public class CreateProfileSecondActivity extends AppCompatActivity {
         createProfButton = (Button)findViewById(R.id.createProfButton);
 
         sportSpinnerArray = MainActivity.createSportArray();
-        levelSpinnerArray = new ArrayList<String>();
-        levelSpinnerArray.add("Beginner");
-        levelSpinnerArray.add("Intermediate");
-        levelSpinnerArray.add("Expert");
+        levelSpinnerArray = MainActivity.createLevelArray();
 
         sportAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sportSpinnerArray);
         levelAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, levelSpinnerArray);

@@ -22,8 +22,8 @@ public class ChatListAdapter extends ArrayAdapter<ListItem> {
     public ChatListAdapter(Context context, ArrayList<ListItem> arrayList) {
         super(context, R.layout.list_item, arrayList);
 
-        this.context = context;
         this.arrayList = arrayList;
+        this.context = context;
     }
 
     // Overrides the getView method in order for the listview to allow for more than one item.

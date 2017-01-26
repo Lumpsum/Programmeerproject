@@ -38,8 +38,8 @@ public class EditProfileActivity extends AppCompatActivity {
     private DatabaseReference databaseRef;
     private String userId;
 
-    protected EditText firstNameEdit;
     protected EditText lastNameEdit;
+    protected EditText firstNameEdit;
     protected EditText streetEdit;
     protected EditText numberEdit;
     protected EditText cityEdit;
@@ -67,8 +67,8 @@ public class EditProfileActivity extends AppCompatActivity {
     private String street;
     private String num;
     private String city;
-    private String age;
     private String location;
+    private String age;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,16 +108,9 @@ public class EditProfileActivity extends AppCompatActivity {
         ageEdit.setText(userMap.get("Age"));
         descEdit.setText(userMap.get("Description"));
 
-        genderSpinnerArray = new ArrayList<String>();
-        genderSpinnerArray.add("Male");
-        genderSpinnerArray.add("Female");
-        sportSpinnerArray = new ArrayList<String>();
-        sportSpinnerArray.add("Fitness");
-        sportSpinnerArray.add("Running");
-        levelSpinnerArray = new ArrayList<String>();
-        levelSpinnerArray.add("Beginner");
-        levelSpinnerArray.add("Intermediate");
-        levelSpinnerArray.add("Expert");
+        genderSpinnerArray = MainActivity.createGenderArray();
+        sportSpinnerArray = MainActivity.createSportArray();
+        levelSpinnerArray = MainActivity.createSportArray();
 
         genderAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, genderSpinnerArray);
         sportAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sportSpinnerArray);
@@ -194,8 +187,8 @@ public class EditProfileActivity extends AppCompatActivity {
         reference.child("FirstName").setValue(firstName);
         reference.child("LastName").setValue(lastName);
         reference.child("Street").setValue(street);
-        reference.child("Number").setValue(num);
         reference.child("City").setValue(city);
+        reference.child("Number").setValue(num);
         reference.child("Gender").setValue(genderSpinner.getSelectedItem().toString());
         reference.child("Age").setValue(age);
         reference.child("Sport").setValue(sportSpinner.getSelectedItem().toString());

@@ -91,8 +91,8 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
 
         // Assign to the xml elements and init the variables
         homeButton = (Button)findViewById(R.id.homeButton);
-        findButton = (Button)findViewById(R.id.findButton);
         chatButton = (Button)findViewById(R.id.chatButton);
+        findButton = (Button)findViewById(R.id.findButton);
         schemeButton = (Button)findViewById(R.id.schemeButton);
         editButton = (Button)findViewById(R.id.editSchemeButton);
         homeButton.setOnClickListener(this);
