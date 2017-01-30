@@ -196,6 +196,7 @@ public class SearchSchemeActivity extends AppCompatActivity implements View.OnCl
                                 searchResults.add(postSnapshot.getKey());
                             }
                         }
+                        MainActivity.createToast(SearchSchemeActivity.this, "Results found.").show();
                         searchResultsAdapter.notifyDataSetChanged();
                         userInputArray.clear();
                     }

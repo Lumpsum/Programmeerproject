@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,12 +46,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     DatabaseReference databaseRef;
     DatabaseReference ref;
 
-    Button logOutButton;
+    ImageButton logOutButton;
     ImageButton homeButton;
     ImageButton findButton;
     ImageButton chatButton;
     ImageButton schemeButton;
-    Button editProfileButton;
+    ImageButton editProfileButton;
 
     TextView welcomeText;
     TextView firstNameText;
@@ -94,12 +95,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             userId = firebaseUser.getUid();
 
             // Assign to the xml elements and init the variables
-            logOutButton = (Button)findViewById(R.id.mainLogOutButton);
+            logOutButton = (ImageButton) findViewById(R.id.mainLogOutButton);
             homeButton = (ImageButton)findViewById(R.id.homeButton);
             findButton = (ImageButton)findViewById(R.id.findButton);
             chatButton = (ImageButton)findViewById(R.id.chatButton);
             schemeButton = (ImageButton)findViewById(R.id.schemeButton);
-            editProfileButton = (Button)findViewById(R.id.mainEditProfButton);
+            editProfileButton = (ImageButton)findViewById(R.id.mainEditProfButton);
             logOutButton.setOnClickListener(this);
             homeButton.setOnClickListener(this);
             findButton.setOnClickListener(this);
@@ -237,6 +238,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ref.child(userId).child("UserRequests").child(newUserId).removeValue();
                     userRequestArray.remove(position);
                     userRequestAdapter.notifyDataSetChanged();
+                    createToast(MainActivity.this, "User refused").show();
                     return true;
                 }
             });
@@ -252,6 +254,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ref.child(newUserId).child("Chats").child(userId).setValue(userId);
                     userRequestArray.remove(position);
                     userRequestAdapter.notifyDataSetChanged();
+                    createToast(MainActivity.this, "User added.").show();
                 }
             });
 
@@ -265,6 +268,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     databaseRef.child("Users").child(userId).child("Schemes").child(category).child(title).removeValue();
                     databaseRef.child("Schemes").child(category).child(title).removeValue();
                     schemeArray.remove(listItem);
+                    createToast(MainActivity.this, "Scheme removed succesfully.").show();
                     return true;
                 }
             });
@@ -325,6 +329,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setPositiveButton(android.R.string.ok,null);
         AlertDialog dialog = builder.create();
         return dialog;
+    }
+
+    /**
+     * Method to create a Toast with a custom message, which gets displayedfor a short time.
+     *
+     * @param context Context of the activity that calls the method.
+     * @param message Custom message to give the user more information.
+     * @return Returns the created toast with the message.
+     */
+    public static Toast createToast(Context context, String message) {
+        return Toast.makeText(context, message, Toast.LENGTH_SHORT);
     }
 
     /**

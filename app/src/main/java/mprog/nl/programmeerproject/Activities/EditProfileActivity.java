@@ -160,6 +160,7 @@ public class EditProfileActivity extends AppCompatActivity {
                             JSONObject loc2 = loc.getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
                             location = loc2.getString("lat") + "," + loc2.getString("lng");
                             adjustFireBaseUserProfile(ref);
+                            MainActivity.createToast(EditProfileActivity.this, "Profile succesfully edited.").show();
                             startActivity(MainActivity.createNewIntent(EditProfileActivity.this, MainActivity.class));
                         }
                         else {

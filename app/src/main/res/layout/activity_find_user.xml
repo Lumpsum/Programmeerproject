@@ -14,7 +14,15 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/background_running_portrait"
         >
+
+        <RelativeLayout
+            android:id="@+id/findUserFirstParamLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorTextBackFirst"
+            android:padding="6dp">
 
     <TextView
         android:id="@+id/findUserRadiusHint"
@@ -32,11 +40,20 @@
         android:layout_below="@id/findUserRadiusHint"
         />
 
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/findUserSecondParamLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/findUserFirstParamLayout"
+            android:background="@color/colorTextBackSecond"
+            android:padding="6dp">
+
     <TextView
         android:id="@+id/findUserParamText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/findUserRadiusEdit"
         android:text="@string/param"
         android:padding="10dp"
         />
@@ -45,7 +62,7 @@
         android:id="@+id/findUserGenderText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/gender"
+        android:text="@string/sameGender"
         android:layout_below="@+id/findUserParamText"
         android:padding="10dp"
         />
@@ -70,7 +87,7 @@
         android:id="@+id/findUserAgeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/age"
+        android:text="@string/ageRadius"
         android:layout_below="@+id/findUserAgeHint"
         android:padding="10dp"
         />
@@ -93,12 +110,14 @@
         android:inputType="number"
         />
 
+        </RelativeLayout>
+
     <Button
         android:id="@+id/findUserSearchButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/search"
-        android:layout_below="@id/findUserAgeEdit"
+        android:layout_below="@id/findUserSecondParamLayout"
         />
 
     </RelativeLayout>

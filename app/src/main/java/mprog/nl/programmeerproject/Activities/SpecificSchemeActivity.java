@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -224,6 +225,7 @@ public class SpecificSchemeActivity extends AppCompatActivity implements View.On
                     ref.child("Rating").setValue(rating);
                     ref.child("Users").child(userId).setValue(rateBar.getRating());
                     rateBar.setRating(rating);
+                    MainActivity.createToast(SpecificSchemeActivity.this, "Rated this scheme again.").show();
                 }
 
                 // If rated for the first time, calculate the rating different and add the user to the
@@ -237,6 +239,7 @@ public class SpecificSchemeActivity extends AppCompatActivity implements View.On
                     ref.child("RateAmount").setValue(ratingAmount);
                     ref.child("Users").child(userId).setValue(rateBar.getRating());
                     rateBar.setRating(rating);
+                    MainActivity.createToast(SpecificSchemeActivity.this, "Rated this scheme.").show();
                 }
                 break;
         }

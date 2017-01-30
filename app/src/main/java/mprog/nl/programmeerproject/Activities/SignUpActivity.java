@@ -75,6 +75,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
+                                        MainActivity.createToast(SignUpActivity.this, "First step of the profile creation completed.").show();
                                         startActivity(MainActivity.createNewIntent(SignUpActivity.this, CreateProfileActivity.class));
                                     }
                                     else {

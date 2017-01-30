@@ -128,6 +128,7 @@ public class CreateSchemeActivity extends AppCompatActivity implements View.OnCl
                     .child(categorySpinner.getSelectedItem().toString())
                     .child(title).setValue(title);
 
+            MainActivity.createToast(CreateSchemeActivity.this, "Scheme succesfully created.").show();
             startActivity(MainActivity.createNewIntent(CreateSchemeActivity.this, SchemeActivity.class));
             }
         });

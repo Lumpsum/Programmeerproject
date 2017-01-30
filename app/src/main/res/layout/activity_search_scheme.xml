@@ -14,7 +14,16 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/background_running_portrait"
         >
+
+        <RelativeLayout
+            android:id="@+id/searchSchemeParamLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorTextBackFirst"
+            android:padding="6dp"
+            >
 
         <TextView
             android:id="@+id/searchSchemeCatText"
@@ -76,11 +85,15 @@
             android:layout_below="@+id/spinnerLinearLayout"
             />
 
+        </RelativeLayout>
+
         <ListView
             android:id="@+id/searchSchemeList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/searchSchemeSearchButton"
+            android:layout_below="@+id/searchSchemeParamLayout"
+            android:background="@color/colorTextBackSecond"
+            android:padding="6dp"
             >
 
         </ListView>

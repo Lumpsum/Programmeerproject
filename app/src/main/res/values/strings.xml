@@ -49,4 +49,7 @@
     <string name="category">Category</string>
     <string name="editScheme">Edit Scheme</string>
     <string name="ownSchemes">Your schemes</string>
+    <string name="userRequests">User Requests</string>
+    <string name="ageRadius">Age Radius:</string>
+    <string name="sameGender">Same Gender</string>
 </resources>

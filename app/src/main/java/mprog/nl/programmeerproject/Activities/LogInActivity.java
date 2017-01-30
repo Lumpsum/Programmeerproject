@@ -67,6 +67,7 @@ public class LogInActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
+                                        MainActivity.createToast(LogInActivity.this, "Log in was succesful.").show();
                                         startActivity(MainActivity.createNewIntent(LogInActivity.this, MainActivity.class));
                                     }
                                     else {

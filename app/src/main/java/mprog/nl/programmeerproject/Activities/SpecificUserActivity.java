@@ -40,8 +40,8 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
     TextView levelText;
     TextView descText;
 
-    Button searchButton;
-    Button addButton;
+    ImageButton searchButton;
+    ImageButton addButton;
     ImageButton homeButton;
     ImageButton findButton;
     ImageButton chatButton;
@@ -85,8 +85,8 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
         levelText = (TextView)findViewById(R.id.specUserLevelText);
         descText = (TextView)findViewById(R.id.specUserDescText);
 
-        searchButton = (Button)findViewById(R.id.specUserSearchButton);
-        addButton = (Button)findViewById(R.id.specUserAddButton);
+        searchButton = (ImageButton)findViewById(R.id.specUserSearchButton);
+        addButton = (ImageButton)findViewById(R.id.specUserAddButton);
         homeButton = (ImageButton)findViewById(R.id.homeButton);
         findButton = (ImageButton)findViewById(R.id.findButton);
         chatButton = (ImageButton)findViewById(R.id.chatButton);
@@ -153,9 +153,11 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
                     bundle.putStringArrayList("foundUserIds", foundUserIds);
                     newIntent.putExtras(bundle);
                     newIntent.putExtra("selector", selector);
+                    MainActivity.createToast(SpecificUserActivity.this, "Next user.").show();
                     startActivity(newIntent);
                 }
                 else {
+                    MainActivity.createToast(SpecificUserActivity.this, "All users found, please adjust parameters.").show();
                     startActivity(MainActivity.createNewIntent(SpecificUserActivity.this, FindUserActivity.class));
                 }
                 break;
@@ -165,6 +167,7 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
                 ref.child(userId).child("RefusedUsers").child(foundUserId).setValue(foundUserId);
                 ref.child(foundUserId).child("RefusedUsers").child(userId).setValue(userId);
                 ref.child(foundUserId).child("UserRequests").child(userId).setValue(userId);
+                MainActivity.createToast(SpecificUserActivity.this, "User request send.").show();
                 startActivity(MainActivity.createNewIntent(SpecificUserActivity.this, MainActivity.class));
                 break;
             case R.id.homeButton:

@@ -80,6 +80,7 @@ public class CreateProfileSecondActivity extends AppCompatActivity {
                 ref.child("Level").setValue(levelSpinner.getSelectedItem().toString());
                 ref.child("Description").setValue(descEdit.getText().toString());
 
+                MainActivity.createToast(CreateProfileSecondActivity.this, "Profile created succesfully.").show();
                 startActivity(MainActivity.createNewIntent(CreateProfileSecondActivity.this, MainActivity.class));
             }
         });

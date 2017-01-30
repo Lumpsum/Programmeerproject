@@ -37,10 +37,6 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
     DatabaseReference databaseRef;
     DatabaseReference ref;
 
-    ImageButton homeButton;
-    ImageButton findButton;
-    ImageButton chatButton;
-    ImageButton schemeButton;
     Button editButton;
 
     EditText titleEdit;
@@ -91,15 +87,7 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
         userId = firebaseUser.getUid();
 
         // Assign to the xml elements and init the variables
-        homeButton = (ImageButton)findViewById(R.id.homeButton);
-        chatButton = (ImageButton)findViewById(R.id.chatButton);
-        findButton = (ImageButton)findViewById(R.id.findButton);
-        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
         editButton = (Button)findViewById(R.id.editSchemeButton);
-        homeButton.setOnClickListener(this);
-        findButton.setOnClickListener(this);
-        chatButton.setOnClickListener(this);
-        schemeButton.setOnClickListener(this);
         editButton.setOnClickListener(this);
 
         titleEdit = (EditText)findViewById(R.id.editSchemeTitleEdit);
@@ -164,6 +152,7 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
                         .child(category)
                         .child(newTitle).setValue(newTitle);
 
+                MainActivity.createToast(EditSchemeActivity.this, "Scheme succesfully edited.").show();
                 startActivity(MainActivity.createNewIntent(EditSchemeActivity.this, SchemeActivity.class));
             }
         });
@@ -173,19 +162,6 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.homeButton:
-                startActivity(MainActivity.createNewIntent(EditSchemeActivity.this, MainActivity.class));
-                break;
-            case R.id.findButton:
-                startActivity(MainActivity.createNewIntent(EditSchemeActivity.this, FindUserActivity.class));
-                break;
-            case R.id.chatButton:
-                startActivity(MainActivity.createNewIntent(EditSchemeActivity.this, ChatActvity.class));
-                break;
-            case R.id.schemeButton:
-                startActivity(MainActivity.createNewIntent(EditSchemeActivity.this, SchemeActivity.class));
-                break;
-
             // Checks whther fields are not empty and adds the new information to the database.
             case R.id.editSchemeButton:
                 newTitle = titleEdit.getText().toString();

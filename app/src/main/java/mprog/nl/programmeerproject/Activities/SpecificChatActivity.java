@@ -35,7 +35,7 @@ public class SpecificChatActivity extends AppCompatActivity implements View.OnCl
     DatabaseReference databaseRef;
     DatabaseReference ref;
 
-    Button sendMessageButton;
+    ImageButton sendMessageButton;
     ImageButton homeButton;
     ImageButton findButton;
     ImageButton chatButton;
@@ -68,7 +68,7 @@ public class SpecificChatActivity extends AppCompatActivity implements View.OnCl
         final String otherUserId = intent.getStringExtra("otherUserData");
 
         // Assign to the xml elements and init the variables
-        sendMessageButton = (Button)findViewById(R.id.specChatMesButton);
+        sendMessageButton = (ImageButton) findViewById(R.id.specChatMesButton);
         homeButton = (ImageButton)findViewById(R.id.homeButton);
         findButton = (ImageButton)findViewById(R.id.findButton);
         schemeButton = (ImageButton)findViewById(R.id.schemeButton);

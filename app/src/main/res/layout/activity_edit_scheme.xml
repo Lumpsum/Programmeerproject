@@ -95,6 +95,4 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/bottom_buttons"></include>
-
 </RelativeLayout>

@@ -14,6 +14,7 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:layout_above="@+id/menuLinearLayout"
+        android:background="@drawable/background_running_portrait"
         >
 
     <LinearLayout
@@ -27,6 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="@color/colorTextBackFirst"
+        android:padding="6dp"
         >
 
     <TextView
@@ -35,7 +38,6 @@
         android:layout_height="wrap_content"
         android:text="@string/topFitness"
         android:textSize="26sp"
-        android:padding="10dp"
         />
 
     <ListView
@@ -51,6 +53,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="@color/colorTextBackSecond"
+        android:padding="6dp"
         >
 
     <TextView
@@ -59,7 +63,6 @@
         android:layout_height="wrap_content"
         android:text="@string/topRunning"
         android:textSize="26sp"
-        android:padding="10dp"
         />
 
     <ListView
@@ -78,13 +81,15 @@
         android:id="@+id/buttonLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorTextBackFirst"
+        android:padding="6dp"
+        >
 
     <Button
         android:id="@+id/schemeSearchButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
         android:layout_weight="1"
         android:text="@string/search"
         />
@@ -93,7 +98,6 @@
         android:id="@+id/schemeCreateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
         android:layout_weight="1"
         android:text="@string/createOwn"
         />

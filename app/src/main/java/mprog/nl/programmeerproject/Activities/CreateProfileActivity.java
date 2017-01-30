@@ -122,6 +122,7 @@ public class CreateProfileActivity extends AppCompatActivity {
                             JSONObject loc2 = loc.getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
                             location = loc2.getString("lat") + "," + loc2.getString("lng");
                             fillFireBaseWithPersonalInfo(ref);
+                            MainActivity.createToast(CreateProfileActivity.this, "Second step of the profile creation completed.").show();
                             startActivity(MainActivity.createNewIntent(CreateProfileActivity.this, CreateProfileSecondActivity.class));
                         }
                         else {

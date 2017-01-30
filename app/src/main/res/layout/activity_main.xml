@@ -14,7 +14,16 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/background_running_portrait"
         >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/mainProfileLayout"
+            android:padding="6dp"
+            android:background="@color/colorTextBackFirst"
+            >
 
     <TextView
         android:id="@+id/mainWelcomeText"
@@ -22,6 +31,7 @@
         android:layout_height="wrap_content"
         android:text="@string/welcome"
         android:textSize="32dp"
+        android:padding="8dp"
         />
 
     <TextView
@@ -104,42 +114,65 @@
         android:text="@string/desc"
         />
 
-    <Button
+    <ImageButton
         android:id="@+id/mainLogOutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/mainWelcomeText"
-        android:text="@string/logOut"
+        android:src="@drawable/ic_power_settings_new_black_24dp"
         />
 
-    <Button
+    <ImageButton
         android:id="@+id/mainEditProfButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/mainLogOutButton"
-        android:text="@string/editProf"
+        android:src="@drawable/ic_create_black_24dp"
         android:visibility="invisible"
         />
 
+        </RelativeLayout>
+
         <LinearLayout
+            android:id="@+id/mainListLinear"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/mainDescText"
+            android:layout_below="@id/mainProfileLayout"
             android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorTextBackSecond"
+                android:padding="6dp"
+                >
+
+                <TextView
+                    android:id="@+id/mainRequestText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/userRequests"
+                    />
 
     <ListView
         android:id="@+id/mainRequestList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_below="@+id/mainRequestText"
         ></ListView>
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/colorTextBackFirst"
+                android:padding="6dp"
+                >
 
                 <TextView
                     android:id="@+id/mainOwnSchemeText"

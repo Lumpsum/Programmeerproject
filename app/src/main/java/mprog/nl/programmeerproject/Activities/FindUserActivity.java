@@ -309,6 +309,7 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
                 } else if (ageCheck.isChecked() && age.isEmpty()) {
                     MainActivity.createAlert("Please fill in an age radius", FindUserActivity.this).show();
                 } else {
+                    MainActivity.createToast(FindUserActivity.this, "Searching for users...").show();
                     findUser();
                 }
         }

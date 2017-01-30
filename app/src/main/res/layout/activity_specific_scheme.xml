@@ -14,7 +14,17 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:layout_above="@+id/menuLinearLayout"
+        android:background="@drawable/background_running_portrait"
         >
+
+        <RelativeLayout
+            android:id="@+id/specSchemeInfLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorTextBackFirst"
+            android:padding="6dp"
+            android:layout_above="@+id/specSchemeRateEditLayout"
+            >
 
     <TextView
         android:id="@+id/specSchemeTitleText"
@@ -43,9 +53,18 @@
         android:layout_height="match_parent"
         android:scrollHorizontally="false"
         android:maxLines="50"
-        android:layout_above="@+id/specSchemeRating"
         android:layout_below="@+id/specSchemeKeyText"
         />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/specSchemeRateEditLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorTextBackSecond"
+            >
 
     <RatingBar
         android:id="@+id/specSchemeRating"
@@ -54,16 +73,17 @@
         android:layout_alignParentBottom="true"
         android:numStars="5"
         android:stepSize="0.1"
+        android:layout_weight="0.6"
         />
 
         <Button
             android:id="@+id/specSchemeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/specSchemeRating"
+            android:layout_weight="0.2"
             />
+
+        </LinearLayout>
 
     </RelativeLayout>
 

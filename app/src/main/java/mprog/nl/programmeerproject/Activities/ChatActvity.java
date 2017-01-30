@@ -115,6 +115,7 @@ public class ChatActvity extends AppCompatActivity implements View.OnClickListen
                                 tempRef = databaseRef.child("Chats").child(data + "," + userId);
                             }
                             tempRef.removeValue();
+                            MainActivity.createToast(ChatActvity.this, "Chat succesfully deleted.").show();
                         }
 
                         @Override
