@@ -3,6 +3,7 @@ package mprog.nl.programmeerproject.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -154,6 +155,7 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
                     if (!postSnapshot.getKey().equals(userId)) {
                         Map<String, Object> map = new HashMap<String, Object>();
                         map = (HashMap<String, Object>) postSnapshot.getValue();
+
                         if (checkConditions(map)) {
                             foundUserIds.add(postSnapshot.getKey());
                         }

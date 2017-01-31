@@ -85,60 +85,20 @@ public class EditProfileActivity extends AppCompatActivity {
         databaseRef = FirebaseDatabase.getInstance().getReference();
 
         // Assign to the xml elements and init the variables
-        firstNameEdit = (EditText)findViewById(R.id.editProfFirstEdit);
-        lastNameEdit = (EditText)findViewById(R.id.editProfLastEdit);
-        streetEdit = (EditText)findViewById(R.id.editProfStreetEdit);
-        numberEdit = (EditText)findViewById(R.id.editProfNumEdit);
-        cityEdit = (EditText)findViewById(R.id.editProfCityEdit);
-        ageEdit = (EditText)findViewById(R.id.editProfAgeEdit);
-        descEdit = (EditText)findViewById(R.id.editProfDescEdit);
-
-        genderSpinner = (Spinner) findViewById(R.id.editProfGenderSpinner);
-        sportSpinner = (Spinner) findViewById(R.id.editProfSportSpinner);
-        levelSpinner = (Spinner)findViewById(R.id.editProfLevelSpinner);
+        assignEditTexts();
 
         saveButton = (Button)findViewById(R.id.editProfSaveButton);
 
         // Retrieves the user's information from the given hashmap.
-        firstNameEdit.setText(userMap.get("FirstName"));
-        lastNameEdit.setText(userMap.get("LastName"));
-        streetEdit.setText(userMap.get("Street"));
-        numberEdit.setText(userMap.get("Number"));
-        cityEdit.setText(userMap.get("City"));
-        ageEdit.setText(userMap.get("Age"));
-        descEdit.setText(userMap.get("Description"));
+        setTextOfTextViews();
 
-        genderSpinnerArray = MainActivity.createGenderArray();
-        sportSpinnerArray = MainActivity.createSportArray();
-        levelSpinnerArray = MainActivity.createSportArray();
-
-        genderAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, genderSpinnerArray);
-        sportAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sportSpinnerArray);
-        levelAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, levelSpinnerArray);
-
-        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sportAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        levelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        genderSpinner.setAdapter(genderAdapter);
-        sportSpinner.setAdapter(sportAdapter);
-        levelSpinner.setAdapter(levelAdapter);
-
-        // Sets the current selection to the user values.
-        genderSpinner.setSelection(genderAdapter.getPosition(userMap.get("Gender")));
-        sportSpinner.setSelection(sportAdapter.getPosition(userMap.get("Sport")));
-        levelSpinner.setSelection(levelAdapter.getPosition(userMap.get("Level")));
+        assignSpinners();
 
         // Retrieves the new values and adjusts them inside FireBase.
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firstName = firstNameEdit.getText().toString().trim();
-                lastName = lastNameEdit.getText().toString().trim();
-                street = streetEdit.getText().toString().trim();
-                num = numberEdit.getText().toString().trim();
-                city = cityEdit.getText().toString().trim();
-                age = ageEdit.getText().toString().trim();
+                trimUserInput();
 
                 // Checks whether every field is filled in.
                 if (firstName.isEmpty() || lastName.isEmpty() || street.isEmpty() || num.isEmpty() || city.isEmpty() || age.isEmpty()) {
@@ -195,5 +155,73 @@ public class EditProfileActivity extends AppCompatActivity {
         reference.child("Sport").setValue(sportSpinner.getSelectedItem().toString());
         reference.child("Level").setValue(levelSpinner.getSelectedItem().toString());
         reference.child("Description").setValue(descEdit.getText().toString());
+    }
+
+    /**
+     * Assigns the spinners to their xml elements and fill them with data.
+     */
+    void assignSpinners() {
+        genderSpinner = (Spinner) findViewById(R.id.editProfGenderSpinner);
+        sportSpinner = (Spinner) findViewById(R.id.editProfSportSpinner);
+        levelSpinner = (Spinner)findViewById(R.id.editProfLevelSpinner);
+
+        genderSpinnerArray = MainActivity.createGenderArray();
+        sportSpinnerArray = MainActivity.createSportArray();
+        levelSpinnerArray = MainActivity.createLevelArray();
+
+        genderAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, genderSpinnerArray);
+        sportAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sportSpinnerArray);
+        levelAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, levelSpinnerArray);
+
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sportAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        levelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        genderSpinner.setAdapter(genderAdapter);
+        sportSpinner.setAdapter(sportAdapter);
+        levelSpinner.setAdapter(levelAdapter);
+
+        // Sets the current selection to the user values.
+        genderSpinner.setSelection(genderAdapter.getPosition(userMap.get("Gender")));
+        sportSpinner.setSelection(sportAdapter.getPosition(userMap.get("Sport")));
+        levelSpinner.setSelection(levelAdapter.getPosition(userMap.get("Level")));
+    }
+
+    /**
+     * Assigns the edittexts to their corresponding xml elements.
+     */
+    void assignEditTexts() {
+        firstNameEdit = (EditText)findViewById(R.id.editProfFirstEdit);
+        lastNameEdit = (EditText)findViewById(R.id.editProfLastEdit);
+        streetEdit = (EditText)findViewById(R.id.editProfStreetEdit);
+        numberEdit = (EditText)findViewById(R.id.editProfNumEdit);
+        cityEdit = (EditText)findViewById(R.id.editProfCityEdit);
+        ageEdit = (EditText)findViewById(R.id.editProfAgeEdit);
+        descEdit = (EditText)findViewById(R.id.editProfDescEdit);
+    }
+
+    /**
+     * Retrieves the text from the given map and sets the edittexts accordingly.
+     */
+    void setTextOfTextViews() {
+        firstNameEdit.setText(userMap.get("FirstName"));
+        lastNameEdit.setText(userMap.get("LastName"));
+        streetEdit.setText(userMap.get("Street"));
+        numberEdit.setText(userMap.get("Number"));
+        cityEdit.setText(userMap.get("City"));
+        ageEdit.setText(userMap.get("Age"));
+        descEdit.setText(userMap.get("Description"));
+    }
+
+    /**
+     * Takes the input and removes the trailing whitespace.
+     */
+    void trimUserInput() {
+        firstName = firstNameEdit.getText().toString().trim();
+        lastName = lastNameEdit.getText().toString().trim();
+        street = streetEdit.getText().toString().trim();
+        num = numberEdit.getText().toString().trim();
+        city = cityEdit.getText().toString().trim();
+        age = ageEdit.getText().toString().trim();
     }
 }

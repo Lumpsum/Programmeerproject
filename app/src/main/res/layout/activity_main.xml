@@ -144,7 +144,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="@color/colorTextBackSecond"
                 android:padding="6dp"
@@ -157,18 +157,18 @@
                     android:text="@string/userRequests"
                     />
 
-    <ListView
-        android:id="@+id/mainRequestList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/mainRequestText"
-        ></ListView>
+        <ListView
+            android:id="@+id/mainRequestList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mainRequestText"
+            ></ListView>
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="@color/colorTextBackFirst"
                 android:padding="6dp"

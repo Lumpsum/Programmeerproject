@@ -52,4 +52,6 @@
     <string name="userRequests">User Requests</string>
     <string name="ageRadius">Age Radius:</string>
     <string name="sameGender">Same Gender</string>
+    <string name="name">Name</string>
+    <string name="adress">Adress</string>
 </resources>

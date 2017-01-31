@@ -32,6 +32,8 @@ dependencies {
 
     compile 'com.android.support:design:24.0.0'
     compile 'com.firebaseui:firebase-ui:0.6.0'
+
+    compile 'com.github.amlcurran.showcaseview:library:5.4.3'
 }
 
 apply plugin: 'com.google.gms.google-services'

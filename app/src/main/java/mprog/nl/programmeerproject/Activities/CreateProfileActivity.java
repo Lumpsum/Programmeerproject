@@ -69,22 +69,8 @@ public class CreateProfileActivity extends AppCompatActivity {
         databaseRef = FirebaseDatabase.getInstance().getReference();
 
         // Assign to the xml elements and init the variables
-        firstNameEdit = (EditText)findViewById(R.id.createProfFirstEdit);
-        lastNameEdit = (EditText)findViewById(R.id.createProfLastEdit);
-        streetEdit = (EditText)findViewById(R.id.createProfStreetEdit);
-        numberEdit = (EditText)findViewById(R.id.createProfNumberEdit);
-        cityEdit = (EditText)findViewById(R.id.createProfCityEdit);
-        ageEdit = (EditText)findViewById(R.id.createProfAgeEdit);
-
-        genderSpinner = (Spinner) findViewById(R.id.createProfGenderSpinner);
-
-        genderSpinnerArray = MainActivity.createGenderArray();
-
-        genderAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, genderSpinnerArray);
-
-        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        genderSpinner.setAdapter(genderAdapter);
+        assignEditTexts();
+        assignSpinner();
 
         createProfNextButton = (Button)findViewById(R.id.createProfNextButton);
 
@@ -93,12 +79,7 @@ public class CreateProfileActivity extends AppCompatActivity {
         createProfNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firstName = firstNameEdit.getText().toString().trim();
-                lastName = lastNameEdit.getText().toString().trim();
-                street = streetEdit.getText().toString().trim();
-                city = cityEdit.getText().toString().trim();
-                num = numberEdit.getText().toString().trim();
-                age = ageEdit.getText().toString().trim();
+                trimUserInput();
 
                 // Checks whether every field is filled in.
                 if (firstName.isEmpty() || lastName.isEmpty() || street.isEmpty() || num.isEmpty() || city.isEmpty() || age.isEmpty()) {
@@ -140,7 +121,11 @@ public class CreateProfileActivity extends AppCompatActivity {
         });
     }
 
-    // Fills the FireBase with the given values.
+    /**
+     * Fills the firebase with the given values.
+     *
+     * @param reference Reference to where the users profiles are located.
+     */
     void fillFireBaseWithPersonalInfo(DatabaseReference reference) {
         reference.child("Location").setValue(location);
         reference.child("FirstName").setValue(firstName);
@@ -150,5 +135,40 @@ public class CreateProfileActivity extends AppCompatActivity {
         reference.child("City").setValue(city);
         reference.child("Gender").setValue(genderSpinner.getSelectedItem().toString());
         reference.child("Age").setValue(age);
+    }
+
+    /**
+     * Assigns the edittexts to their xml elements.
+     */
+    void assignEditTexts() {
+        firstNameEdit = (EditText)findViewById(R.id.createProfFirstEdit);
+        lastNameEdit = (EditText)findViewById(R.id.createProfLastEdit);
+        streetEdit = (EditText)findViewById(R.id.createProfStreetEdit);
+        numberEdit = (EditText)findViewById(R.id.createProfNumberEdit);
+        cityEdit = (EditText)findViewById(R.id.createProfCityEdit);
+        ageEdit = (EditText)findViewById(R.id.createProfAgeEdit);
+    }
+
+    /**
+     * Assigns the spinner to the xml elements and fill it with data.
+     */
+    void assignSpinner() {
+        genderSpinner = (Spinner) findViewById(R.id.createProfGenderSpinner);
+        genderSpinnerArray = MainActivity.createGenderArray();
+        genderAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, genderSpinnerArray);
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genderSpinner.setAdapter(genderAdapter);
+    }
+
+    /**
+     * Takes the userinput and trims the text.
+     */
+    void trimUserInput() {
+        firstName = firstNameEdit.getText().toString().trim();
+        lastName = lastNameEdit.getText().toString().trim();
+        street = streetEdit.getText().toString().trim();
+        city = cityEdit.getText().toString().trim();
+        num = numberEdit.getText().toString().trim();
+        age = ageEdit.getText().toString().trim();
     }
 }

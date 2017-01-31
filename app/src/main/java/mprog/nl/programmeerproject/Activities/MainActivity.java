@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -95,44 +97,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             userId = firebaseUser.getUid();
 
             // Assign to the xml elements and init the variables
-            logOutButton = (ImageButton) findViewById(R.id.mainLogOutButton);
-            homeButton = (ImageButton)findViewById(R.id.homeButton);
-            findButton = (ImageButton)findViewById(R.id.findButton);
-            chatButton = (ImageButton)findViewById(R.id.chatButton);
-            schemeButton = (ImageButton)findViewById(R.id.schemeButton);
-            editProfileButton = (ImageButton)findViewById(R.id.mainEditProfButton);
-            logOutButton.setOnClickListener(this);
-            homeButton.setOnClickListener(this);
-            findButton.setOnClickListener(this);
-            chatButton.setOnClickListener(this);
-            schemeButton.setOnClickListener(this);
-            editProfileButton.setOnClickListener(this);
-
-            welcomeText = (TextView)findViewById(R.id.mainWelcomeText);
-            firstNameText = (TextView)findViewById(R.id.mainFirstText);
-            lastNameText = (TextView)findViewById(R.id.mainLastText);
-            genderText = (TextView)findViewById(R.id.mainGenderText);
-            ageText = (TextView)findViewById(R.id.mainAgeText);
-            streetText = (TextView)findViewById(R.id.mainStreetText);
-            numText = (TextView)findViewById(R.id.mainNumberText);
-            cityText = (TextView)findViewById(R.id.mainCityText);
-            sportText = (TextView)findViewById(R.id.mainSportText);
-            levelText = (TextView)findViewById(R.id.mainLevelText);
-            descText = (TextView)findViewById(R.id.mainDescText);
-
-            userRequestList = (ListView)findViewById(R.id.mainRequestList);
-            schemeList = (ListView)findViewById(R.id.mainOwnSchemeList);
-
-            userRequestArray = new ArrayList<UserReqestItem>();
-            schemeArray = new ArrayList<String>();
-
-            userRequestAdapter = new UserRequestAdapter(MainActivity.this, userRequestArray);
-            schemeAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, schemeArray);
-
-            userRequestList.setAdapter(userRequestAdapter);
-            schemeList.setAdapter(schemeAdapter);
+            assignButtons();
+            assignTextViews();
+            assignListViews();
 
             userMap = new HashMap<>();
+
+            new ShowcaseView.Builder(MainActivity.this)
+                    .setTarget(new ViewTarget(R.id.mainRequestText, MainActivity.this))
+                    .setContentTitle("Tutorial")
+                    .withNewStyleShowcase()
+                    .setContentText("Your user requests show up here. Long click to decline requests and click once in order to accept the request. " +
+                            "In the List below your schemes show up, which you can delete via a long click as well.")
+                    .hideOnTouchOutside()
+                    .build();
 
             // Retrieve the user values and set the text accordingly.
             // Furthermore puts that information inside a hashmap to use for the edit profile
@@ -454,5 +432,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
         }
+    }
+
+    /**
+     * Assign all the buttons of the layout.
+     */
+    void assignButtons() {
+        logOutButton = (ImageButton) findViewById(R.id.mainLogOutButton);
+        homeButton = (ImageButton)findViewById(R.id.homeButton);
+        findButton = (ImageButton)findViewById(R.id.findButton);
+        chatButton = (ImageButton)findViewById(R.id.chatButton);
+        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
+        editProfileButton = (ImageButton)findViewById(R.id.mainEditProfButton);
+        logOutButton.setOnClickListener(this);
+        homeButton.setOnClickListener(this);
+        findButton.setOnClickListener(this);
+        chatButton.setOnClickListener(this);
+        schemeButton.setOnClickListener(this);
+        editProfileButton.setOnClickListener(this);
+    }
+
+    /**
+     * Assign the textviews to the xml elements.
+     */
+    void assignTextViews() {
+        welcomeText = (TextView)findViewById(R.id.mainWelcomeText);
+        firstNameText = (TextView)findViewById(R.id.mainFirstText);
+        lastNameText = (TextView)findViewById(R.id.mainLastText);
+        genderText = (TextView)findViewById(R.id.mainGenderText);
+        ageText = (TextView)findViewById(R.id.mainAgeText);
+        streetText = (TextView)findViewById(R.id.mainStreetText);
+        numText = (TextView)findViewById(R.id.mainNumberText);
+        cityText = (TextView)findViewById(R.id.mainCityText);
+        sportText = (TextView)findViewById(R.id.mainSportText);
+        levelText = (TextView)findViewById(R.id.mainLevelText);
+        descText = (TextView)findViewById(R.id.mainDescText);
+    }
+
+    /**
+     * Assign the listviews with adapters and the xml elements.
+     */
+    void assignListViews() {
+        userRequestList = (ListView)findViewById(R.id.mainRequestList);
+        schemeList = (ListView)findViewById(R.id.mainOwnSchemeList);
+
+        userRequestArray = new ArrayList<UserReqestItem>();
+        schemeArray = new ArrayList<String>();
+
+        userRequestAdapter = new UserRequestAdapter(MainActivity.this, userRequestArray);
+        schemeAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, schemeArray);
+
+        userRequestList.setAdapter(userRequestAdapter);
+        schemeList.setAdapter(schemeAdapter);
     }
 }
