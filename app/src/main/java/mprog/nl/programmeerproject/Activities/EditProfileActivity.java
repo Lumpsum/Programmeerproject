@@ -126,11 +126,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         else {
                             MainActivity.createAlert("Your adress can't be found, please change your adress.", EditProfileActivity.this).show();
                         }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
+                    } catch (InterruptedException | ExecutionException | JSONException e) {
                         e.printStackTrace();
                     }
                 }

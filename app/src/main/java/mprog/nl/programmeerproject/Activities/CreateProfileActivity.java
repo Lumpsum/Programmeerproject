@@ -109,11 +109,7 @@ public class CreateProfileActivity extends AppCompatActivity {
                         else {
                             MainActivity.createAlert("Your adress can't be found, please change your adress.", CreateProfileActivity.this).show();
                         }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
+                    } catch (InterruptedException | ExecutionException | JSONException e) {
                         e.printStackTrace();
                     }
                 }
