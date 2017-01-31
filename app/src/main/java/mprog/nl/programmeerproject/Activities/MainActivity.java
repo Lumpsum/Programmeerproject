@@ -19,10 +19,12 @@ import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import mprog.nl.programmeerproject.Classes.User;
 import mprog.nl.programmeerproject.R;
 import mprog.nl.programmeerproject.Classes.UserReqestItem;
 import mprog.nl.programmeerproject.Adapters.UserRequestAdapter;
@@ -118,86 +121,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ref.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        switch (postSnapshot.getKey()) {
-                            case "FirstName" :
-                                String firstName = postSnapshot.getValue().toString();
-                                welcomeText.setText(welcomeText.getText() + " " + firstName);
-                                firstNameText.setText(firstNameText.getText() + ": " + firstName);
-                                userMap.put("FirstName", firstName);
-                                break;
-                            case "LastName" :
-                                String lastName = postSnapshot.getValue().toString();
-                                lastNameText.setText(lastNameText.getText() + ": " + lastName);
-                                userMap.put("LastName", lastName);
-                                break;
-                            case "Gender":
-                                String gender = postSnapshot.getValue().toString();
-                                genderText.setText(genderText.getText().toString() + gender);
-                                userMap.put("Gender", gender);
-                                break;
-                            case "Age":
-                                String age = postSnapshot.getValue().toString();
-                                ageText.setText(ageText.getText() + ": " + age);
-                                userMap.put("Age", age);
-                                break;
-                            case "Street" :
-                                String street = postSnapshot.getValue().toString();
-                                streetText.setText(streetText.getText() + ": " + street);
-                                userMap.put("Street", street);
-                                break;
-                            case "Number" :
-                                String number = postSnapshot.getValue().toString();
-                                numText.setText(numText.getText() + ": " + number);
-                                userMap.put("Number", number);
-                                break;
-                            case "City" :
-                                String city = postSnapshot.getValue().toString();
-                                cityText.setText(cityText.getText() + ": " + city);
-                                userMap.put("City", city);
-                                break;
-                            case "Sport" :
-                                String sport = postSnapshot.getValue().toString();
-                                sportText.setText(sportText.getText() + " " + sport);
-                                userMap.put("Sport", sport);
-                                break;
-                            case "Level" :
-                                String level = postSnapshot.getValue().toString();
-                                levelText.setText(levelText.getText() + " " + level);
-                                userMap.put("Level", level);
-                                break;
-                            case "Description":
-                                String description = postSnapshot.getValue().toString();
-                                descText.setText(descText.getText().toString() + description);
-                                userMap.put("Description", description);
-                                break;
-                            case "Schemes":
-                                for (DataSnapshot postPostSnapshot : postSnapshot.getChildren()) {
-                                    for (DataSnapshot postPostPostSnapshot : postPostSnapshot.getChildren()) {
-                                        schemeArray.add(postPostSnapshot.getKey() + ": " + postPostPostSnapshot.getKey());
-                                    }
-                                }
-                        }
-                    }
+                    User user = dataSnapshot.getValue(User.class);
+                    setUserInfo(user);
 
                     // Makes the edit profile button only visible if the information is loaded
                     // in order to prevent desyncs.
                     editProfileButton.setVisibility(View.VISIBLE);
                     schemeAdapter.notifyDataSetChanged();
-                }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-            // Adds the user requests to the list view.
-            ref.child(userId).child("UserRequests").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        addUserRequestItems(postSnapshot.getKey());
+                    // Fills the listview with user requests.
+                    if (user.UserRequests != null) {
+                        setUserRequests(user);
                     }
                 }
 
@@ -484,5 +418,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         userRequestList.setAdapter(userRequestAdapter);
         schemeList.setAdapter(schemeAdapter);
+    }
+
+    /**
+     * Set the text of the mainprofile to the information of the user.
+     *
+     * @param u User class that contains the information.
+     */
+    void setUserInfo(User u) {
+        welcomeText.setText(welcomeText.getText() + " " + u.FirstName);
+        firstNameText.setText(firstNameText.getText() + ": " + u.FirstName);
+        userMap.put("FirstName", u.FirstName);
+
+        lastNameText.setText(lastNameText.getText() + ": " + u.LastName);
+        userMap.put("LastName", u.LastName);
+
+        genderText.setText(genderText.getText().toString() + u.Gender);
+        userMap.put("Gender", u.Gender);
+
+        ageText.setText(ageText.getText() + ": " + u.Age);
+        userMap.put("Age", u.Age);
+
+        streetText.setText(streetText.getText() + ": " + u.Street);
+        userMap.put("Street", u.Street);
+
+        numText.setText(numText.getText() + ": " + u.Number);
+        userMap.put("Number", u.Number);
+
+        cityText.setText(cityText.getText() + ": " + u.City);
+        userMap.put("City", u.City);
+
+        sportText.setText(sportText.getText() + " " + u.Sport);
+        userMap.put("Sport", u.Sport);
+
+        levelText.setText(levelText.getText() + " " + u.Level);
+        userMap.put("Level", u.Level);
+
+        descText.setText(descText.getText().toString() + u.Description);
+        userMap.put("Description", u.Description);
+
+        if (!(u.Schemes == null)) {
+            for (Map.Entry<String, HashMap<String, String>> entry : u.Schemes.entrySet()) {
+                for (Map.Entry<String, String> postEntry : entry.getValue().entrySet()) {
+                    schemeArray.add(postEntry.getKey() + ": " + entry.getKey());
+                }
+            }
+        }
+    }
+
+    /**
+     * Retrieves the requests and puts the correct information in the listview.
+     *
+     * @param u User class that holds user requests.
+     */
+    void setUserRequests(User u) {
+        for (Map.Entry<String, String> entry : u.UserRequests.entrySet()) {
+            addUserRequestItems(entry.getKey());
+        }
     }
 }
