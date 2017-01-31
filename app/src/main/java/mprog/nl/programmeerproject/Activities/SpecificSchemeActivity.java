@@ -21,7 +21,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
+import mprog.nl.programmeerproject.Classes.Scheme;
 import mprog.nl.programmeerproject.R;
 
 /**
@@ -95,49 +97,8 @@ public class SpecificSchemeActivity extends AppCompatActivity implements View.On
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    switch (postSnapshot.getKey()) {
-
-                        //Creates an array of keywords and sets the text of the keywords.
-                        case "Keywords":
-                            for (DataSnapshot postPostSnapshot : postSnapshot.getChildren()) {
-                                String keyword = postPostSnapshot.getValue().toString();
-                                keywords.add(keyword);
-                                keyText.setText(keyText.getText() + keyword + " ");
-                            }
-                            break;
-                        case "Description":
-                            description = postSnapshot.getValue().toString();
-                            descText.setText(description);
-                            break;
-                        case "Rating":
-                            rating = Float.parseFloat(postSnapshot.getValue().toString());
-                            rateBar.setRating(rating);
-                            break;
-                        case "RateAmount":
-                            ratingAmount = Integer.parseInt(postSnapshot.getValue().toString());
-                            break;
-
-                        // Checks whether the user is the author or not and changes the button accordingly.
-                        case "Author":
-                            if (userId.equals(postSnapshot.getValue())) {
-                                rateEditButton.setText("Edit");
-                            } else if (!rateEditButton.getText().equals("Rate Again")) {
-                                rateEditButton.setText("Rate");
-                            }
-                            break;
-
-                        // Checks whether the user already rated this scheme and adjust to that knowledge.
-                        case "Users":
-                            for (DataSnapshot postPostSnapshot : postSnapshot.getChildren()) {
-                                if (postPostSnapshot.getKey().equals(userId)) {
-                                    currentRating = Float.parseFloat(postPostSnapshot.getValue().toString());
-                                    rateEditButton.setText("Rate Again");
-                                }
-                                users.put(postPostSnapshot.getKey(), postPostSnapshot.getValue().toString());
-                            }
-                    }
-                }
+                Scheme scheme = dataSnapshot.getValue(Scheme.class);
+                setSchemeData(scheme);
             }
 
             @Override
@@ -257,5 +218,40 @@ public class SpecificSchemeActivity extends AppCompatActivity implements View.On
 
         titleText.setText(title);
         catText.setText(category);
+    }
+
+    /**
+     * Method that retrieves the data of the scheme object and sets the text accordingly.
+     *
+     * @param s Scheme object that contains all the data.
+     */
+    void setSchemeData(Scheme s) {
+        for(Map.Entry<String, String> entry : s.Keywords.entrySet()) {
+            keywords.add(String.valueOf(entry));
+            keyText.setText(keyText.getText() + entry.getValue() + " ");
+        }
+
+        descText.setText(s.Description);
+
+        rating = (float) s.Rating;
+        rateBar.setRating(rating);
+
+        ratingAmount = s.RateAmount;
+
+        if (userId.equals(s.Author)) {
+            rateEditButton.setText("Edit");
+        } else if (!rateEditButton.getText().equals("Rate Again")) {
+            rateEditButton.setText("Rate");
+        }
+
+        if (s.Users != null) {
+            for (Map.Entry<String, Double> entry : s.Users.entrySet()) {
+                if (entry.getKey().equals(userId)) {
+                    currentRating = Float.parseFloat(String.valueOf(entry.getValue()));
+                    rateEditButton.setText("Rate Again");
+                }
+                users.put(entry.getKey(), String.valueOf(entry.getValue()));
+            }
+        }
     }
 }

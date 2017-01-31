@@ -460,7 +460,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (!(u.Schemes == null)) {
             for (Map.Entry<String, HashMap<String, String>> entry : u.Schemes.entrySet()) {
                 for (Map.Entry<String, String> postEntry : entry.getValue().entrySet()) {
-                    schemeArray.add(postEntry.getKey() + ": " + entry.getKey());
+                    schemeArray.add(entry.getKey() + ": " + postEntry.getKey());
                 }
             }
         }
