@@ -44,3 +44,11 @@ Het editten van schemes toegevoegd waarbij ik voor dezelfde flow als het edit pr
 # Dag 11
 
 De lijsten van de user gevuld met zijn schemes en die middels een longclick te verwijderen zijn, verder de top 5 beste schemes van running en fitness weergegeven. Lastige is dat orderByChild ascending geordend is, maar dit opgelost door elk nieuwe element aan het begin van de array toe te voegen. Verder begonnen met het opschonen van de code waarbij er comments worden toegeveogd, methodes nader benoemd en nieuwe methodes toegevoegd, zodat het een mooier geheel wordt.
+
+# Dag 12
+
+Alle files volledig gecomment naar de conventies die gebruikelijk zijn voor Java. Verder ook nog methodes toegevoegd om duplicaten te verwijderen en aan de hand van Better Code m'n code kwaliteit verhoogd. Lastige hiervan is dat m'n cases te lang zijn, maar een alternatief niet echt handig of mogelijk is. Verder zijn de onCreate methodes te lang omdat je de xml elementen assigned, maar dit lijkt mij geen probleem als je dit goed ordent.
+
+# Dag 13
+
+De layout van elke file aangepast, waarbij ik ervoor gekozen heb om een afbeeldingen op de achtergrond te doen met daarop doorzichtige blokken met de content. Verder veel buttons omgezet naar ImageButtons zodat ik gebruik kan maken van vector afbeeldingen om de app er mooier uit te laten zien. Daarnaast via Adobe CC een kleurenschema uitgekozen, zodat de kleuren goed bij elkaar matchen.
