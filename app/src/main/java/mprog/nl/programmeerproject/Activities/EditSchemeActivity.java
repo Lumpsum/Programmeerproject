@@ -70,14 +70,7 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_edit_scheme);
 
         // Retrieve the scheme information passed by the previous activity.
-        Intent intent = getIntent();
-        title = intent.getStringExtra("Title");
-        category = intent.getStringExtra("Category");
-        desc = intent.getStringExtra("Description");
-        rating = intent.getFloatExtra("Rating", 0);
-        ratingAmount = intent.getIntExtra("RatingAmount", 0);
-        keywords = intent.getStringArrayListExtra("Keywords");
-        users = (HashMap<String, String>) intent.getSerializableExtra("Users");
+        retrieveIntentData();
 
         // Assign firebase variables
         firebaseAuth = FirebaseAuth.getInstance();
@@ -208,5 +201,19 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
 
             }
         });
+    }
+
+    /**
+     * Retrieves the intent data from the previous activity.
+     */
+    void retrieveIntentData() {
+        Intent intent = getIntent();
+        title = intent.getStringExtra("Title");
+        category = intent.getStringExtra("Category");
+        desc = intent.getStringExtra("Description");
+        rating = intent.getFloatExtra("Rating", 0);
+        ratingAmount = intent.getIntExtra("RatingAmount", 0);
+        keywords = intent.getStringArrayListExtra("Keywords");
+        users = (HashMap<String, String>) intent.getSerializableExtra("Users");
     }
 }

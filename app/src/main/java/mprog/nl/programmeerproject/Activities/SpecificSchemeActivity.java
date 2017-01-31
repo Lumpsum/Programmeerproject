@@ -80,24 +80,9 @@ public class SpecificSchemeActivity extends AppCompatActivity implements View.On
         category = intent.getStringExtra("Category");
 
         // Assign to the xml elements and init the variables
-        homeButton = (ImageButton)findViewById(R.id.homeButton);
-        findButton = (ImageButton)findViewById(R.id.findButton);
-        chatButton = (ImageButton)findViewById(R.id.chatButton);
-        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
-        rateEditButton = (Button)findViewById(R.id.specSchemeButton);
-        homeButton.setOnClickListener(this);
-        findButton.setOnClickListener(this);
-        chatButton.setOnClickListener(this);
-        schemeButton.setOnClickListener(this);
-        rateEditButton.setOnClickListener(this);
+        assignButtons();
 
-        titleText = (TextView)findViewById(R.id.specSchemeTitleText);
-        catText = (TextView)findViewById(R.id.specSchemeCatText);
-        keyText = (TextView)findViewById(R.id.specSchemeKeyText);
-        descText = (TextView)findViewById(R.id.specSchemeDescText);
-
-        titleText.setText(title);
-        catText.setText(category);
+        assignTextViews();
 
         keywords = new ArrayList<String>();
 
@@ -243,5 +228,34 @@ public class SpecificSchemeActivity extends AppCompatActivity implements View.On
                 }
                 break;
         }
+    }
+
+    /**
+     * Assign the buttons to xml elements and set the listeners.
+     */
+    void assignButtons() {
+        homeButton = (ImageButton)findViewById(R.id.homeButton);
+        findButton = (ImageButton)findViewById(R.id.findButton);
+        chatButton = (ImageButton)findViewById(R.id.chatButton);
+        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
+        rateEditButton = (Button)findViewById(R.id.specSchemeButton);
+        homeButton.setOnClickListener(this);
+        findButton.setOnClickListener(this);
+        chatButton.setOnClickListener(this);
+        schemeButton.setOnClickListener(this);
+        rateEditButton.setOnClickListener(this);
+    }
+
+    /**
+     * Assign the textviews to xml elements and set the text.
+     */
+    void assignTextViews() {
+        titleText = (TextView)findViewById(R.id.specSchemeTitleText);
+        catText = (TextView)findViewById(R.id.specSchemeCatText);
+        keyText = (TextView)findViewById(R.id.specSchemeKeyText);
+        descText = (TextView)findViewById(R.id.specSchemeDescText);
+
+        titleText.setText(title);
+        catText.setText(category);
     }
 }

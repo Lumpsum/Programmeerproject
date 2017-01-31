@@ -61,12 +61,7 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
 
         // Retrieve information from the previous activity and picks an
         // userId from the given list.
-        Bundle bundle = this.getIntent().getExtras();
-        foundUserIds = bundle.getStringArrayList("foundUserIds");
-        selector = this.getIntent().getIntExtra("selector", 0);
-        foundUserId = foundUserIds.get(selector);
-        selector = selector + 1;
-        size = foundUserIds.size();
+        retrieveIntentData();
 
 
         // Assign firebase variables
@@ -77,27 +72,9 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
         ref = databaseRef.child("Users");
 
         // Assign to the xml elements and init the variables
-        firstText = (TextView)findViewById(R.id.specUserFirstText);
-        lastText = (TextView)findViewById(R.id.specUserLastText);
-        genderText = (TextView)findViewById(R.id.specUserGenderText);
-        ageText = (TextView)findViewById(R.id.specUserAgeText);
-        sportText = (TextView)findViewById(R.id.specUserSportText);
-        levelText = (TextView)findViewById(R.id.specUserLevelText);
-        descText = (TextView)findViewById(R.id.specUserDescText);
+        assignTextViews();
 
-        searchButton = (ImageButton)findViewById(R.id.specUserSearchButton);
-        addButton = (ImageButton)findViewById(R.id.specUserAddButton);
-        homeButton = (ImageButton)findViewById(R.id.homeButton);
-        findButton = (ImageButton)findViewById(R.id.findButton);
-        chatButton = (ImageButton)findViewById(R.id.chatButton);
-        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
-
-        searchButton.setOnClickListener(this);
-        addButton.setOnClickListener(this);
-        homeButton.setOnClickListener(this);
-        findButton.setOnClickListener(this);
-        chatButton.setOnClickListener(this);
-        schemeButton.setOnClickListener(this);
+        assignButtons();
 
         // Fills the activity with information of the chosen userId
         ref.child(foundUserId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -180,5 +157,49 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
                 startActivity(MainActivity.createNewIntent(SpecificUserActivity.this, ChatActvity.class));
                 break;
         }
+    }
+
+    /**
+     * Assigns the buttons to the xml elements and sets the listeners.
+     */
+    void assignButtons() {
+        searchButton = (ImageButton)findViewById(R.id.specUserSearchButton);
+        addButton = (ImageButton)findViewById(R.id.specUserAddButton);
+        homeButton = (ImageButton)findViewById(R.id.homeButton);
+        findButton = (ImageButton)findViewById(R.id.findButton);
+        chatButton = (ImageButton)findViewById(R.id.chatButton);
+        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
+
+        searchButton.setOnClickListener(this);
+        addButton.setOnClickListener(this);
+        homeButton.setOnClickListener(this);
+        findButton.setOnClickListener(this);
+        chatButton.setOnClickListener(this);
+        schemeButton.setOnClickListener(this);
+    }
+
+    /**
+     * Assigns the textviews to the xml elements.
+     */
+    void assignTextViews() {
+        firstText = (TextView)findViewById(R.id.specUserFirstText);
+        lastText = (TextView)findViewById(R.id.specUserLastText);
+        genderText = (TextView)findViewById(R.id.specUserGenderText);
+        ageText = (TextView)findViewById(R.id.specUserAgeText);
+        sportText = (TextView)findViewById(R.id.specUserSportText);
+        levelText = (TextView)findViewById(R.id.specUserLevelText);
+        descText = (TextView)findViewById(R.id.specUserDescText);
+    }
+
+    /**
+     * Retrieves the intent data from the previous activity.
+     */
+    void retrieveIntentData() {
+        Bundle bundle = this.getIntent().getExtras();
+        foundUserIds = bundle.getStringArrayList("foundUserIds");
+        selector = this.getIntent().getIntExtra("selector", 0);
+        foundUserId = foundUserIds.get(selector);
+        selector = selector + 1;
+        size = foundUserIds.size();
     }
 }

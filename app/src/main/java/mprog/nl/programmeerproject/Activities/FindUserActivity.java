@@ -86,17 +86,7 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
         genderCheck = (CheckBox) findViewById(R.id.findUserGenderCheck);
         ageCheck = (CheckBox) findViewById(R.id.findUserAgeCheck);
 
-        findUserButton = (Button) findViewById(R.id.findUserSearchButton);
-        chatButton = (ImageButton)findViewById(R.id.chatButton);
-        homeButton = (ImageButton)findViewById(R.id.homeButton);
-        findButton = (ImageButton)findViewById(R.id.findButton);
-        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
-
-        findUserButton.setOnClickListener(this);
-        chatButton.setOnClickListener(this);
-        homeButton.setOnClickListener(this);
-        findButton.setOnClickListener(this);
-        schemeButton.setOnClickListener(this);
+        assignButtons();
 
         foundUserIds = new ArrayList<>();
 
@@ -146,7 +136,9 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
-    // Checks whether a user is a match and adds them to the array of found users.
+    /**
+     * Checks whether a user is a match and adds them to the array of found users.
+     */
     void findUser() {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -315,6 +307,23 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
                     findUser();
                 }
         }
+    }
+
+    /**
+     * Assigns the buttons the xml elements.
+     */
+    void assignButtons() {
+        findUserButton = (Button) findViewById(R.id.findUserSearchButton);
+        chatButton = (ImageButton)findViewById(R.id.chatButton);
+        homeButton = (ImageButton)findViewById(R.id.homeButton);
+        findButton = (ImageButton)findViewById(R.id.findButton);
+        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
+
+        findUserButton.setOnClickListener(this);
+        chatButton.setOnClickListener(this);
+        homeButton.setOnClickListener(this);
+        findButton.setOnClickListener(this);
+        schemeButton.setOnClickListener(this);
     }
 
 }
