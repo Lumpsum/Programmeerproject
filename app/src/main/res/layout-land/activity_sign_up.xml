@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_sign_up"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="mprog.nl.programmeerproject.Activities.SignUpActivity">
+
+    <TextView
+        android:id="@+id/signUpLogDetailsText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/logInDetailHint"
+        android:padding="10dp"
+        />
+
+    <EditText
+        android:id="@+id/signUpEmailEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/email"
+        android:padding="10dp"
+        android:layout_below="@id/signUpLogDetailsText"
+        />
+
+    <EditText
+        android:id="@+id/signUpPassEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/pass"
+        android:layout_below="@id/signUpEmailEdit"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        />
+
+    <Button
+        android:id="@+id/signUpNextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/next"
+        android:layout_below="@id/signUpPassEdit"
+        android:padding="10dp"
+        />
+
+    <TextView
+        android:id="@+id/signUpLogText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/logIn"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/signUpNextButton"
+        android:padding="10dp"
+        />
+
+</RelativeLayout>
