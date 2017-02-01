@@ -352,27 +352,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * @param u User class that contains the information.
      */
     void setUserInfo(User u) {
-        welcomeText.setText(welcomeText.getText() + " " + u.FirstName);
-        firstNameText.setText(firstNameText.getText() + ": " + u.FirstName);
-        userMap.put("FirstName", u.FirstName);
-
-        lastNameText.setText(lastNameText.getText() + ": " + u.LastName);
-        userMap.put("LastName", u.LastName);
-
-        genderText.setText(genderText.getText().toString() + u.Gender);
-        userMap.put("Gender", u.Gender);
-
-        ageText.setText(ageText.getText() + ": " + u.Age);
-        userMap.put("Age", u.Age);
-
-        streetText.setText(streetText.getText() + ": " + u.Street);
-        userMap.put("Street", u.Street);
-
-        numText.setText(numText.getText() + ": " + u.Number);
-        userMap.put("Number", u.Number);
-
-        cityText.setText(cityText.getText() + ": " + u.City);
-        userMap.put("City", u.City);
+        setBasicUserInfo(u);
 
         sportText.setText(sportText.getText() + " " + u.Sport);
         userMap.put("Sport", u.Sport);
@@ -518,5 +498,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
             }
         });
+    }
+
+    /**
+     * Sets the basic information of the user (name etc.) in the texts.
+     *
+     * @param u User class with the users information.
+     */
+    void setBasicUserInfo(User u) {
+        welcomeText.setText(welcomeText.getText() + " " + u.FirstName);
+        firstNameText.setText(firstNameText.getText() + ": " + u.FirstName);
+        userMap.put("FirstName", u.FirstName);
+
+        lastNameText.setText(lastNameText.getText() + ": " + u.LastName);
+        userMap.put("LastName", u.LastName);
+
+        genderText.setText(genderText.getText().toString() + u.Gender);
+        userMap.put("Gender", u.Gender);
+
+        ageText.setText(ageText.getText() + ": " + u.Age);
+        userMap.put("Age", u.Age);
+
+        streetText.setText(streetText.getText() + ": " + u.Street);
+        userMap.put("Street", u.Street);
+
+        numText.setText(numText.getText() + ": " + u.Number);
+        userMap.put("Number", u.Number);
+
+        cityText.setText(cityText.getText() + ": " + u.City);
+        userMap.put("City", u.City);
     }
 }

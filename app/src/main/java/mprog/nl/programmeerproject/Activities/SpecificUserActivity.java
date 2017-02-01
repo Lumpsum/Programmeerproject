@@ -92,13 +92,7 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
                 ref.child(userId).child("RefusedUsers").child(foundUserId).setValue(foundUserId);
                 ref.child(foundUserId).child("RefusedUsers").child(userId).setValue(userId);
                 if (selector < size) {
-                    Intent newIntent = MainActivity.createNewIntent(SpecificUserActivity.this, SpecificUserActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putStringArrayList("foundUserIds", foundUserIds);
-                    newIntent.putExtras(bundle);
-                    newIntent.putExtra("selector", selector);
-                    MainActivity.createToast(SpecificUserActivity.this, "Next user.").show();
-                    startActivity(newIntent);
+                    presentNextUser();
                 }
                 else {
                     MainActivity.createToast(SpecificUserActivity.this, "All users found, please adjust parameters.").show();
@@ -108,11 +102,7 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
 
             // Adds your userId to the request list of the other user and start the main Activity.ImageButton
             case R.id.specUserAddButton:
-                ref.child(userId).child("RefusedUsers").child(foundUserId).setValue(foundUserId);
-                ref.child(foundUserId).child("RefusedUsers").child(userId).setValue(userId);
-                ref.child(foundUserId).child("UserRequests").child(userId).setValue(userId);
-                MainActivity.createToast(SpecificUserActivity.this, "User request send.").show();
-                startActivity(MainActivity.createNewIntent(SpecificUserActivity.this, MainActivity.class));
+                sendUserRequest();
                 break;
             case R.id.homeButton:
                 startActivity(MainActivity.createNewIntent(SpecificUserActivity.this, MainActivity.class));
@@ -201,5 +191,29 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
                 fillUserInfo(user);
             }
         });
+    }
+
+    /**
+     * Sends a user request to the user.
+     */
+    void sendUserRequest() {
+        ref.child(userId).child("RefusedUsers").child(foundUserId).setValue(foundUserId);
+        ref.child(foundUserId).child("RefusedUsers").child(userId).setValue(userId);
+        ref.child(foundUserId).child("UserRequests").child(userId).setValue(userId);
+        MainActivity.createToast(SpecificUserActivity.this, "User request send.").show();
+        startActivity(MainActivity.createNewIntent(SpecificUserActivity.this, MainActivity.class));
+    }
+
+    /**
+     * Retrieves the next user from the list and starts an activity with that users information.
+     */
+    void presentNextUser() {
+        Intent newIntent = MainActivity.createNewIntent(SpecificUserActivity.this, SpecificUserActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList("foundUserIds", foundUserIds);
+        newIntent.putExtras(bundle);
+        newIntent.putExtra("selector", selector);
+        MainActivity.createToast(SpecificUserActivity.this, "Next user.").show();
+        startActivity(newIntent);
     }
 }

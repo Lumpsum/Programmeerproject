@@ -119,15 +119,7 @@ public class CreateSchemeActivity extends AppCompatActivity implements View.OnCl
             //Checks whether all the fields are filled in and fills the database with the scheme
             // if this is the case.
             case R.id.createSchemeCreateButton:
-                title = titleEdit.getText().toString();
-                desc = descEdit.getText().toString();
-                if (title.isEmpty() || desc.isEmpty()) {
-                    MainActivity.createAlert("Please fill in both the title and description field.", CreateSchemeActivity.this).show();
-                }
-                else {
-                    ref = databaseRef.child("Schemes").child(categorySpinner.getSelectedItem().toString());
-                    checkTitleCreateScheme(ref);
-                }
+                createScheme();
                 break;
         }
     }
@@ -259,5 +251,20 @@ public class CreateSchemeActivity extends AppCompatActivity implements View.OnCl
 
         MainActivity.createToast(CreateSchemeActivity.this, "Scheme succesfully created.").show();
         startActivity(MainActivity.createNewIntent(CreateSchemeActivity.this, SchemeActivity.class));
+    }
+
+    /**
+     * Creates the scheme entries in the firebase.
+     */
+    void createScheme() {
+        title = titleEdit.getText().toString();
+        desc = descEdit.getText().toString();
+        if (title.isEmpty() || desc.isEmpty()) {
+            MainActivity.createAlert("Please fill in both the title and description field.", CreateSchemeActivity.this).show();
+        }
+        else {
+            ref = databaseRef.child("Schemes").child(categorySpinner.getSelectedItem().toString());
+            checkTitleCreateScheme(ref);
+        }
     }
 }

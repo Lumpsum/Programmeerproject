@@ -138,24 +138,7 @@ public class ChatActvity extends AppCompatActivity implements View.OnClickListen
                 chatAdapter.notifyDataSetChanged();
                 ref.child(userId).child("Chats").child(data).removeValue();
                 ref.child(data).child("Chats").child(userId).removeValue();
-                databaseRef.child("Chats").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        DatabaseReference tempRef;
-                        if (dataSnapshot.hasChild(userId + "," + data)) {
-                            tempRef = databaseRef.child("Chats").child(userId + "," + data);
-                        } else {
-                            tempRef = databaseRef.child("Chats").child(data + "," + userId);
-                        }
-                        tempRef.removeValue();
-                        MainActivity.createToast(ChatActvity.this, "Chat succesfully deleted.").show();
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+                removeChatFromChats(data);
                 return true;
             }
         });
@@ -202,6 +185,32 @@ public class ChatActvity extends AppCompatActivity implements View.OnClickListen
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     addListItems(postSnapshot.getKey());
                 }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    /**
+     * Removes chat from the chats branch.
+     *
+     * @param data The id of the other user.
+     */
+    void removeChatFromChats(final String data) {
+        databaseRef.child("Chats").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                DatabaseReference tempRef;
+                if (dataSnapshot.hasChild(userId + "," + data)) {
+                    tempRef = databaseRef.child("Chats").child(userId + "," + data);
+                } else {
+                    tempRef = databaseRef.child("Chats").child(data + "," + userId);
+                }
+                tempRef.removeValue();
+                MainActivity.createToast(ChatActvity.this, "Chat succesfully deleted.").show();
             }
 
             @Override
