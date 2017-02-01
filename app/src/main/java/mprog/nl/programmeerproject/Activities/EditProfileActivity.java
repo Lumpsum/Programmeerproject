@@ -108,27 +108,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     DatabaseReference ref = databaseRef.child("Users").child(userId);
 
                     AsyncTask<String, String, StringBuilder> aSyncTask = new ASyncTask();
-                    StringBuilder result;
-                    try {
-                        result = aSyncTask.execute(street, num, city).get();
-                        JSONObject jsonObject = new JSONObject(result.toString());
-                        String status = jsonObject.getString("status");
-
-                        // Checks whether the given location is valid.
-                        if (status.equals("OK")) {
-                            JSONArray loc = jsonObject.getJSONArray("results");
-                            JSONObject loc2 = loc.getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
-                            location = loc2.getString("lat") + "," + loc2.getString("lng");
-                            adjustFireBaseUserProfile(ref);
-                            MainActivity.createToast(EditProfileActivity.this, "Profile succesfully edited.").show();
-                            startActivity(MainActivity.createNewIntent(EditProfileActivity.this, MainActivity.class));
-                        }
-                        else {
-                            MainActivity.createAlert("Your adress can't be found, please change your adress.", EditProfileActivity.this).show();
-                        }
-                    } catch (InterruptedException | ExecutionException | JSONException e) {
-                        e.printStackTrace();
-                    }
+                    tryResult(ref, aSyncTask);
                 }
             }
         });
@@ -219,5 +199,48 @@ public class EditProfileActivity extends AppCompatActivity {
         num = numberEdit.getText().toString().trim();
         city = cityEdit.getText().toString().trim();
         age = ageEdit.getText().toString().trim();
+    }
+
+    /**
+     * Tries to perform an API call to Google Geocode API.
+     *
+     * @param ref Reference to database where eventually changes are made if everything is correct.
+     * @param aSyncTask Asynctask that handles the API call asynchronously.
+     */
+    void tryResult(DatabaseReference ref, AsyncTask<String, String, StringBuilder> aSyncTask) {
+        try {
+            StringBuilder result;
+            result = aSyncTask.execute(street, num, city).get();
+            JSONObject jsonObject = new JSONObject(result.toString());
+            String status = jsonObject.getString("status");
+
+            // Checks whether the given location is valid.
+            checkResult(status, jsonObject, ref);
+        } catch (InterruptedException | ExecutionException | JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Takes the API results and checks whether the location is valid, if so starts new activity.
+     * Else gives an error.
+     *
+     * @param s The status of the API call.
+     * @param object The full result of the API
+     * @param ref Reference to the database where the changes are made if the call is valid.
+     * @throws JSONException Exception for the jsonObject and it's calls.
+     */
+    void checkResult(String s, JSONObject object, DatabaseReference ref) throws JSONException {
+        if (s.equals("OK")) {
+            JSONArray loc = object.getJSONArray("results");
+            JSONObject loc2 = loc.getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
+            location = loc2.getString("lat") + "," + loc2.getString("lng");
+            adjustFireBaseUserProfile(ref);
+            MainActivity.createToast(EditProfileActivity.this, "Profile succesfully edited.").show();
+            startActivity(MainActivity.createNewIntent(EditProfileActivity.this, MainActivity.class));
+        }
+        else {
+            MainActivity.createAlert("Your adress can't be found, please change your adress.", EditProfileActivity.this).show();
+        }
     }
 }

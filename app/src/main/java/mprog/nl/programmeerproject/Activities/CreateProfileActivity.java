@@ -89,29 +89,7 @@ public class CreateProfileActivity extends AppCompatActivity {
                     DatabaseReference ref = databaseRef.child("Users").child(userId);
 
                     AsyncTask<String, String, StringBuilder> aSyncTask = new ASyncTask();
-                    StringBuilder result;
-                    try {
-
-                        //Starts the asynctask with the call to the google api
-                        result = aSyncTask.execute(street, num, city).get();
-                        JSONObject jsonObject = new JSONObject(result.toString());
-                        String status = jsonObject.getString("status");
-
-                        // Checks whether the given adress returns a valid location
-                        if (status.equals("OK")) {
-                            JSONArray loc = jsonObject.getJSONArray("results");
-                            JSONObject loc2 = loc.getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
-                            location = loc2.getString("lat") + "," + loc2.getString("lng");
-                            fillFireBaseWithPersonalInfo(ref);
-                            MainActivity.createToast(CreateProfileActivity.this, "Second step of the profile creation completed.").show();
-                            startActivity(MainActivity.createNewIntent(CreateProfileActivity.this, CreateProfileSecondActivity.class));
-                        }
-                        else {
-                            MainActivity.createAlert("Your adress can't be found, please change your adress.", CreateProfileActivity.this).show();
-                        }
-                    } catch (InterruptedException | ExecutionException | JSONException e) {
-                        e.printStackTrace();
-                    }
+                    tryResult(ref, aSyncTask);
                 }
             }
         });
@@ -166,5 +144,48 @@ public class CreateProfileActivity extends AppCompatActivity {
         city = cityEdit.getText().toString().trim();
         num = numberEdit.getText().toString().trim();
         age = ageEdit.getText().toString().trim();
+    }
+
+    /**
+     * Tries to perform an API call to Google Geocode API.
+     *
+     * @param ref Reference to database where eventually changes are made if everything is correct.
+     * @param aSyncTask Asynctask that handles the API call asynchronously.
+     */
+    void tryResult(DatabaseReference ref, AsyncTask<String, String, StringBuilder> aSyncTask) {
+        StringBuilder result;
+        try {
+
+            //Starts the asynctask with the call to the google api
+            result = aSyncTask.execute(street, num, city).get();
+            JSONObject jsonObject = new JSONObject(result.toString());
+            String status = jsonObject.getString("status");
+
+            // Checks whether the given adress returns a valid location
+            checkResult(status, jsonObject, ref);
+        } catch (InterruptedException | ExecutionException | JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * Takes the API results and checks whether the location is valid, if so starts new activity.
+     * Else gives an error.
+     *
+     * @param s The status of the API call.
+     * @param object The full result of the API
+     * @param ref Reference to the database where the changes are made if the call is valid.
+     * @throws JSONException Exception for the jsonObject and it's calls.
+     */
+    void checkResult(String s, JSONObject object, DatabaseReference ref) throws JSONException {
+        if (s.equals("OK")) {
+            JSONArray loc = object.getJSONArray("results");
+            JSONObject loc2 = loc.getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
+            location = loc2.getString("lat") + "," + loc2.getString("lng");
+            fillFireBaseWithPersonalInfo(ref);
+            MainActivity.createToast(CreateProfileActivity.this, "Second step of the profile creation completed.").show();
+            startActivity(MainActivity.createNewIntent(CreateProfileActivity.this, CreateProfileSecondActivity.class));
+        } else {
+            MainActivity.createAlert("Your adress can't be found, please change your adress.", CreateProfileActivity.this).show();
+        }
     }
 }
