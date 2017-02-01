@@ -3,6 +3,7 @@ package mprog.nl.programmeerproject.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -47,6 +48,7 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
     Spinner thirdKeySpinner;
 
     ArrayList<String> keyArray;
+    ArrayList<String> optionalKeyArray;
 
     ArrayAdapter<String> keyAdapter;
     ArrayAdapter<String> optionalKeyAdapter;
@@ -94,36 +96,24 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
         thirdKeySpinner = (Spinner)findViewById(R.id.editSchemeThirdSpinner);
 
         keyArray = MainActivity.createKeyArray();
+        optionalKeyArray = MainActivity.createKeyArray();
+        optionalKeyArray.add("");
 
         keyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, keyArray);
-        keyArray.add("");
-        optionalKeyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, keyArray);
+        optionalKeyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, optionalKeyArray);
 
         keyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         firstKeySpinner.setAdapter(keyAdapter);
-        secondKeySpinner.setAdapter(keyAdapter);
-        thirdKeySpinner.setAdapter(keyAdapter);
+        secondKeySpinner.setAdapter(optionalKeyAdapter);
+        thirdKeySpinner.setAdapter(optionalKeyAdapter);
 
+        firstKeySpinner.setSelection(keyAdapter.getPosition(keywords.get(0)));
         secondKeySpinner.setSelection(optionalKeyAdapter.getPosition(""));
         thirdKeySpinner.setSelection(optionalKeyAdapter.getPosition(""));
 
         // Set the selection of the keywords to the previously chosen keywords.
-        int i = 0;
-        while (i < keywords.size()) {
-            switch (i) {
-                case 0:
-                    firstKeySpinner.setSelection(keyAdapter.getPosition(keywords.get(i)));
-                    break;
-                case 1:
-                    secondKeySpinner.setSelection(optionalKeyAdapter.getPosition(keywords.get(i)));
-                    break;
-                case 2:
-                    thirdKeySpinner.setSelection(optionalKeyAdapter.getPosition(keywords.get(i)));
-                    break;
-            }
-            i++;
-        }
+        setKeywords();
 
         // Thread that removes the scheme from the users entry and readds all the information.
         t = new Thread(new Runnable() {
@@ -216,4 +206,17 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
         keywords = intent.getStringArrayListExtra("Keywords");
         users = (HashMap<String, String>) intent.getSerializableExtra("Users");
     }
+
+    /**
+     * Sets the second and third spinner to the keywords chosen previously if present.
+     */
+    void setKeywords() {
+        if (keywords.size() >= 2) {
+            if (keywords.size() == 3) {
+                thirdKeySpinner.setSelection(optionalKeyAdapter.getPosition(keywords.get(2)));
+            }
+            secondKeySpinner.setSelection(optionalKeyAdapter.getPosition(keywords.get(1)));
+        }
+    }
+
 }

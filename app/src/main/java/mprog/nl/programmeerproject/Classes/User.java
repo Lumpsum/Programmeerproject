@@ -22,6 +22,7 @@ public class User {
     public String Street;
     public HashMap<String, HashMap<String, String>> Schemes;
     public HashMap<String, String> UserRequests;
+    public String Location;
 
     public User() {}
 

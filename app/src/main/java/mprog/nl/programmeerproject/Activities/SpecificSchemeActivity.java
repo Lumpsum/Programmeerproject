@@ -227,7 +227,7 @@ public class SpecificSchemeActivity extends AppCompatActivity implements View.On
      */
     void setSchemeData(Scheme s) {
         for(Map.Entry<String, String> entry : s.Keywords.entrySet()) {
-            keywords.add(String.valueOf(entry));
+            keywords.add(String.valueOf(entry.getKey()));
             keyText.setText(keyText.getText() + entry.getValue() + " ");
         }
 

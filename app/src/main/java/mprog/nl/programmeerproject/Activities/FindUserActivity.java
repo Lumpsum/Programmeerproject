@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import mprog.nl.programmeerproject.Classes.User;
 import mprog.nl.programmeerproject.R;
 
 /**
@@ -108,25 +109,8 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
         ref.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    switch (postSnapshot.getKey()) {
-                        case "Age":
-                            userAge = Integer.parseInt(postSnapshot.getValue().toString());
-                            break;
-                        case "Gender":
-                            userGender = postSnapshot.getValue().toString();
-                            break;
-                        case "Sport":
-                            userSport = postSnapshot.getValue().toString();
-                            break;
-                        case "Level":
-                            userLevel = postSnapshot.getValue().toString();
-                            break;
-                        case "Location":
-                            userLat = postSnapshot.getValue().toString().split(",")[0].trim();
-                            userLong = postSnapshot.getValue().toString().split(",")[1].trim();
-                    }
-                }
+                User user = dataSnapshot.getValue(User.class);
+                assignValues(user);
             }
 
             @Override
@@ -326,6 +310,19 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
         schemeButton.setOnClickListener(this);
     }
 
+    /**
+     * Assigns user values to their respective variables.
+     *
+     * @param u Userclass that contains the users data.
+     */
+    void assignValues(User u) {
+        userAge = Integer.parseInt(u.Age);
+        userGender = u.Gender;
+        userSport = u.Sport;
+        userLevel = u.Level;
+        userLat = u.Location.split(",")[0].trim();
+        userLong = u.Location.split(",")[1].trim();
+    }
 }
 
 
