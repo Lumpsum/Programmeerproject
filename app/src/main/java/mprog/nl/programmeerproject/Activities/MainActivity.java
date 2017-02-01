@@ -106,98 +106,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             userMap = new HashMap<>();
 
-            new ShowcaseView.Builder(MainActivity.this)
-                    .setTarget(new ViewTarget(R.id.mainRequestText, MainActivity.this))
-                    .setContentTitle("Tutorial")
-                    .withNewStyleShowcase()
-                    .setContentText("Your user requests show up here. Long click to decline requests and click once in order to accept the request. " +
-                            "In the List below your schemes show up, which you can delete via a long click as well.")
-                    .hideOnTouchOutside()
-                    .build();
+            showShowCaseView();
 
             // Retrieve the user values and set the text accordingly.
             // Furthermore puts that information inside a hashmap to use for the edit profile
             // and reduce the loading of the whole app.
-            ref.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    User user = dataSnapshot.getValue(User.class);
-                    setUserInfo(user);
-
-                    // Makes the edit profile button only visible if the information is loaded
-                    // in order to prevent desyncs.
-                    editProfileButton.setVisibility(View.VISIBLE);
-                    schemeAdapter.notifyDataSetChanged();
-
-                    // Fills the listview with user requests.
-                    if (user.UserRequests != null) {
-                        setUserRequests(user);
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+            retrieveUserValues();
 
             // Refuses a user request on long click and removes the entry of from the firebase.
-            userRequestList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                    TextView dataText = (TextView)view.findViewById(R.id.dataText);
-                    String newUserId = dataText.getText().toString();
-                    ref.child(userId).child("UserRequests").child(newUserId).removeValue();
-                    userRequestArray.remove(position);
-                    userRequestAdapter.notifyDataSetChanged();
-                    createToast(MainActivity.this, "User refused").show();
-                    return true;
-                }
-            });
+            setUserRequestLongClick();
 
             // Accepts the user request on single click and adds a chat.
-            userRequestList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    TextView dataText = (TextView)view.findViewById(R.id.dataText);
-                    String newUserId = dataText.getText().toString();
-                    ref.child(userId).child("UserRequests").child(newUserId).removeValue();
-                    ref.child(userId).child("Chats").child(newUserId).setValue(newUserId);
-                    ref.child(newUserId).child("Chats").child(userId).setValue(userId);
-                    userRequestArray.remove(position);
-                    userRequestAdapter.notifyDataSetChanged();
-                    createToast(MainActivity.this, "User added.").show();
-                }
-            });
+            setUserRequestClick();
 
             // Removes a scheme of your own from the firebase.
-            schemeList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                    String listItem = ((TextView)view).getText().toString();
-                    String category = listItem.split(":")[0];
-                    String title = listItem.split(":")[1].trim();
-                    databaseRef.child("Users").child(userId).child("Schemes").child(category).child(title).removeValue();
-                    databaseRef.child("Schemes").child(category).child(title).removeValue();
-                    schemeArray.remove(listItem);
-                    createToast(MainActivity.this, "Scheme removed succesfully.").show();
-                    return true;
-                }
-            });
+            setSchemeLongClick();
 
             // Starts a new activity of the scheme you selected.
-            schemeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    String listItem = ((TextView)view).getText().toString();
-                    String category = listItem.split(":")[0];
-                    String title = listItem.split(":")[1].trim();
-                    Intent intent = MainActivity.createNewIntent(MainActivity.this, SpecificSchemeActivity.class);
-                    intent.putExtra("Title", title);
-                    intent.putExtra("Category", category);
-                    startActivity(intent);
-                }
-            });
+            setSchemeClick();
         }
     }
 
@@ -475,5 +401,122 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for (Map.Entry<String, String> entry : u.UserRequests.entrySet()) {
             addUserRequestItems(entry.getKey());
         }
+    }
+
+    /**
+     * Creates a showcaseview tutorial screen.
+     */
+    void showShowCaseView() {
+        new ShowcaseView.Builder(MainActivity.this)
+                .setTarget(new ViewTarget(R.id.mainRequestText, MainActivity.this))
+                .setContentTitle("Tutorial")
+                .withNewStyleShowcase()
+                .setContentText("Your user requests show up here. Long click to decline requests and click once in order to accept the request. " +
+                        "In the List below your schemes show up, which you can delete via a long click as well.")
+                .hideOnTouchOutside()
+                .build();
+    }
+
+    /**
+     * Retrieves the user values and sets the text.
+     */
+    void retrieveUserValues() {
+        ref.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                setUserInfo(user);
+
+                // Makes the edit profile button only visible if the information is loaded
+                // in order to prevent desyncs.
+                editProfileButton.setVisibility(View.VISIBLE);
+                schemeAdapter.notifyDataSetChanged();
+
+                // Fills the listview with user requests.
+                if (user.UserRequests != null) {
+                    setUserRequests(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    /**
+     * Refuses a user by adding them to the database.
+     */
+    void setUserRequestLongClick() {
+        userRequestList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView dataText = (TextView)view.findViewById(R.id.dataText);
+                String newUserId = dataText.getText().toString();
+                ref.child(userId).child("UserRequests").child(newUserId).removeValue();
+                userRequestArray.remove(position);
+                userRequestAdapter.notifyDataSetChanged();
+                createToast(MainActivity.this, "User refused").show();
+                return true;
+            }
+        });
+    }
+
+    /**
+     * Accepts a user request by adding a chat with that user to the database.
+     */
+    void setUserRequestClick() {
+        userRequestList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView dataText = (TextView) view.findViewById(R.id.dataText);
+                String newUserId = dataText.getText().toString();
+                ref.child(userId).child("UserRequests").child(newUserId).removeValue();
+                ref.child(userId).child("Chats").child(newUserId).setValue(newUserId);
+                ref.child(newUserId).child("Chats").child(userId).setValue(userId);
+                userRequestArray.remove(position);
+                userRequestAdapter.notifyDataSetChanged();
+                createToast(MainActivity.this, "User added.").show();
+            }
+        });
+    }
+
+    /**
+     * Deletes a scheme from the database in your profile and the scheme branch.
+     */
+    void setSchemeLongClick() {
+        schemeList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                String listItem = ((TextView) view).getText().toString();
+                String category = listItem.split(":")[0];
+                String title = listItem.split(":")[1].trim();
+                databaseRef.child("Users").child(userId).child("Schemes").child(category).child(title).removeValue();
+                databaseRef.child("Schemes").child(category).child(title).removeValue();
+                schemeArray.remove(listItem);
+                schemeAdapter.notifyDataSetChanged();
+                createToast(MainActivity.this, "Scheme removed succesfully.").show();
+                return true;
+            }
+        });
+    }
+
+    /**
+     * Starts a new activity of the scheme that you chose.
+     */
+    void setSchemeClick() {
+        schemeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String listItem = ((TextView) view).getText().toString();
+                String category = listItem.split(":")[0];
+                String title = listItem.split(":")[1].trim();
+                Intent intent = MainActivity.createNewIntent(MainActivity.this, SpecificSchemeActivity.class);
+                intent.putExtra("Title", title);
+                intent.putExtra("Category", category);
+                startActivity(intent);
+            }
+        });
     }
 }

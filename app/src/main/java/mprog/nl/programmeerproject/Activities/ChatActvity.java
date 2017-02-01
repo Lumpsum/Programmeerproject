@@ -62,14 +62,7 @@ public class ChatActvity extends AppCompatActivity implements View.OnClickListen
         ref = databaseRef.child("Users");
 
         // Assign to the xml elements and init the variables
-        homeButton = (ImageButton)findViewById(R.id.homeButton);
-        findButton = (ImageButton)findViewById(R.id.findButton);
-        chatButton = (ImageButton)findViewById(R.id.chatButton);
-        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
-        homeButton.setOnClickListener(this);
-        findButton.setOnClickListener(this);
-        chatButton.setOnClickListener(this);
-        schemeButton.setOnClickListener(this);
+        assignButtons();
 
         chatList = (ListView)findViewById(R.id.chatListView);
 
@@ -81,64 +74,13 @@ public class ChatActvity extends AppCompatActivity implements View.OnClickListen
         chatList.setAdapter(chatAdapter);
 
         // Fill the listview with your chats
-        ref.child(userId).child("Chats").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    addListItems(postSnapshot.getKey());
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        fillChatListView();
 
         // Removes the chat from the database
-        chatList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                    TextView dataText = (TextView) view.findViewById(R.id.dataText);
-                    final String data = dataText.getText().toString();
-                    chatArray.remove(position);
-                    chatAdapter.notifyDataSetChanged();
-                    ref.child(userId).child("Chats").child(data).removeValue();
-                    ref.child(data).child("Chats").child(userId).removeValue();
-                    databaseRef.child("Chats").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            DatabaseReference tempRef;
-                            if (dataSnapshot.hasChild(userId + "," + data)) {
-                                tempRef = databaseRef.child("Chats").child(userId + "," + data);
-                            } else {
-                                tempRef = databaseRef.child("Chats").child(data + "," + userId);
-                            }
-                            tempRef.removeValue();
-                            MainActivity.createToast(ChatActvity.this, "Chat succesfully deleted.").show();
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                    return true;
-                }
-            });
+        setChatLongClick();
 
         // Starts a new activity that contains the specific chat with the selected user
-        chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView dataText = (TextView) view.findViewById(R.id.dataText);
-                TextView nameText = (TextView) view.findViewById(R.id.userNameText);
-                Intent intent = MainActivity.createNewIntent(ChatActvity.this, SpecificChatActivity.class);
-                intent.putExtra("otherUserData", (dataText.getText().toString()));
-                intent.putExtra("otherUserName", (nameText.getText().toString()));
-                startActivity(intent);
-            }
-        });
+        setChatClick();
     }
 
     /**
@@ -181,5 +123,91 @@ public class ChatActvity extends AppCompatActivity implements View.OnClickListen
             case R.id.schemeButton:
                 startActivity(MainActivity.createNewIntent(ChatActvity.this, SchemeActivity.class));
         }
+    }
+
+    /**
+     * Deletes a chat with another user in the database and every trace of it.
+     */
+    public void setChatLongClick() {
+        chatList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView dataText = (TextView) view.findViewById(R.id.dataText);
+                final String data = dataText.getText().toString();
+                chatArray.remove(position);
+                chatAdapter.notifyDataSetChanged();
+                ref.child(userId).child("Chats").child(data).removeValue();
+                ref.child(data).child("Chats").child(userId).removeValue();
+                databaseRef.child("Chats").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        DatabaseReference tempRef;
+                        if (dataSnapshot.hasChild(userId + "," + data)) {
+                            tempRef = databaseRef.child("Chats").child(userId + "," + data);
+                        } else {
+                            tempRef = databaseRef.child("Chats").child(data + "," + userId);
+                        }
+                        tempRef.removeValue();
+                        MainActivity.createToast(ChatActvity.this, "Chat succesfully deleted.").show();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                return true;
+            }
+        });
+    }
+
+    /**
+     * Starts the chat activity with a specific other user.
+     */
+    void setChatClick() {
+        chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView dataText = (TextView) view.findViewById(R.id.dataText);
+                TextView nameText = (TextView) view.findViewById(R.id.userNameText);
+                Intent intent = MainActivity.createNewIntent(ChatActvity.this, SpecificChatActivity.class);
+                intent.putExtra("otherUserData", (dataText.getText().toString()));
+                intent.putExtra("otherUserName", (nameText.getText().toString()));
+                startActivity(intent);
+            }
+        });
+    }
+
+    /**
+     * Assign the buttons to their xml elements.
+     */
+    void assignButtons() {
+        homeButton = (ImageButton)findViewById(R.id.homeButton);
+        findButton = (ImageButton)findViewById(R.id.findButton);
+        chatButton = (ImageButton)findViewById(R.id.chatButton);
+        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
+        homeButton.setOnClickListener(this);
+        findButton.setOnClickListener(this);
+        chatButton.setOnClickListener(this);
+        schemeButton.setOnClickListener(this);
+    }
+
+    /**
+     * Fills the chat listview with your chats.
+     */
+    void fillChatListView() {
+        ref.child(userId).child("Chats").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    addListItems(postSnapshot.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
