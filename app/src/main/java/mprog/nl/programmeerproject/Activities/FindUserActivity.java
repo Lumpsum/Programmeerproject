@@ -264,16 +264,7 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
 
             // Button that starts the flow of finding users and checking parameters.
             case R.id.findUserSearchButton:
-                radius = radiusEdit.getText().toString().trim();
-                age = ageEdit.getText().toString().trim();
-                if (radius.isEmpty()) {
-                    MainActivity.createAlert("Please fill in a radius", FindUserActivity.this).show();
-                } else if (ageCheck.isChecked() && age.isEmpty()) {
-                    MainActivity.createAlert("Please fill in an age radius", FindUserActivity.this).show();
-                } else {
-                    MainActivity.createToast(FindUserActivity.this, "Searching for users...").show();
-                    findUser();
-                }
+                checkInputAndFindUser();
         }
     }
 
@@ -336,6 +327,22 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
         intent.putExtras(bundle);
         intent.putExtra("selector", 0);
         startActivity(intent);
+    }
+
+    /**
+     * Checks if all the user input is there and tries to find users.
+     */
+    void checkInputAndFindUser() {
+        radius = radiusEdit.getText().toString().trim();
+        age = ageEdit.getText().toString().trim();
+        if (radius.isEmpty()) {
+            MainActivity.createAlert("Please fill in a radius", FindUserActivity.this).show();
+        } else if (ageCheck.isChecked() && age.isEmpty()) {
+            MainActivity.createAlert("Please fill in an age radius", FindUserActivity.this).show();
+        } else {
+            MainActivity.createToast(FindUserActivity.this, "Searching for users...").show();
+            findUser();
+        }
     }
 }
 

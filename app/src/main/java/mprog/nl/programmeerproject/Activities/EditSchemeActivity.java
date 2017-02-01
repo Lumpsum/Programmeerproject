@@ -82,14 +82,7 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
         userId = firebaseUser.getUid();
 
         // Assign to the xml elements and init the variables
-        editButton = (Button)findViewById(R.id.editSchemeButton);
-        editButton.setOnClickListener(this);
-
-        titleEdit = (EditText)findViewById(R.id.editSchemeTitleEdit);
-        descEdit = (EditText)findViewById(R.id.editSchemeDescEdit);
-
-        titleEdit.setText(title);
-        descEdit.setText(desc);
+        assignButtonsAndEdit();
 
         createAndEditSpinners();
 
@@ -231,5 +224,19 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
         databaseRef.child("Users").child(userId).child("Schemes")
                 .child(category)
                 .child(newTitle).setValue(newTitle);
+    }
+
+    /**
+     * Assigns the buttons and edittexts and sets the text
+     */
+    void assignButtonsAndEdit() {
+        editButton = (Button)findViewById(R.id.editSchemeButton);
+        editButton.setOnClickListener(this);
+
+        titleEdit = (EditText)findViewById(R.id.editSchemeTitleEdit);
+        descEdit = (EditText)findViewById(R.id.editSchemeDescEdit);
+
+        titleEdit.setText(title);
+        descEdit.setText(desc);
     }
 }

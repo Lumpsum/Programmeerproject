@@ -95,23 +95,7 @@ public class EditProfileActivity extends AppCompatActivity {
         assignSpinners();
 
         // Retrieves the new values and adjusts them inside FireBase.
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                trimUserInput();
-
-                // Checks whether every field is filled in.
-                if (firstName.isEmpty() || lastName.isEmpty() || street.isEmpty() || num.isEmpty() || city.isEmpty() || age.isEmpty()) {
-                    MainActivity.createAlert("Please fill in every field", EditProfileActivity.this);
-                }
-                else {
-                    DatabaseReference ref = databaseRef.child("Users").child(userId);
-
-                    AsyncTask<String, String, StringBuilder> aSyncTask = new ASyncTask();
-                    tryResult(ref, aSyncTask);
-                }
-            }
-        });
+        setNewProfileInfo();
     }
 
     /**
@@ -242,5 +226,28 @@ public class EditProfileActivity extends AppCompatActivity {
         else {
             MainActivity.createAlert("Your adress can't be found, please change your adress.", EditProfileActivity.this).show();
         }
+    }
+
+    /**
+     * Sets the new input inside the firebase if the location is valid.
+     */
+    void setNewProfileInfo() {
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                trimUserInput();
+
+                // Checks whether every field is filled in.
+                if (firstName.isEmpty() || lastName.isEmpty() || street.isEmpty() || num.isEmpty() || city.isEmpty() || age.isEmpty()) {
+                    MainActivity.createAlert("Please fill in every field", EditProfileActivity.this);
+                }
+                else {
+                    DatabaseReference ref = databaseRef.child("Users").child(userId);
+
+                    AsyncTask<String, String, StringBuilder> aSyncTask = new ASyncTask();
+                    tryResult(ref, aSyncTask);
+                }
+            }
+        });
     }
 }

@@ -93,19 +93,7 @@ public class SpecificSchemeActivity extends AppCompatActivity implements View.On
         rateBar = (RatingBar)findViewById(R.id.specSchemeRating);
 
         // Retrieve information from the specific title that is chosen.
-        ref = ref.child(category).child(title);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Scheme scheme = dataSnapshot.getValue(Scheme.class);
-                setSchemeData(scheme);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        retrieveAndSetSchemeData();
     }
 
     /**
@@ -280,5 +268,24 @@ public class SpecificSchemeActivity extends AppCompatActivity implements View.On
         ref.child("Users").child(userId).setValue(rateBar.getRating());
         rateBar.setRating(rating);
         MainActivity.createToast(SpecificSchemeActivity.this, "Rated this scheme.").show();
+    }
+
+    /**
+     * Retrieves the scheme data and sets the text and keywords accordingly.
+     */
+    void retrieveAndSetSchemeData() {
+        ref = ref.child(category).child(title);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Scheme scheme = dataSnapshot.getValue(Scheme.class);
+                setSchemeData(scheme);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

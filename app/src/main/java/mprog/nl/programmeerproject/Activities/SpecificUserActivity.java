@@ -89,15 +89,7 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
             // Search again button that takes the next userId of the array or returns
             // to the findUserActivity if no users are left.
             case R.id.specUserSearchButton:
-                ref.child(userId).child("RefusedUsers").child(foundUserId).setValue(foundUserId);
-                ref.child(foundUserId).child("RefusedUsers").child(userId).setValue(userId);
-                if (selector < size) {
-                    presentNextUser();
-                }
-                else {
-                    MainActivity.createToast(SpecificUserActivity.this, "All users found, please adjust parameters.").show();
-                    startActivity(MainActivity.createNewIntent(SpecificUserActivity.this, FindUserActivity.class));
-                }
+                tryNextUser();
                 break;
 
             // Adds your userId to the request list of the other user and start the main Activity.ImageButton
@@ -215,5 +207,20 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
         newIntent.putExtra("selector", selector);
         MainActivity.createToast(SpecificUserActivity.this, "Next user.").show();
         startActivity(newIntent);
+    }
+
+    /**
+     * Adds the refused user and tries to grab the next.
+     */
+    void tryNextUser() {
+        ref.child(userId).child("RefusedUsers").child(foundUserId).setValue(foundUserId);
+        ref.child(foundUserId).child("RefusedUsers").child(userId).setValue(userId);
+        if (selector < size) {
+            presentNextUser();
+        }
+        else {
+            MainActivity.createToast(SpecificUserActivity.this, "All users found, please adjust parameters.").show();
+            startActivity(MainActivity.createNewIntent(SpecificUserActivity.this, FindUserActivity.class));
+        }
     }
 }
