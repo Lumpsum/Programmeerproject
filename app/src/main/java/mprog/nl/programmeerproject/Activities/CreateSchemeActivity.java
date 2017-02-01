@@ -94,14 +94,7 @@ public class CreateSchemeActivity extends AppCompatActivity implements View.OnCl
             String thirdKey = thirdKeySpinner.getSelectedItem().toString();
 
             // Fills the Firebase with the given information
-            setDescriptionAndKeywords(ref, desc, firstKey, secondKey, thirdKey);
-            setUserAndRating(ref, userId, 0, 0);
-            databaseRef.child("Users").child(userId).child("Schemes")
-                    .child(categorySpinner.getSelectedItem().toString())
-                    .child(title).setValue(title);
-
-            MainActivity.createToast(CreateSchemeActivity.this, "Scheme succesfully created.").show();
-            startActivity(MainActivity.createNewIntent(CreateSchemeActivity.this, SchemeActivity.class));
+            setSchemeInfo(firstKey, secondKey, thirdKey);
             }
         });
     }
@@ -248,5 +241,23 @@ public class CreateSchemeActivity extends AppCompatActivity implements View.OnCl
         firstKeySpinner.setAdapter(keyAdapter);
         thirdKeySpinner.setAdapter(keyAdapter);
         secondKeySpinner.setAdapter(keyAdapter);
+    }
+
+    /**
+     * Fill firebase with the given scheme information.
+     *
+     * @param firstKey First keyword.
+     * @param secondKey Optional second keyword.
+     * @param thirdKey Optional third keyword.
+     */
+    void setSchemeInfo(String firstKey, String secondKey, String thirdKey) {
+        setDescriptionAndKeywords(ref, desc, firstKey, secondKey, thirdKey);
+        setUserAndRating(ref, userId, 0, 0);
+        databaseRef.child("Users").child(userId).child("Schemes")
+                .child(categorySpinner.getSelectedItem().toString())
+                .child(title).setValue(title);
+
+        MainActivity.createToast(CreateSchemeActivity.this, "Scheme succesfully created.").show();
+        startActivity(MainActivity.createNewIntent(CreateSchemeActivity.this, SchemeActivity.class));
     }
 }

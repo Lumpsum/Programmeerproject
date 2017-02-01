@@ -223,41 +223,62 @@ public class SpecificSchemeActivity extends AppCompatActivity implements View.On
     void rateOrEditScheme() {
         // Starts the edit scheme activity and passes the current information to that activity.
         if (rateEditButton.getText().equals("Edit")) {
-            Intent newIntent = MainActivity.createNewIntent(SpecificSchemeActivity.this, EditSchemeActivity.class);
-            newIntent.putExtra("Title", title);
-            newIntent.putExtra("Category", category);
-            newIntent.putExtra("Description", description);
-            newIntent.putExtra("Rating", rating);
-            newIntent.putExtra("RatingAmount", ratingAmount);
-            newIntent.putStringArrayListExtra("Keywords", keywords);
-            newIntent.putExtra("Users", users);
-            startActivity(newIntent);
+            startEditActivity();
         }
 
         // If the user already rated the scheme adjust the rating accordingly.
         else if (rateEditButton.getText().equals("Rate Again")) {
 
             // Calculate the new rating.
-            rating = calcRatingAgain();
-            ref = databaseRef.child("Schemes").child(category).child(title);
-            ref.child("Rating").setValue(rating);
-            ref.child("Users").child(userId).setValue(rateBar.getRating());
-            rateBar.setRating(rating);
-            MainActivity.createToast(SpecificSchemeActivity.this, "Rated this scheme again.").show();
+            editRatingAgain();
         }
 
         // If rated for the first time, calculate the rating different and add the user to the
         // already rated by users entry.
         else {
             // Calculate rating.
-            rating = calcNewRating();
-            ratingAmount = (ratingAmount + 1);
-            ref = databaseRef.child("Schemes").child(category).child(title);
-            ref.child("Rating").setValue(rating);
-            ref.child("RateAmount").setValue(ratingAmount);
-            ref.child("Users").child(userId).setValue(rateBar.getRating());
-            rateBar.setRating(rating);
-            MainActivity.createToast(SpecificSchemeActivity.this, "Rated this scheme.").show();
+            editRating();
         }
+    }
+
+    /**
+     * Starts a new edit activity based on the available information.
+     */
+    void startEditActivity() {
+        Intent newIntent = MainActivity.createNewIntent(SpecificSchemeActivity.this, EditSchemeActivity.class);
+        newIntent.putExtra("Title", title);
+        newIntent.putExtra("Category", category);
+        newIntent.putExtra("Description", description);
+        newIntent.putExtra("Rating", rating);
+        newIntent.putExtra("RatingAmount", ratingAmount);
+        newIntent.putStringArrayListExtra("Keywords", keywords);
+        newIntent.putExtra("Users", users);
+        startActivity(newIntent);
+    }
+
+    /**
+     * Recalculate the rating.
+     */
+    void editRatingAgain() {
+        rating = calcRatingAgain();
+        ref = databaseRef.child("Schemes").child(category).child(title);
+        ref.child("Rating").setValue(rating);
+        ref.child("Users").child(userId).setValue(rateBar.getRating());
+        rateBar.setRating(rating);
+        MainActivity.createToast(SpecificSchemeActivity.this, "Rated this scheme again.").show();
+    }
+
+    /**
+     * Edits the rating after first time rating.
+     */
+    void editRating() {
+        rating = calcNewRating();
+        ratingAmount = (ratingAmount + 1);
+        ref = databaseRef.child("Schemes").child(category).child(title);
+        ref.child("Rating").setValue(rating);
+        ref.child("RateAmount").setValue(ratingAmount);
+        ref.child("Users").child(userId).setValue(rateBar.getRating());
+        rateBar.setRating(rating);
+        MainActivity.createToast(SpecificSchemeActivity.this, "Rated this scheme.").show();
     }
 }

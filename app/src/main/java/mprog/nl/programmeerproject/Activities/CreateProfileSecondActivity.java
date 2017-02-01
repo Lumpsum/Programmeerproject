@@ -60,19 +60,16 @@ public class CreateProfileSecondActivity extends AppCompatActivity {
 
         createProfButton = (Button)findViewById(R.id.createProfButton);
 
-        sportSpinnerArray = MainActivity.createSportArray();
-        levelSpinnerArray = MainActivity.createLevelArray();
-
-        sportAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sportSpinnerArray);
-        levelAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, levelSpinnerArray);
-
-        sportAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        levelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        sportSpinner.setAdapter(sportAdapter);
-        levelSpinner.setAdapter(levelAdapter);
+        setAndFillSpinners();
 
         // Creates the entries in the FireBase and start the MainActivity.
+        setCreateProfClick();
+    }
+
+    /**
+     * Sets the last user information in the firebase and starts the main activity.
+     */
+    void setCreateProfClick() {
         createProfButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,5 +81,22 @@ public class CreateProfileSecondActivity extends AppCompatActivity {
                 startActivity(MainActivity.createNewIntent(CreateProfileSecondActivity.this, MainActivity.class));
             }
         });
+    }
+
+    /**
+     * Set and fill the spinners with the keywords available.
+     */
+    void setAndFillSpinners() {
+        sportSpinnerArray = MainActivity.createSportArray();
+        levelSpinnerArray = MainActivity.createLevelArray();
+
+        sportAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sportSpinnerArray);
+        levelAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, levelSpinnerArray);
+
+        sportAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        levelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        sportSpinner.setAdapter(sportAdapter);
+        levelSpinner.setAdapter(levelAdapter);
     }
 }

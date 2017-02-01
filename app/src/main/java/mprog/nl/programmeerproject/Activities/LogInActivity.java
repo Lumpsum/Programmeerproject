@@ -46,6 +46,16 @@ public class LogInActivity extends AppCompatActivity {
 
         signUpText = (TextView) findViewById(R.id.logInSignUpText);
 
+        setLogInClick();
+
+        // Start the sign up activity
+        setSignUpClick();
+    }
+
+    /**
+     * Takes the user input and check whether the user is valid, if so logs in.
+     */
+    void setLogInClick() {
         logInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,33 +68,45 @@ public class LogInActivity extends AppCompatActivity {
 
                 if (user.isEmpty() || pass.isEmpty()) {
                     MainActivity.createAlert("Please, fill in both an email and password.", LogInActivity.this).show();
-                }
-                else {
+                } else {
 
                     // Tries to log in, if failed shows the specific error
-                    firebaseAuth.signInWithEmailAndPassword(user, pass)
-                            .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        MainActivity.createToast(LogInActivity.this, "Log in was succesful.").show();
-                                        startActivity(MainActivity.createNewIntent(LogInActivity.this, MainActivity.class));
-                                    }
-                                    else {
-                                        MainActivity.createAlert(task.getException().getMessage(), LogInActivity.this).show();
-                                    }
-                                }
-                            });
+                    tryLogIn(user, pass);
                 }
             }
         });
+    }
 
-        // Start the sign up activity
+    /**
+     * Starts the sign up activtiy.
+     */
+    void setSignUpClick() {
         signUpText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(MainActivity.createNewIntent(LogInActivity.this, SignUpActivity.class));
             }
         });
+    }
+
+    /**
+     * Tries to log in based on the given input and gives an error if not succesful.
+     *
+     * @param user Username input.
+     * @param pass Password input.
+     */
+    void tryLogIn(String user, String pass) {
+        firebaseAuth.signInWithEmailAndPassword(user, pass)
+                .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            MainActivity.createToast(LogInActivity.this, "Log in was succesful.").show();
+                            startActivity(MainActivity.createNewIntent(LogInActivity.this, MainActivity.class));
+                        } else {
+                            MainActivity.createAlert(task.getException().getMessage(), LogInActivity.this).show();
+                        }
+                    }
+                });
     }
 }

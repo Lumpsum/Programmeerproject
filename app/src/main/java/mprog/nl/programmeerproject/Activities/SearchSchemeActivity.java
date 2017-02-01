@@ -76,42 +76,15 @@ public class SearchSchemeActivity extends AppCompatActivity implements View.OnCl
         ref = databaseRef.child("Schemes");
 
         // Assign to the xml elements and init the variables
-        findButton = (ImageButton)findViewById(R.id.findButton);
-        homeButton = (ImageButton)findViewById(R.id.homeButton);
-        chatButton = (ImageButton)findViewById(R.id.chatButton);
-        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
-        searchButton = (Button)findViewById(R.id.searchSchemeSearchButton);
-        homeButton.setOnClickListener(this);
-        findButton.setOnClickListener(this);
-        chatButton.setOnClickListener(this);
-        schemeButton.setOnClickListener(this);
-        searchButton.setOnClickListener(this);
+        assignsButtons();
 
-        categorySpinner = (Spinner)findViewById(R.id.searchSchemeCatSpinner);
-        firstKeySpinner = (Spinner)findViewById(R.id.searchSchemeFirstSpinner);
-        secondKeySpinner = (Spinner)findViewById(R.id.searchSchemeSecondSpinner);
-        thirdKeySpinner = (Spinner)findViewById(R.id.searchSchemeThirdSpinner);
+        fillAndAssignSpinners();
 
         searchResultsList = (ListView)findViewById(R.id.searchSchemeList);
-
-        categorySpinnerArray = MainActivity.createSportArray();
-        keyArray = MainActivity.createKeyArray();
         searchResults = new ArrayList<String>();
-
-        categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categorySpinnerArray);
-        keyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, keyArray);
-        keyArray.add("");
-        optionalKeyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, keyArray);
         searchResultsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, searchResults);
 
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        keyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        categorySpinner.setAdapter(categoryAdapter);
-        firstKeySpinner.setAdapter(keyAdapter);
-        secondKeySpinner.setAdapter(keyAdapter);
-        thirdKeySpinner.setAdapter(keyAdapter);
-        searchResultsList.setAdapter(searchResultsAdapter);
+        setAdapters();
 
         // Sets the spinners to nothing to indicate optional.
         secondKeySpinner.setSelection(optionalKeyAdapter.getPosition(""));
@@ -120,15 +93,7 @@ public class SearchSchemeActivity extends AppCompatActivity implements View.OnCl
         category = categorySpinner.getSelectedItem().toString();
 
         // Starts a new activity with the found and clicked on result.
-        searchResultsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = MainActivity.createNewIntent(SearchSchemeActivity.this, SpecificSchemeActivity.class);
-                intent.putExtra("Title", ((TextView) view).getText());
-                intent.putExtra("Category", category);
-                startActivity(intent);
-            }
-        });
+        setSearchResultsListClick();
     }
 
     /**
@@ -183,30 +148,100 @@ public class SearchSchemeActivity extends AppCompatActivity implements View.OnCl
                 userInputArray = fillArrayUserInput();
 
                 // Loop through the chosen category.
-                ref.child(categorySpinner.getSelectedItem().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                            Map<String, Object> map = new HashMap<String, Object>();
-                            map = (HashMap<String, Object>) postSnapshot.getValue();
-                            map = (HashMap<String, Object>) map.get("Keywords");
-
-                            // Check the keywords
-                            if (checkKey(map)) {
-                                searchResults.add(postSnapshot.getKey());
-                            }
-                        }
-                        MainActivity.createToast(SearchSchemeActivity.this, "Results found.").show();
-                        searchResultsAdapter.notifyDataSetChanged();
-                        userInputArray.clear();
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+                findMatchingResults();
                 break;
         }
+    }
+
+    /**
+     * Assigns the buttons to their xml elements.
+     */
+    void assignsButtons() {
+        findButton = (ImageButton)findViewById(R.id.findButton);
+        homeButton = (ImageButton)findViewById(R.id.homeButton);
+        chatButton = (ImageButton)findViewById(R.id.chatButton);
+        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
+        searchButton = (Button)findViewById(R.id.searchSchemeSearchButton);
+        homeButton.setOnClickListener(this);
+        findButton.setOnClickListener(this);
+        chatButton.setOnClickListener(this);
+        schemeButton.setOnClickListener(this);
+        searchButton.setOnClickListener(this);
+    }
+
+    /**
+     * Fills and assigns the spinners with their keywords or categories.
+     */
+    void fillAndAssignSpinners() {
+        categorySpinner = (Spinner)findViewById(R.id.searchSchemeCatSpinner);
+        firstKeySpinner = (Spinner)findViewById(R.id.searchSchemeFirstSpinner);
+        secondKeySpinner = (Spinner)findViewById(R.id.searchSchemeSecondSpinner);
+        thirdKeySpinner = (Spinner)findViewById(R.id.searchSchemeThirdSpinner);
+
+        categorySpinnerArray = MainActivity.createSportArray();
+        keyArray = MainActivity.createKeyArray();
+
+        categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categorySpinnerArray);
+        keyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, keyArray);
+        keyArray.add("");
+        optionalKeyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, keyArray);
+
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        keyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    }
+
+    /**
+     * Sets the adapters.
+     */
+    void setAdapters() {
+        categorySpinner.setAdapter(categoryAdapter);
+        firstKeySpinner.setAdapter(keyAdapter);
+        secondKeySpinner.setAdapter(keyAdapter);
+        thirdKeySpinner.setAdapter(keyAdapter);
+        searchResultsList.setAdapter(searchResultsAdapter);
+    }
+
+    /**
+     * Sets the on click for the results to start the scheme activity with the chosen scheme.
+     */
+    void setSearchResultsListClick() {
+        searchResultsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = MainActivity.createNewIntent(SearchSchemeActivity.this, SpecificSchemeActivity.class);
+                intent.putExtra("Title", ((TextView) view).getText());
+                intent.putExtra("Category", category);
+                startActivity(intent);
+            }
+        });
+    }
+
+    /**
+     * Finds results based on the given criteria and adds them to the listview.
+     */
+    void findMatchingResults() {
+        ref.child(categorySpinner.getSelectedItem().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map = (HashMap<String, Object>) postSnapshot.getValue();
+                    map = (HashMap<String, Object>) map.get("Keywords");
+
+                    // Check the keywords
+                    if (checkKey(map)) {
+                        searchResults.add(postSnapshot.getKey());
+                    }
+                }
+                MainActivity.createToast(SearchSchemeActivity.this, "Results found.").show();
+                searchResultsAdapter.notifyDataSetChanged();
+                userInputArray.clear();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

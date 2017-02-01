@@ -88,8 +88,6 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
         titleEdit = (EditText)findViewById(R.id.editSchemeTitleEdit);
         descEdit = (EditText)findViewById(R.id.editSchemeDescEdit);
 
-        Log.d("Test", "" + desc);
-
         titleEdit.setText(title);
         descEdit.setText(desc);
 
@@ -102,21 +100,7 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
         t = new Thread(new Runnable() {
             @Override
             public void run() {
-                databaseRef.child("Users").child(userId).child("Schemes").child(category).child(title).removeValue();
-                ref = ref.child(newTitle);
-                String firstKey = firstKeySpinner.getSelectedItem().toString();
-                String secondKey = secondKeySpinner.getSelectedItem().toString();
-                String thirdKey = thirdKeySpinner.getSelectedItem().toString();
-
-                // Reads all the information in the FireBase
-                CreateSchemeActivity.setDescriptionAndKeywords(ref, desc, firstKey, secondKey, thirdKey);
-                CreateSchemeActivity.setUserAndRating(ref, userId, rating, ratingAmount);
-                for (Map.Entry<String, String> entry : users.entrySet()) {
-                    ref.child("Users").child(entry.getKey()).setValue(entry.getValue());
-                }
-                databaseRef.child("Users").child(userId).child("Schemes")
-                        .child(category)
-                        .child(newTitle).setValue(newTitle);
+                setNewSchemeInformation();
 
                 MainActivity.createToast(EditSchemeActivity.this, "Scheme succesfully edited.").show();
                 startActivity(MainActivity.createNewIntent(EditSchemeActivity.this, SchemeActivity.class));
@@ -226,5 +210,26 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
         firstKeySpinner.setSelection(keyAdapter.getPosition(keywords.get(0)));
         secondKeySpinner.setSelection(optionalKeyAdapter.getPosition(""));
         thirdKeySpinner.setSelection(optionalKeyAdapter.getPosition(""));
+    }
+
+    /**
+     * Adjusts the scheme information based on the new user input.
+     */
+    void setNewSchemeInformation() {
+        databaseRef.child("Users").child(userId).child("Schemes").child(category).child(title).removeValue();
+        ref = ref.child(newTitle);
+        String firstKey = firstKeySpinner.getSelectedItem().toString();
+        String secondKey = secondKeySpinner.getSelectedItem().toString();
+        String thirdKey = thirdKeySpinner.getSelectedItem().toString();
+
+        // Reads all the information in the FireBase
+        CreateSchemeActivity.setDescriptionAndKeywords(ref, desc, firstKey, secondKey, thirdKey);
+        CreateSchemeActivity.setUserAndRating(ref, userId, rating, ratingAmount);
+        for (Map.Entry<String, String> entry : users.entrySet()) {
+            ref.child("Users").child(entry.getKey()).setValue(entry.getValue());
+        }
+        databaseRef.child("Users").child(userId).child("Schemes")
+                .child(category)
+                .child(newTitle).setValue(newTitle);
     }
 }

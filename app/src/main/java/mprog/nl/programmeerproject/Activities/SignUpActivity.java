@@ -46,15 +46,38 @@ public class SignUpActivity extends AppCompatActivity {
 
         logInText = (TextView)findViewById(R.id.signUpLogText);
 
-        logInText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(MainActivity.createNewIntent(SignUpActivity.this, LogInActivity.class));
-            }
-        });
+        setLogInClick();
 
         // Checks whether every field is filled in and create the user in the firebase.
         // Also starts the next activity of the sign up process.
+        setSignUpClick();
+    }
+
+    /**
+     * Tries to create a user based on the input.
+     * @param email User input of the username.
+     * @param pass User input of the password.
+     */
+    void createUser(String email, String pass) {
+        firebaseAuth.createUserWithEmailAndPassword(email, pass)
+                .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            MainActivity.createToast(SignUpActivity.this, "First step of the profile creation completed.").show();
+                            startActivity(MainActivity.createNewIntent(SignUpActivity.this, CreateProfileActivity.class));
+                        }
+                        else {
+                            MainActivity.createAlert(task.getException().getMessage(), SignUpActivity.this);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Tries to create a user in the firebase, based on the user input.
+     */
+    void setSignUpClick() {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,20 +93,20 @@ public class SignUpActivity extends AppCompatActivity {
                 else {
 
                     // Creation of the user in the firebase.
-                    firebaseAuth.createUserWithEmailAndPassword(email, pass)
-                            .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        MainActivity.createToast(SignUpActivity.this, "First step of the profile creation completed.").show();
-                                        startActivity(MainActivity.createNewIntent(SignUpActivity.this, CreateProfileActivity.class));
-                                    }
-                                    else {
-                                        MainActivity.createAlert(task.getException().getMessage(), SignUpActivity.this);
-                                    }
-                                }
-                            });
+                    createUser(email, pass);
                 }
+            }
+        });
+    }
+
+    /**
+     * Starts the log in activity.
+     */
+    void setLogInClick() {
+        logInText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(MainActivity.createNewIntent(SignUpActivity.this, LogInActivity.class));
             }
         });
     }

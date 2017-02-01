@@ -96,28 +96,12 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
         t = new Thread(new Runnable() {
             @Override
             public void run() {
-                Intent intent = MainActivity.createNewIntent(FindUserActivity.this, SpecificUserActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putStringArrayList("foundUserIds", foundUserIds);
-                intent.putExtras(bundle);
-                intent.putExtra("selector", 0);
-                startActivity(intent);
+                startSpecUserActivity();
             }
         });
 
         // Retrieves the values of the current user to use in the parameter checks.
-        ref.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                assignValues(user);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        retrieveUserInfo();
     }
 
     /**
@@ -322,6 +306,36 @@ public class FindUserActivity extends AppCompatActivity implements View.OnClickL
         userLevel = u.Level;
         userLat = u.Location.split(",")[0].trim();
         userLong = u.Location.split(",")[1].trim();
+    }
+
+    /**
+     * Retrieves the user info from the database.
+     */
+    void retrieveUserInfo() {
+        ref.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                assignValues(user);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    /**
+     * Starts a spec user activity with the first found user of the list.
+     */
+    void startSpecUserActivity() {
+        Intent intent = MainActivity.createNewIntent(FindUserActivity.this, SpecificUserActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList("foundUserIds", foundUserIds);
+        intent.putExtras(bundle);
+        intent.putExtra("selector", 0);
+        startActivity(intent);
     }
 }
 
