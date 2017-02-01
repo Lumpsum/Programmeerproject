@@ -52,3 +52,11 @@ Alle files volledig gecomment naar de conventies die gebruikelijk zijn voor Java
 # Dag 13
 
 De layout van elke file aangepast, waarbij ik ervoor gekozen heb om een afbeeldingen op de achtergrond te doen met daarop doorzichtige blokken met de content. Verder veel buttons omgezet naar ImageButtons zodat ik gebruik kan maken van vector afbeeldingen om de app er mooier uit te laten zien. Daarnaast via Adobe CC een kleurenschema uitgekozen, zodat de kleuren goed bij elkaar matchen.
+
+# Dag 14
+
+Begonnen met het opschonen van de code, door het extraheren van methodes uit klasses. Aan de hand van Better Code alles beoordeeld en aan de hand daarvan geprobeerd een zo hoog mogelijk cijfer ervan te maken. Verder ervoor gekozen om twee objecten te implementeren namelijk User en Scheme. Via deze objecten verminder ik de branch points en is de code overzichtelijker. Daarnaast zorgt het ervoor dat ik met weinig regels toch data kan ophalen van de user.
+
+# Dag 15
+
+De laatste hand gelegd aan het opschonen van de code aan de hand van Better Code. Heel veel .onCreate's verkort door er methodes van te maken, waarbij ik bijvoorbeeld het assignen van de elementen in een methode plaats om zo de rest te verkorten. Verder ook methodes verkort door er meerdere methodes van te maken en een aantal switches vervangen door andere structuren om zo het aantal branch points verder terug te brengen. 
