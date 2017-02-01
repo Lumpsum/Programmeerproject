@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import mprog.nl.programmeerproject.Classes.User;
 import mprog.nl.programmeerproject.R;
 
 /**
@@ -77,41 +78,7 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
         assignButtons();
 
         // Fills the activity with information of the chosen userId
-        ref.child(foundUserId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    switch (postSnapshot.getKey()) {
-                        case "FirstName":
-                            firstText.setText(firstText.getText() + ": " + postSnapshot.getValue());
-                            break;
-                        case "LastName":
-                            lastText.setText(lastText.getText() + ": " + postSnapshot.getValue());
-                            break;
-                        case "Gender":
-                            genderText.setText(genderText.getText().toString() + postSnapshot.getValue());
-                            break;
-                        case "Age":
-                            ageText.setText(ageText.getText() + ": " + postSnapshot.getValue());
-                            break;
-                        case "Sport":
-                            sportText.setText(sportText.getText() + ": " + postSnapshot.getValue());
-                            break;
-                        case "Level":
-                            levelText.setText(levelText.getText() + " " + postSnapshot.getValue());
-                            break;
-                        case "Description":
-                            descText.setText(descText.getText().toString() + postSnapshot.getValue());
-                            break;
-                    }
-                }
-            }
-        });
+        findAndFillUserInfo();
     }
 
     // Generic button handler for the bottom menu and the other buttons.
@@ -201,5 +168,38 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
         foundUserId = foundUserIds.get(selector);
         selector = selector + 1;
         size = foundUserIds.size();
+    }
+
+    /**
+     * Sets the text to the user information.
+     *
+     * @param u User class that contains the data.
+     */
+    void fillUserInfo(User u) {
+        firstText.setText(firstText.getText() + ": " + u.FirstName);
+        lastText.setText(lastText.getText() + ": " + u.LastName);
+        genderText.setText(genderText.getText().toString() + u.Gender);
+        ageText.setText(ageText.getText() + ": " + u.Age);
+        sportText.setText(sportText.getText() + ": " + u.Sport);
+        levelText.setText(levelText.getText() + " " + u.Level);
+        descText.setText(descText.getText().toString() + u.Description);
+    }
+
+    /**
+     * Finds the user info in the database and fills the textviews.
+     */
+    void findAndFillUserInfo() {
+        ref.child(foundUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                fillUserInfo(user);
+            }
+        });
     }
 }

@@ -72,40 +72,12 @@ public class CreateSchemeActivity extends AppCompatActivity implements View.OnCl
         ref = databaseRef.child("Schemes");
 
         // Assign to the xml elements and init the variables
-        findButton = (ImageButton)findViewById(R.id.findButton);
-        homeButton = (ImageButton)findViewById(R.id.homeButton);
-        chatButton = (ImageButton)findViewById(R.id.chatButton);
-        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
-        createButton = (Button)findViewById(R.id.createSchemeCreateButton);
-        homeButton.setOnClickListener(this);
-        findButton.setOnClickListener(this);
-        chatButton.setOnClickListener(this);
-        schemeButton.setOnClickListener(this);
-        createButton.setOnClickListener(this);
+        assignButtons();
 
         titleEdit = (EditText)findViewById(R.id.createSchemeTitleEdit);
         descEdit = (EditText)findViewById(R.id.createSchemeDescEdit);
 
-        categorySpinner = (Spinner)findViewById(R.id.createSchemeCatSpinner);
-        firstKeySpinner = (Spinner)findViewById(R.id.createSchemeFirstSpinner);
-        secondKeySpinner = (Spinner)findViewById(R.id.createSchemeSecondSpinner);
-        thirdKeySpinner = (Spinner)findViewById(R.id.createSchemeThirdSpinner);
-
-        categorySpinnerArray = MainActivity.createSportArray();
-        keyArray = MainActivity.createKeyArray();
-
-        categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categorySpinnerArray);
-        keyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, keyArray);
-        keyArray.add("");
-        optionalKeyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, keyArray);
-
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        keyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        categorySpinner.setAdapter(categoryAdapter);
-        firstKeySpinner.setAdapter(keyAdapter);
-        thirdKeySpinner.setAdapter(keyAdapter);
-        secondKeySpinner.setAdapter(keyAdapter);
+        createAndFillSpinners();
 
         // Sets the selection to empty in order to allow optional keywords
         secondKeySpinner.setSelection(optionalKeyAdapter.getPosition(""));
@@ -200,7 +172,15 @@ public class CreateSchemeActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
-    // Method that fills the FireBase wit hteh given information and handles the keywords.
+    /**
+     * Sets the basic information of the scheme.
+     *
+     * @param ref Reference to where the new scheme is located.
+     * @param desc Description given by the user.
+     * @param firstKey First keyword of the scheme.
+     * @param secondKey Optional second keyword.
+     * @param thirdKey Optional third keyword.
+     */
     static void setDescriptionAndKeywords(DatabaseReference ref, String desc, String firstKey, String secondKey, String thirdKey) {
         ref.child("Description").setValue(desc);
         ref.child("Keywords").child(firstKey).setValue(firstKey);
@@ -214,10 +194,59 @@ public class CreateSchemeActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    // Fills the FireBase with the given user information.
+    /**
+     * Sets the rating values of the scheme.
+     *
+     * @param ref Reference to the new scheme location.
+     * @param userId Id of the user that creates the scheme.
+     * @param rating The rating of the scheme.
+     * @param rateAmount The amount of ratings that are given.
+     */
     static void setUserAndRating(DatabaseReference ref, String userId, float rating, int rateAmount) {
         ref.child("Author").setValue(userId);
         ref.child("Rating").setValue(rating);
         ref.child("RateAmount").setValue(rateAmount);
+    }
+
+    /**
+     * Assigns the buttons to their xml elements.
+     */
+    void assignButtons() {
+        findButton = (ImageButton)findViewById(R.id.findButton);
+        homeButton = (ImageButton)findViewById(R.id.homeButton);
+        chatButton = (ImageButton)findViewById(R.id.chatButton);
+        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
+        createButton = (Button)findViewById(R.id.createSchemeCreateButton);
+        homeButton.setOnClickListener(this);
+        findButton.setOnClickListener(this);
+        chatButton.setOnClickListener(this);
+        schemeButton.setOnClickListener(this);
+        createButton.setOnClickListener(this);
+    }
+
+    /**
+     * Creates the spinners, assigns them and fills them with the keywors.
+     */
+    void createAndFillSpinners() {
+        categorySpinner = (Spinner)findViewById(R.id.createSchemeCatSpinner);
+        firstKeySpinner = (Spinner)findViewById(R.id.createSchemeFirstSpinner);
+        secondKeySpinner = (Spinner)findViewById(R.id.createSchemeSecondSpinner);
+        thirdKeySpinner = (Spinner)findViewById(R.id.createSchemeThirdSpinner);
+
+        categorySpinnerArray = MainActivity.createSportArray();
+        keyArray = MainActivity.createKeyArray();
+
+        categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categorySpinnerArray);
+        keyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, keyArray);
+        keyArray.add("");
+        optionalKeyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, keyArray);
+
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        keyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        categorySpinner.setAdapter(categoryAdapter);
+        firstKeySpinner.setAdapter(keyAdapter);
+        thirdKeySpinner.setAdapter(keyAdapter);
+        secondKeySpinner.setAdapter(keyAdapter);
     }
 }

@@ -192,7 +192,8 @@ public class SpecificSchemeActivity extends AppCompatActivity implements View.On
             keyText.setText(keyText.getText() + entry.getValue() + " ");
         }
 
-        descText.setText(s.Description);
+        description = s.Description;
+        descText.setText(description);
 
         rating = (float) s.Rating;
         rateBar.setRating(rating);
@@ -231,7 +232,6 @@ public class SpecificSchemeActivity extends AppCompatActivity implements View.On
             newIntent.putStringArrayListExtra("Keywords", keywords);
             newIntent.putExtra("Users", users);
             startActivity(newIntent);
-
         }
 
         // If the user already rated the scheme adjust the rating accordingly.

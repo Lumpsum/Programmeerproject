@@ -69,57 +69,16 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
         databaseRef = FirebaseDatabase.getInstance().getReference();
         ref = databaseRef.child("Schemes");
 
-        // Check whether the user is logged in, if not start log in activity.
-        findButton = (ImageButton) findViewById(R.id.findButton);
-        homeButton = (ImageButton) findViewById(R.id.homeButton);
-        chatButton = (ImageButton) findViewById(R.id.chatButton);
-        schemeButton = (ImageButton) findViewById(R.id.schemeButton);
-        searchButton = (Button)findViewById(R.id.schemeSearchButton);
-        createButton = (Button)findViewById(R.id.schemeCreateButton);
-        homeButton.setOnClickListener(this);
-        findButton.setOnClickListener(this);
-        chatButton.setOnClickListener(this);
-        schemeButton.setOnClickListener(this);
-        searchButton.setOnClickListener(this);
-        createButton.setOnClickListener(this);
+        // Assigns xml elements and other variables.
+        assignButtons();
 
-        fitnessList = (ListView)findViewById(R.id.schemeTopFitList);
-        runningList = (ListView)findViewById(R.id.schemeTopRunList);
-
-        fitnessArray = new ArrayList<>();
-        runningArray = new ArrayList<>();
-
-        fitnessAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fitnessArray);
-        runningAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, runningArray);
-
-        fitnessList.setAdapter(fitnessAdapter);
-        runningList.setAdapter(runningAdapter);
-
-        // Fills the listviews with the top 5 schmes based on rating.
-        fillListViewBasedOnRating(ref.child("Fitness"), fitnessArray, fitnessAdapter);
-        fillListViewBasedOnRating(ref.child("Running"), runningArray, runningAdapter);
+        assignAndFillListViews();
 
         // Starts a new activity with the chosen fitness scheme.
-        fitnessList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = MainActivity.createNewIntent(SchemeActivity.this, SpecificSchemeActivity.class);
-                intent.putExtra("Title", ((TextView)view).getText());
-                intent.putExtra("Category", "Fitness");
-                startActivity(intent);
-            }
-        });
+        setFitnessListClick();
 
         // Starts a new activity with the chosen running scheme.
-        runningList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = MainActivity.createNewIntent(SchemeActivity.this, SpecificSchemeActivity.class);
-                intent.putExtra("Title", ((TextView)view).getText().toString());
-                intent.putExtra("Category", "Running");
-                startActivity(intent);
-            }
-        });
+        setRunningListClick();
     }
 
     /**
@@ -184,5 +143,74 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
                 startActivity(MainActivity.createNewIntent(SchemeActivity.this, CreateSchemeActivity.class));
                 break;
         }
+    }
+
+    /**
+     * Assigns the buttons to their xml elements.
+     */
+    void assignButtons() {
+        findButton = (ImageButton) findViewById(R.id.findButton);
+        homeButton = (ImageButton) findViewById(R.id.homeButton);
+        chatButton = (ImageButton) findViewById(R.id.chatButton);
+        schemeButton = (ImageButton) findViewById(R.id.schemeButton);
+        searchButton = (Button)findViewById(R.id.schemeSearchButton);
+        createButton = (Button)findViewById(R.id.schemeCreateButton);
+        homeButton.setOnClickListener(this);
+        findButton.setOnClickListener(this);
+        chatButton.setOnClickListener(this);
+        schemeButton.setOnClickListener(this);
+        searchButton.setOnClickListener(this);
+        createButton.setOnClickListener(this);
+    }
+
+    /**
+     * Sets the listener of the fitness list, which starts a new activity with the chosen scheme.
+     */
+    void setFitnessListClick() {
+        fitnessList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = MainActivity.createNewIntent(SchemeActivity.this, SpecificSchemeActivity.class);
+                intent.putExtra("Title", ((TextView) view).getText());
+                intent.putExtra("Category", "Fitness");
+                startActivity(intent);
+            }
+        });
+    }
+
+    /**
+     * Sets the listener of the running list, which starts a new activity with the chosen scheme.
+     */
+    void setRunningListClick() {
+        runningList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = MainActivity.createNewIntent(SchemeActivity.this, SpecificSchemeActivity.class);
+                intent.putExtra("Title", ((TextView) view).getText().toString());
+                intent.putExtra("Category", "Running");
+                startActivity(intent);
+            }
+        });
+    }
+
+    /**
+     * Assigns the listview elements and fills them based on rating.
+     */
+    void assignAndFillListViews() {
+        fitnessList = (ListView)findViewById(R.id.schemeTopFitList);
+        runningList = (ListView)findViewById(R.id.schemeTopRunList);
+
+        fitnessArray = new ArrayList<>();
+        runningArray = new ArrayList<>();
+
+        fitnessAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fitnessArray);
+        runningAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, runningArray);
+
+        fitnessList.setAdapter(fitnessAdapter);
+        runningList.setAdapter(runningAdapter);
+
+        // Fills the listviews with the top 5 schmes based on rating.
+        fillListViewBasedOnRating(ref.child("Fitness"), fitnessArray, fitnessAdapter);
+        fillListViewBasedOnRating(ref.child("Running"), runningArray, runningAdapter);
     }
 }

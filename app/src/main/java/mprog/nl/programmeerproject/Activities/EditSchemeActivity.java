@@ -88,29 +88,12 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
         titleEdit = (EditText)findViewById(R.id.editSchemeTitleEdit);
         descEdit = (EditText)findViewById(R.id.editSchemeDescEdit);
 
+        Log.d("Test", "" + desc);
+
         titleEdit.setText(title);
         descEdit.setText(desc);
 
-        firstKeySpinner = (Spinner)findViewById(R.id.editSchemeFirstSpinner);
-        secondKeySpinner = (Spinner)findViewById(R.id.editSchemeSecondSpinner);
-        thirdKeySpinner = (Spinner)findViewById(R.id.editSchemeThirdSpinner);
-
-        keyArray = MainActivity.createKeyArray();
-        optionalKeyArray = MainActivity.createKeyArray();
-        optionalKeyArray.add("");
-
-        keyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, keyArray);
-        optionalKeyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, optionalKeyArray);
-
-        keyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        firstKeySpinner.setAdapter(keyAdapter);
-        secondKeySpinner.setAdapter(optionalKeyAdapter);
-        thirdKeySpinner.setAdapter(optionalKeyAdapter);
-
-        firstKeySpinner.setSelection(keyAdapter.getPosition(keywords.get(0)));
-        secondKeySpinner.setSelection(optionalKeyAdapter.getPosition(""));
-        thirdKeySpinner.setSelection(optionalKeyAdapter.getPosition(""));
+        createAndEditSpinners();
 
         // Set the selection of the keywords to the previously chosen keywords.
         setKeywords();
@@ -125,7 +108,7 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
                 String secondKey = secondKeySpinner.getSelectedItem().toString();
                 String thirdKey = thirdKeySpinner.getSelectedItem().toString();
 
-                // Readds all the information in the FireBase
+                // Reads all the information in the FireBase
                 CreateSchemeActivity.setDescriptionAndKeywords(ref, desc, firstKey, secondKey, thirdKey);
                 CreateSchemeActivity.setUserAndRating(ref, userId, rating, ratingAmount);
                 for (Map.Entry<String, String> entry : users.entrySet()) {
@@ -219,4 +202,29 @@ public class EditSchemeActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
+    /**
+     * Creates the spinners and fills them with keywords.
+     */
+    void createAndEditSpinners() {
+        firstKeySpinner = (Spinner)findViewById(R.id.editSchemeFirstSpinner);
+        secondKeySpinner = (Spinner)findViewById(R.id.editSchemeSecondSpinner);
+        thirdKeySpinner = (Spinner)findViewById(R.id.editSchemeThirdSpinner);
+
+        keyArray = MainActivity.createKeyArray();
+        optionalKeyArray = MainActivity.createKeyArray();
+        optionalKeyArray.add("");
+
+        keyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, keyArray);
+        optionalKeyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, optionalKeyArray);
+
+        keyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        firstKeySpinner.setAdapter(keyAdapter);
+        secondKeySpinner.setAdapter(optionalKeyAdapter);
+        thirdKeySpinner.setAdapter(optionalKeyAdapter);
+
+        firstKeySpinner.setSelection(keyAdapter.getPosition(keywords.get(0)));
+        secondKeySpinner.setSelection(optionalKeyAdapter.getPosition(""));
+        thirdKeySpinner.setSelection(optionalKeyAdapter.getPosition(""));
+    }
 }

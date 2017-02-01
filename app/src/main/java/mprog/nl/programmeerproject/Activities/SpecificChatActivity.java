@@ -50,6 +50,7 @@ public class SpecificChatActivity extends AppCompatActivity implements View.OnCl
     FirebaseListAdapter<ChatMessage> adapter;
 
     String userName;
+    String otherUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,19 +66,10 @@ public class SpecificChatActivity extends AppCompatActivity implements View.OnCl
 
         // Retrieve information from the previous activity.
         Intent intent = getIntent();
-        final String otherUserId = intent.getStringExtra("otherUserData");
+        otherUserId = intent.getStringExtra("otherUserData");
 
         // Assign to the xml elements and init the variables
-        sendMessageButton = (ImageButton) findViewById(R.id.specChatMesButton);
-        homeButton = (ImageButton)findViewById(R.id.homeButton);
-        findButton = (ImageButton)findViewById(R.id.findButton);
-        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
-        chatButton = (ImageButton)findViewById(R.id.chatButton);
-        sendMessageButton.setOnClickListener(this);
-        homeButton.setOnClickListener(this);
-        findButton.setOnClickListener(this);
-        schemeButton.setOnClickListener(this);
-        chatButton.setOnClickListener(this);
+        assignButtons();
 
         titleText = (TextView)findViewById(R.id.specChatTitleText);
         titleText.setText(intent.getStringExtra("otherUserName"));
@@ -87,52 +79,10 @@ public class SpecificChatActivity extends AppCompatActivity implements View.OnCl
         chatList = (ListView)findViewById(R.id.specChatMesList);
 
         // Retrieves the chat messages from the specific that and fills the adapter.
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                // Find the chat instance in the firebase.
-                if (dataSnapshot.hasChild(userId + "," + otherUserId)) {
-                    ref = ref.child(userId + "," + otherUserId);
-                } else {
-                    ref = ref.child(otherUserId + "," + userId);
-                }
-
-                // Fill the adapters with the messages.
-                adapter = new FirebaseListAdapter<ChatMessage>(SpecificChatActivity.this, ChatMessage.class, R.layout.chat_message, ref) {
-                    @Override
-                    protected void populateView(View v, ChatMessage model, int position) {
-                        TextView messageText = (TextView)v.findViewById(R.id.messageText);
-                        TextView messageUser = (TextView)v.findViewById(R.id.messageUser);
-
-                        // Set their text
-                        messageText.setText(model.getMessageText());
-                        messageUser.setText(model.getMessageUser());
-                    }
-                };
-
-                chatList.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        retrieveChatData();
 
         // Retrieve the username of the user that you chat with.
-        databaseRef.child("Users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                userName = dataSnapshot.child("FirstName").getValue().toString() +
-                        " " + dataSnapshot.child("LastName").getValue().toString();
-            }
-        });
+        retrieveUsername();
     }
 
     // Generic button handler for the bottom menu.
@@ -161,5 +111,78 @@ public class SpecificChatActivity extends AppCompatActivity implements View.OnCl
                 startActivity(MainActivity.createNewIntent(SpecificChatActivity.this, ChatActvity.class));
                 break;
         }
+    }
+
+    /**
+     * Assign the buttons to their xml elements.
+     */
+    void assignButtons() {
+        sendMessageButton = (ImageButton) findViewById(R.id.specChatMesButton);
+        homeButton = (ImageButton)findViewById(R.id.homeButton);
+        findButton = (ImageButton)findViewById(R.id.findButton);
+        schemeButton = (ImageButton)findViewById(R.id.schemeButton);
+        chatButton = (ImageButton)findViewById(R.id.chatButton);
+        sendMessageButton.setOnClickListener(this);
+        homeButton.setOnClickListener(this);
+        findButton.setOnClickListener(this);
+        schemeButton.setOnClickListener(this);
+        chatButton.setOnClickListener(this);
+    }
+
+    /**
+     * Retrieves the data of the specific chat from firebase.
+     * Uses that data to fill the chat with messages and such.
+     */
+    void retrieveChatData() {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                // Find the chat instance in the firebase.
+                if (dataSnapshot.hasChild(userId + "," + otherUserId)) {
+                    ref = ref.child(userId + "," + otherUserId);
+                } else {
+                    ref = ref.child(otherUserId + "," + userId);
+                }
+
+                // Fill the adapters with the messages.
+                adapter = new FirebaseListAdapter<ChatMessage>(SpecificChatActivity.this, ChatMessage.class, R.layout.chat_message, ref) {
+                    @Override
+                    protected void populateView(View v, ChatMessage model, int position) {
+                        TextView messageText = (TextView) v.findViewById(R.id.messageText);
+                        TextView messageUser = (TextView) v.findViewById(R.id.messageUser);
+
+                        // Set their text
+                        messageText.setText(model.getMessageText());
+                        messageUser.setText(model.getMessageUser());
+                    }
+                };
+
+                chatList.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    /**
+     * Retrieves the username based on the id of the other user to personalize the chat.
+     */
+    void retrieveUsername() {
+        databaseRef.child("Users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                userName = dataSnapshot.child("FirstName").getValue().toString() +
+                        " " + dataSnapshot.child("LastName").getValue().toString();
+            }
+        });
     }
 }
