@@ -69,5 +69,5 @@ SOFTWARE.
 voor het beschikbaar stellen van de functie voor afstand tussen twee long, lat punten.
 - [Geen Bron](https://www.google.nl/search?sa=G&hl=nl&q=man+and+woman+running&tbm=isch&tbs=simg:CAQSlAEJO7UO1euq-NUaiAELEKjU2AQaAggBDAsQsIynCBphCl8IAxInsA5IhAu1B7YOiBbrFe4VgwuCC-4sujfvLMIg7CzwLPIsrSW4IvMsGjAHfaN76ePYggPZ6VNhPtdDxpCiow78ZTWfkxhOgGGEQdGHZ7acADApGB4JBWEZDzUgBAwLEI6u_1ggaCgoICAESBJAEvbEM&ved=0ahUKEwjQhMyZqPLRAhWF0xoKHRzPBKMQwg4IGSgA&biw=1920&bih=971#imgrc=wMXJczPdjs21pM:)
 Voor de achtergrond afbeelding.
-- [amlcurran]https://github.com/amlcurran/ShowcaseView Voor de ShowcaseView library.
+- [amlcurran](https://github.com/amlcurran/ShowcaseView) Voor de ShowcaseView library.
 
