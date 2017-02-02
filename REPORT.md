@@ -129,4 +129,26 @@ Naast de classes zijn er ook uitbreidingen te zien bij de database tov het desig
 
 ### Verdedigen van keuzes
 
+#### Keuzen voor zoekmachine
 
+Voor de zoekmachine is er nu gekozen om via keywords de schema's te filteren op de inhoud, waarbij je dus afhankelijk bent van de mogelijke keywords. Een andere keuze hier had kunnen zijn om een SQL database te implementeren voor de schema's, zodat de SQL LIKE queries een optie werden. Dit was echter veel extra werk geweest, aangezien SQL en FireBase dan samen zouden moeten functioneren en data over dragen wat veel extra druk op de app legt. Hierdoor zou de prestatie van de app achteruit kunnen gaan. Verder was de beschikbare tijd relatief kort, indien er meer tijd was geweest had het implementeren van een SQL database wel een optie geweest, om de zoekfunctie geadvanceerder te maken.
+
+#### Creatie en aanpassen van schema's en profielen in een aparte activiteit
+
+Er is ervoor gekozen om het aanpassen en creëeren in aparte activiteiten te doen, terwijl dit mogelijk in dezelfde activiteiten had gekund door de overlap tussen beide. Ik heb er echter voor gekozen om dit niet te doen, om de overzichtelijkheid van de structuur van de activiteiten te waarborgen en elke grote functionaliteit z'n eigen activiteit te geven. Verder zijn er wel veel overeenkomsten, maar zijn er substantiele verschillen die het implementeren lastig zouden maken. Dit zou meer tijd kosten dan het recreëeren van gedeeltes en het aanpassen op bepaalde punten. In het geval dat er meer tijd zou zijn geweest, had dit mogelijk wel een nettere oplossing kunnen zijn.
+
+#### Vormgeving schema's
+
+Voor de schema's is gekozen voor een titel, keywords en een beschrijving. In plaats hiervan had ik ook een API zoals Wqer kunnen gebruiken om oefeningen te laten kiezen en de hoeveelheid en eventueel daar nog een beschrijving bij. Het probleem hiervan is dat dit voor hardlopen niet echt mogelijk is. Daarnaast is de flexibiliteit van de vastgelegde oefeningen laag en als een oefening ontbreekt je hem dus niet kan toevoegen. Verder is het lastig om een schema op deze manier dynamisch aangezien iedereen anders traint kwa volume en mogelijkheden. Door alleen een beschrijving te gebruiken geef je de gebruiker veel vrijheid om een schema op te stellen dat precies weergeeft wat de auteur bedoeld.
+
+#### Action bar verwijderd
+
+Binnen deze app is ervoor gekozen om de action bar te verwijderen. Ik heb dit gedaan, zodat ik de mogelijke ruimte per scherm zou vergroten. Sommige schermen moeten aardig wat informatie weer geven en hoe meer ruimte je hiervoor creëert hoe beter het eruit kan zien en hoe meer je toe laat. Zodoende geef ik de gebruiker een betere ervaring en ziet de applicatie er over het algemeen overzichtelijker uit.
+
+#### Bottom menu
+
+Voor het menu heb ik gekozen voor een bottom menu met vier knoppen. Dit heb ik gebaseerd op de material guidelines van Android die aangeeft dat een bottom menu een goede keuzes is indien je tussen de 3 en 5 tabjes wil implementeren waar ik dus voor gekozen hebt.
+
+#### Knop tekst/icoon
+
+Voor het menu heb ik gekozen voor vector iconen die herkenbaar zijn voor de gebruiker. Zo zijn de functionaleiten in één oogopslag duidelijk en herkbaar voor de gebruiker. Met dezelfde redenen heb ik er ook voor gekozen om de log uit en edit profile knop een icoon te geven. Echter is er voor sommige knoppen gekozen voor tekst. Dit heb ik gedaan, om overlap te voorkomen. Zo zijn er meerdere knoppen voor zoeken en hier wilde ik graag onderscheid tussen maken omdat deze functies ook niets met elkaar te maken hebben. Verder werkt de functionaliteit van de Edit/Rate knop doormiddel van de tekst die erop staat, dus is het logisch om hier voor tekst te kiezen in plaats van iconen, omdat dit anders problemen zou opleveren mbt de functionaliteit.
