@@ -25,6 +25,7 @@ Er zijn veel mensen die willen sporten, maar het probleem dat er dan heerst is d
 
 ### Wireframes
 
+<img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/1.png" alt="Drawing" style="width: 200px;"/>
 ![#1](https://github.com/Lumpsum/Programmeerproject/blob/master/doc/1.png =100x20)
 ![#2](https://github.com/Lumpsum/Programmeerproject/blob/master/doc/%232.png)
 ![#3](https://github.com/Lumpsum/Programmeerproject/blob/master/doc/%233.png)
