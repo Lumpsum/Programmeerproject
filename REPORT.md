@@ -152,3 +152,7 @@ Voor het menu heb ik gekozen voor een bottom menu met vier knoppen. Dit heb ik g
 #### Knop tekst/icoon
 
 Voor het menu heb ik gekozen voor vector iconen die herkenbaar zijn voor de gebruiker. Zo zijn de functionaleiten in één oogopslag duidelijk en herkbaar voor de gebruiker. Met dezelfde redenen heb ik er ook voor gekozen om de log uit en edit profile knop een icoon te geven. Echter is er voor sommige knoppen gekozen voor tekst. Dit heb ik gedaan, om overlap te voorkomen. Zo zijn er meerdere knoppen voor zoeken en hier wilde ik graag onderscheid tussen maken omdat deze functies ook niets met elkaar te maken hebben. Verder werkt de functionaliteit van de Edit/Rate knop doormiddel van de tekst die erop staat, dus is het logisch om hier voor tekst te kiezen in plaats van iconen, omdat dit anders problemen zou opleveren mbt de functionaliteit.
+
+#### Classes
+
+De laatste dagen heb ik nog een User en Scheme class toegevoegd en geïmplementeerd om zo de gegevens op te halen. Dit werkt een stuk beter dan m'n eerst switch met veel branch points. Achteraf gezien had ik dit vanaf het begin al moeten doen, omdat dit duidelijker is, overzichtelijker en simpeler. Echter heb ik nog nooit gewerkt met object georienteerde dingen, waardoor ik hier snel voor zou kiezen. Als ik het project nog een keer zou doen zou ik dit vaker toepassen.
