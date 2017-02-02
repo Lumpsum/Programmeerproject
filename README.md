@@ -32,9 +32,9 @@ Er zijn veel mensen die willen sporten, maar het probleem dat er dan heerst is d
 <img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/5.png" alt="Drawing" width="33%"/>
 <img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/6.png" alt="Drawing" width="33%"/>
 <img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/7.png" alt="Drawing" width="33%"/>
-<img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/8.png" alt="Drawing" width="33%"/>
-<img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/9.png" alt="Drawing" width="33%"/>
 <img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/10.png" alt="Drawing" width="33%"/>
+<img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/9.png" alt="Drawing" width="33%"/>
+<img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/8.png" alt="Drawing" width="100%"/>
 
 ---
 
