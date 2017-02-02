@@ -118,7 +118,7 @@ De chat wordt voornamelijk verzorgd door de ingebouwde FireBaseAdapter. Deze ada
 
 Deze activity bevat de zoekfunctie, die zoekt naar schema's die matchen aan jou criteria. Om dit te verwezenlijken kan de gebruiker tot 3 sleutelwoorden kiezen en deze worden opgeslagen. Vervolgens loopt hij door de FireBase heen bij de corresponderende categorie en bekijkt de sleutelwoorden van elk schema. Indien ze overeenkomen is het een resultaat en wordt hij toegevoegd aan de resultaten, waarna de gebruiker erheen kan navigeren.
 
-#### ListItem
+##### ListItem
 
 Deze class is gemaakt om de userId's om te zetten naar de naam van de gebruiker. Op het moment dat je dit wil doen binnen FireBase zal je diep in de code moeten kijken en constant dezelfde informatie op moeten vragen, wat inefficient is. Deze class bevat zowel de username als het userId, waarbij de laatste onzichtbaar is gemaakt. Zo kan elke listview dus gevuld worden met userNames maar kunnen in de backend toch nog de userId's gebruikt worden.
 
