@@ -98,7 +98,29 @@ Bij de Scheme Activity kan je navigeren naar de top 5 schema's van de sporten en
 
 #### Gedetailleerd
 
+##### ASyncTask
 
+De eerste relevante classes die uitleg verdient is de ASyncTask. In deze class worden calls gedaan naar de Google Geocode API. Hierbij is het belangrijk om de data zo aan te leveren dat de resultaten eruit komen zoals je wilt. Hiervoor is er dus een preset gemaakt om zo de call altijd goed te laten werken. Een specifieke API call ziet er als volgt uit: https://maps.googleapis.com/maps/api/geocode/json?address=STREET+NUMBER,CITY&key=API_KEY . Deze class krijgt dus drie parameters gegeven en geeft hier een resultaat terug. Dit resultaat is in JSON format, dus kan eenvoudig gebruikt worden om te kijken wat het resultaat is. Allereerst wordt er naar de status van de results gekeken. Indien deze een OK geeft is het resultaat goed en is de locatie daadwerkelijk bestaand en vervolgens worden de breedte- en lengtegraden opgehaald.
+
+##### User
+
+De User class bevat de informatie van een profiel. Via FireBase kunnen deze gegevens gemakkelijk opgehaald en vervolgens gebruikt worden. Hiervoor is het belangrijk dat de database referentie precies verwijst naar waar een profiel is. Binnen deze ap p zou dit het volgende pad als gevolg hebben: Users/UserId. Als je vervolgens hiervan de values ophaald is de user class gevuld en kan je informatie direct gebruiken. Deze class wordt gebruikt bij de Main Activity en bij de FindUserActivity om data snel op te halen en weer te geven.
+
+##### FindUserActivity
+
+In deze activity worden gebruikers gematcht aan de hand van gegeven voorwaarde. Allereerst wordt er gekeken naar de RefusedUsers van de gebruiker en of de andere gebruiker hierin voorkomt. Als dit zo is, hebben beide gebruikers elkaar al geweigerd en is er sowieso geen match. Als de gebruiker echter niet voorkomt wordt er  gekeken naar of de sport en het niveau van gebruikers matchen. Verder kan er ook nog een afstand aangegeven worden die als radius fungeert om te kijken. Om dit te berekenen worden de Lat en Long van beide gebruikers bekeken en gestopt in de distance methode. Indien deze afstand binnen de radius valt en de andere variabelen ook matchen wordt de gebruiker voorgesteld als match. Echter is er ook nog de optie om extra te controleren voor geslacht en of de leeftijd binnen een bepaalde marge valt. De app zoekt eerst door gebruiker basis heen en vindt alle matchende gebruikers. Deze lijst geeft hij vervolgens door naar de volgende activiteit die deze lijst afloopt tot er geen gebruikers meer zijn, of de gebruiker een verzoek verzendt.
+
+##### SpecificChatActivity
+
+De chat wordt voornamelijk verzorgd door de ingebouwde FireBaseAdapter. Deze adapter neemt een bepaald object aan en geeft wijzigen weer binnen de ListView indien de gebruiker iets verzendt. In dit geval bestaat dit uit ChatMessage objecten. Deze bevatten op z'n beurt het bericht en de zender van het bericht. Al deze data wordt opgeslagen in de FireBase en op het moment dat de adapter nieuwe data ziet in de FireBase geeft hij het meteen weer.
+
+##### SearchSchemeActivity
+
+Deze activity bevat de zoekfunctie, die zoekt naar schema's die matchen aan jou criteria. Om dit te verwezenlijken kan de gebruiker tot 3 sleutelwoorden kiezen en deze worden opgeslagen. Vervolgens loopt hij door de FireBase heen bij de corresponderende categorie en bekijkt de sleutelwoorden van elk schema. Indien ze overeenkomen is het een resultaat en wordt hij toegevoegd aan de resultaten, waarna de gebruiker erheen kan navigeren.
+
+#### ListItem
+
+Deze class is gemaakt om de userId's om te zetten naar de naam van de gebruiker. Op het moment dat je dit wil doen binnen FireBase zal je diep in de code moeten kijken en constant dezelfde informatie op moeten vragen, wat inefficient is. Deze class bevat zowel de username als het userId, waarbij de laatste onzichtbaar is gemaakt. Zo kan elke listview dus gevuld worden met userNames maar kunnen in de backend toch nog de userId's gebruikt worden.
 
 ### Uitdagingen
 
@@ -157,3 +179,7 @@ Voor het menu heb ik gekozen voor vector iconen die herkenbaar zijn voor de gebr
 #### Classes
 
 De laatste dagen heb ik nog een User en Scheme class toegevoegd en geïmplementeerd om zo de gegevens op te halen. Dit werkt een stuk beter dan m'n eerst switch met veel branch points. Achteraf gezien had ik dit vanaf het begin al moeten doen, omdat dit duidelijker is, overzichtelijker en simpeler. Echter heb ik nog nooit gewerkt met object georienteerde dingen, waardoor ik hier snel voor zou kiezen. Als ik het project nog een keer zou doen zou ik dit vaker toepassen.
+
+#### Zoeken van gebruikers
+
+De app zoekt eerst door heel de gebruikers database en vindt alle matches, waarna hij deze lijst doorgeeft en de gebruikers één voor één aangeeft als mogelijke match. Het voordeel hiervan is dat je maar één keer door de gebruikers heeft hoeft te lopen en dan alle matches vindt. Dit is efficient bij kleine databases aangezien je snel door de gebruikers heen loopt. Mijn database is zo klein, dat dit dus naar mijn inzien een betere aanpak is. In het geval dat de database groter zou worden, zou er een limiet moeten worden gesteld, omdat het zoeken dan te lang kan duren.
