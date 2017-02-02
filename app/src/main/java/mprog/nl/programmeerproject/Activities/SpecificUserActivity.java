@@ -105,6 +105,9 @@ public class SpecificUserActivity extends AppCompatActivity implements View.OnCl
             case R.id.chatButton:
                 startActivity(MainActivity.createNewIntent(SpecificUserActivity.this, ChatActvity.class));
                 break;
+            case R.id.schemeButton:
+                startActivity(MainActivity.createNewIntent(SpecificUserActivity.this, SchemeActivity.class));
+                break;
         }
     }
 
