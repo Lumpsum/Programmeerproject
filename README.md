@@ -73,3 +73,7 @@ Het implementeren van een chat kan moeilijk zijn en de FireBase volgooien, FireB
 
 De eerste app die naar voren komt is Tinder, aangezien deze app op dezelfde wijze werkt. Het vinden van personen en als zij wederwzijde interesse tonen kan je met elkaar chatten. Zij maken gebruik van een Facebook profiel wat de app zeer versimpeld echter is dit geen optie voor deze app omdat je specifieke informatie nodig hebt om te matchen. Verder maken zij gebruik van een chat wat hopelijk ook mogelijk is voor deze app.  
 Een andere app dit op deze app lijkt is Fitocracy die jou workout geeft om te volgen. Echter is deze app meer gebaseerd op het community aspect en worden de workouts hier gemaakt door de gebruikers van de app die deze vervolgens beoordelen. Hierdoor komen hopelijke de beste schema's naar boven zodat iedereen de maximale resultaten kan halen.
+
+### Better Code Hub
+
+[![BCH compliance](https://bettercodehub.com/edge/badge/Lumpsum/Programmeerproject)](https://bettercodehub.com) 
