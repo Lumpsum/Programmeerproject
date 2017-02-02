@@ -26,18 +26,15 @@ Er zijn veel mensen die willen sporten, maar het probleem dat er dan heerst is d
 ### Wireframes
 
 <img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/1.png" alt="Drawing" width="33%"/>
-![#1](https://github.com/Lumpsum/Programmeerproject/blob/master/doc/1.png =100x20)
-![#2](https://github.com/Lumpsum/Programmeerproject/blob/master/doc/%232.png)
-![#3](https://github.com/Lumpsum/Programmeerproject/blob/master/doc/%233.png)
-![#4](https://github.com/Lumpsum/Programmeerproject/blob/master/doc/%234.png)
-![#5](https://github.com/Lumpsum/Programmeerproject/blob/master/doc/%235.png)
-![#6](https://github.com/Lumpsum/Programmeerproject/blob/master/doc/%236.png)
-![#7](https://github.com/Lumpsum/Programmeerproject/blob/master/doc/%237.png)
-![#8](https://github.com/Lumpsum/Programmeerproject/blob/master/doc/%238.png)
-![#9](https://github.com/Lumpsum/Programmeerproject/blob/master/doc/%239.png)
-![#10](https://github.com/Lumpsum/Programmeerproject/blob/master/doc/%2310.png)
-![#11](https://github.com/Lumpsum/Programmeerproject/blob/master/doc/%2311.png)
-![#12](https://github.com/Lumpsum/Programmeerproject/blob/master/doc/%2312.png)
+<img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/2.png" alt="Drawing" width="33%"/>
+<img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/3.png" alt="Drawing" width="33%"/>
+<img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/4.png" alt="Drawing" width="33%"/>
+<img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/5.png" alt="Drawing" width="33%"/>
+<img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/6.png" alt="Drawing" width="33%"/>
+<img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/7.png" alt="Drawing" width="33%"/>
+<img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/8.png" alt="Drawing" width="33%"/>
+<img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/9.png" alt="Drawing" width="33%"/>
+<img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/10.png" alt="Drawing" width="33%"/>
 
 ---
 
