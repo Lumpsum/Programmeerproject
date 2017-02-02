@@ -53,6 +53,47 @@ Bij de Scheme Activity kan je navigeren naar de top 5 schema's van de sporten en
   - UserRequestItem - Format voor een verzoek van een gebruiker die z'n naam, geslacht, leeftijd en beschrijving bevat.
 - Network
   - ASyncTask - Exterene ASyncTask die de API calls naar de Google Geocode API behandeld en het resultaat teruggeeft.
+  
+#### FireBase
+
+- Chats
+  - UserId
+    - Unique message ID
+      - messageText
+      - messageUser
+      
+- Schemes
+  - Category
+    - Title
+      - Author
+      - Description
+      - RateAmount
+      - Rating
+      - Keywords
+        - Keyword
+      - Users
+        - UserId
+        
+- Users
+  - UserId
+    - Age
+    - City
+    - Description
+    - FirstName
+    - LastName
+    - Gender
+    - Level
+    - Location
+    - Number
+    - Sport
+    - Street
+    - Chats
+      - UserId
+    - RefusedUsers
+      - UserId
+    - Schemes
+      - Category
+        - Title
 
 #### Gedetailleerd
 
@@ -60,7 +101,31 @@ Bij de Scheme Activity kan je navigeren naar de top 5 schema's van de sporten en
 
 ### Uitdagingen
 
+#### Asynchroon
 
+Het eerste probleem waar ik tegenaan ben gelopen tijdens het proces was de asyncroniteit van de FireBase calls. Op het moment dat je dus een FireBase call maakt gebeurt dit asycnhroon en laadt de app verder, als je vervolgens de resultaten wil gebruiken moet je dus op de één of andere manier weten dat de call klaar is en de resultaten er zijn. Dit is geen probleem als je text in de activiteit wil aanpassen, aangezien je dit later wil doen, maar op het moment dat je een nieuwe activiteit wil aanroepen op basis van die call heb je een probleem aangezien je dit niet binnen deze call kan doen.  
+Dit probleem kwam ik specifiek tegen bij het vinden van gebruikers die matchen. Hierbij moet ik in FireBase de gebruikers informatie ophalen en die vergelijken met de ingelogde gebruiker zijn gegegevens. Na het matchen wil ik dus een nieuwe activiteit starten met de gematchede gebruikers, maar dit kan niet via het returnen aangezien dat synchroon gebeurt en de call dus niet snel genoeg uitgevoerd wordt. De oplossing hiervoor was het aanmaken van een thread die geroepen wordt na het vinden van de resultaten van FireBase. Deze thread start de nieuwe activiteit wat wel mogelijk is door de dynamische context en ik zodoende dus de asynchrone resultaten toch kan gebruiken voor het aanroepen van een nieuwe activiteit.  
+Ditzelfde probleem kwam ik later tegen doordat ik een asynchrone call in een asynchrone call had. Doordat beide calls asynchroon waren liepen ze apart van elkaar en kwamen de resultaten door elkaar heen terug, wat de resultaten negatief beïnvloeden en incorrect maakten. Een thread was hier echter niet de oplossing omdat ik de resultaten direct nodig had binnen de call en dus niet achteraf. De oplossing hiervoor was de calls samentrekken in één call en middels diepe nesting het tot één asynchrone call te maken. Het nadeel hiervan is dus dat de nesting heel diep zit, maar ik heb vooralsnog geen andere elegantere oplossing hiervoor kunnen vinden.
+
+#### Weergeven van ListItems en de data die door wordt gegeven
+
+In de app maak ik gebruik van een aantal listitems die userId's moeten doorgeven als data naar de volgende activiteit. Via de normale adapters kan dit wel, maar dan geeft hij ook de userId weer in de lijst. Dit is totaal niet gebruiksvriendelijk aangezien je als gebruiker nooit de id's van iedereen kan onthouden en het gewoon fijner is om te kijken naar een voor- en achternaam. Als oplossing hiervoor heb ik ervoor gekozen om een verborgen textview mee te geven per listitem die het userId bevat. De standaard listitems staan dit echter niet toe aangezien je dan maar één textview kan vullen en je dus een keuze moet maken tussen de naam en de userId. Om dit verhelpen heb ik dus een aparte adapter geschreven die de functionaliteiten van een standaard adapter heeft, maar wel meerdere textviews toestaat. Zodoende kon ik dus de zichtbare textviews vullen met gebruiksvriendelijke informatie van de user, maar via een verborgen scherm toch de userId's doorgeven, zodat de opeenvolgende schermen wel de functionaliteit konden behouden, zonder constant door de FireBase heen te zoeken en de userId's te zoeken bij de gegevens.
+
+#### Schema's zoeken
+
+Voor de schema's had ik bedacht om ook een zoek functie te implementeren, waarmee je dus schema's kon zoeken die voldoen aan jou voorwaarden. Echter kwam ik er tijdens het programmeren achter dat FireBase geen SQL Like achtige functionaliteit bevat en je dus niet via substrings op titel kon zoeken. Verder zijn er ook nog geen plugins voor FireBase die soortgelijke functionaliteit realiseren, waardoor het maken van een zoekmachine een onmogelijke taak werd. Zodoende moest ik dus een soort zoekfunctie verzinnen die wel past binnen de mogelijkheden van FireBase. Als oplossing hiervoor heb ik keywords toegevoegd per schema die vooropgesteld zijn, waarvan er 1 verplicht is en tot 3 optioneeel. Door deze keywords te gebruiken kan ik specifiek zoeken binnen FireBase naar de aanwezigheid van deze keywords en matchende schema's vinden en weergeven.
+
+#### Veranderingen tov het design document
+
+##### Classes
+
+Bij de classes heb ik bij de activiteiten het creëeren van het profiel verdeeld over meerdere activiteiten. Dit heb ik gedaan ivm de ruimte en het feit dat het profiel steeds meer informatie ging bevatten, waardoor de ruimte te beperkt werd. Hierbij is de signOut activity wel verwijderd aangezien dit simpelweg in een methode past die aangeroepen kan wordne.  
+Verder zijn het editten van de profielen en schema's ook geëxtraheerd van de basis functies, zodat de overzichtelijkheid van de functionaliteiten vergroot wordt. Je kan nu namelijk goed in één opslag zien wat voor schermen er zijn en wat er gebeurt.  
+Als laatste heb ik een aantal classes en adapters toegevoegd. De custom adapters, ChatListAdapter en UserRequestAdapter, zijn er om de list items een custom uiterlijk te geven, die vervolgens gevuld worden met de bijbehorende classes zoals ListItem, ChatMessage en UserRequestItem. Van te voren had ik hier niet aan gedacht en tijdens het programmeren kwam ik achter de beperkte mogelijkheden van de standaard adapters. Verder zijn er uiteindelijk ook nog een User en Scheme class toegevoegd. Via deze classes is het zeer eenvoudig om FireBase data binnen te halen, wat de code kwaliteit verhoogd. 
+
+##### Database
+
+Naast de classes zijn er ook uitbreidingen te zien bij de database tov het design document. Er is ervoor gekozen om de chats een aparte branch te geven, zodat de berichten en chats apart opgeslagen worden. Dit was nodig vanuit de standaard aangeleverde FireBaseAdapter die de berichten real-time binnenhaald. Verder is te zien dat een User binnen de FireBase een aantal extra kinderen heeft gekregen die meer informatie geven. Dit komt doordat gaandeweg het proces specifiekere parameters betere zoekresultaten zouden geven en de informatie toch wel essentieel leek om een goed beeld te kunnen scheppen van wat iemand de gebruiker is. Als laatste zijn de schema's ook iets uitgebreid. Zo zijn er sleutelwoorden toegevoegd, die de zoek functionaliteit mogelijk maken. (Hierboven genoemd) Daarnaast worden er ook users bijgehouden, zodat je weet wie een schema al beoordeeld heeft en je dus niet een schema oneindig vaak nieuwe beoordelingen kan geven en zodoende onterecht de beoordeling omhoog of omlaag kan werken.
 
 ### Verdedigen van keuzes
 
