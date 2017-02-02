@@ -12,7 +12,8 @@ die voldoen aan jou parameters, waarbij je zelf de radius om het adres kan aange
 geslacht zoekt en hoeveel ouder en jonger de andere gebruiker mag zijn. De gevonden gebruikers kan je vervolgens een verzoek sturen
 en indien zij jou accepteren, kan je samen chatten en zodoende samen sporten. Buiten het zoeken naar andere sporters zijn er ook 
 schema's beschikbaar in de app. Deze schema's worden gemaakt door de gebruikers en worden beoordeeld door de gebruikers. De top 5
-van elke sport is te zien in een overzicht en daarnaast kan je ook specifiek zoeken naar schema's op basis van sleutelwoorden.
+van elke sport is te zien in een overzicht en daarnaast kan je ook specifiek zoeken naar schema's op basis van sleutelwoorden.  
+<img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/4.png" alt="Drawing" width="40%"/>
 
 ### Technisch design
 
