@@ -2,6 +2,8 @@ package mprog.nl.programmeerproject.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -106,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             userMap = new HashMap<>();
 
-            showShowCaseView();
+            executeFirstTime();
 
             // Retrieve the user values and set the text accordingly.
             // Furthermore puts that information inside a hashmap to use for the edit profile
@@ -203,6 +205,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * @return Returns an intent that signs out the user.
      */
     public static Intent signOut(Context context, FirebaseAuth firebaseAuth) {
+        SharedPreferences mPreference = PreferenceManager.getDefaultSharedPreferences(context);
+        mPreference.edit().clear().apply();
         firebaseAuth.signOut();
         return (createNewIntent(context, LogInActivity.class));
     }
@@ -527,5 +531,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         cityText.setText(cityText.getText() + ": " + u.City);
         userMap.put("City", u.City);
+    }
+
+    /**
+     * Makes sure the tutorial only gets shown one time every log in.
+     */
+    void executeFirstTime() {
+        SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean firstRun = mPreferences.getBoolean("FirstRun", true);
+        if (firstRun) {
+            showShowCaseView();
+            SharedPreferences.Editor editor = mPreferences.edit();
+            editor.putBoolean("FirstRun", false);
+            editor.apply();
+        }
     }
 }
