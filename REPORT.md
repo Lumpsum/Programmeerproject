@@ -6,13 +6,11 @@ Universiteit van Amsterdam
 
 ### Beschrijving
 
-Er zijn veel mensen die willen sporten, maar dit niet graag alleen doen en deze app biedt daarvoor de oplossen. In deze app
-maak je een profiel aan met een aantal parameters en geef je een adress op. Vervolgens kan je naar andere gebruikers zoeken
-die voldoen aan jou parameters, waarbij je zelf de radius om het adres kan aangeven. Verder kan je ook aangeven of je hetzelfde 
-geslacht zoekt en hoeveel ouder en jonger de andere gebruiker mag zijn. De gevonden gebruikers kan je vervolgens een verzoek sturen
-en indien zij jou accepteren, kan je samen chatten en zodoende samen sporten. Buiten het zoeken naar andere sporters zijn er ook 
-schema's beschikbaar in de app. Deze schema's worden gemaakt door de gebruikers en worden beoordeeld door de gebruikers. De top 5
-van elke sport is te zien in een overzicht en daarnaast kan je ook specifiek zoeken naar schema's op basis van sleutelwoorden.  
+Er zijn veel mensen die willen sporten, maar dit niet graag alleen doen en deze app biedt daarvoor de oplossing. In deze app
+maak je een profiel aan met een aantal parameters en geef je een adress op. Vervolgens kun je naar andere gebruikers zoeken
+die voldoen aan jouw parameters, waarbij je zelf de radius om het adres kan aangeven. Je kunt ook aangeven of je hetzelfde 
+geslacht zoekt en hoeveel ouder of jonger de andere gebruiker mag zijn. De gevonden gebruikers kun je vervolgens een verzoek sturen en indien zij jou accepteren, kun je samen chatten en afspreken om samen te sporten. Behalve het zoeken naar andere sporters zijn er ook schema's beschikbaar in de app. Deze schema's worden gemaakt en beoordeeld door de gebruikers. De top 5
+van elke sport is te zien in een overzicht en daarnaast kun je ook specifiek zoeken naar schema's op basis van sleutelwoorden.  
 <img src="https://github.com/Lumpsum/Programmeerproject/blob/master/doc/4.png" alt="Drawing" width="40%"/>
 
 ### Technisch design
